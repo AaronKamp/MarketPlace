@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TCC Marketplace</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="outerwrap">
+        <div class="side-nav">
+            <ul>
+                <li class="addnew"> @Html.ActionLink("Add New", "Create", "Services")</li>
+                <li class="services">@Html.ActionLink("Services", "Index", "Services")</li>
+                <li class="schedule">@Html.ActionLink("Batch Export Job", "Index", "Export")</li>
+                <li class="user">@Html.ActionLink("User", "Index", "User")</li>
+                <li class="settings">@Html.ActionLink("Settings","Index","Settings")</li>
+                <li class="logout">@Html.ActionLink("Logout", "LogOff", "Account")</li>
+            </ul>
+        </div>
+        <div class="main-wraper">
+            <div class="logo-innerpage" align="right">
+                <img src="~/Content/images/honeywell-logo.png" width="150">
+            </div>
+            @RenderBody()
+        </div>
+
+    </div>
+    <div class="clear"></div>
+
+    <footer class="footer">
+        &copy; Copy right 2016 all rights reserved
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap", "~/bundles/site")
+    @Scripts.Render("~/bundles/jqueryval");
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

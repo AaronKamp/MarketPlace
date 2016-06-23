@@ -1,0 +1,39 @@
+﻿@using Marketplace.Admin.ViewModels
+@model UserGridPaginationModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<div id="divMessage"></div>
+<div class="list-table clear">
+    <table class="table" style="width:60%" id="userGrid">
+        <tr>
+            <th style="width:10%;text-align:center">#</th>
+            <th style="width:25%;text-align:left">
+                User name
+            </th>
+            <th style="width:55%;text-align:left">
+                Email
+            </th>
+            <th style="width:10%;text-align:center">
+                Edit
+            </th>
+        </tr>
+        <tr>
+            <td colspan="4" style="height:40px;border-top:1px solid #ccc !important">
+                <a href="#" class="btn" id="btnAddUser">Add New User</a>
+            </td>
+        </tr>
+    </table>
+    <div id="popup-box">
+        @Html.Partial("_AddNewUser", new UserViewModel())
+    </div>
+    <div class="pagination">     
+                   
+    </div>
+</div>
+@section Scripts
+    {
+        @Scripts.Render("~/bundles/user")
+    }

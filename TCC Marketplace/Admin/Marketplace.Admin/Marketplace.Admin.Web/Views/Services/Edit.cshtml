@@ -1,0 +1,20 @@
+﻿@model Marketplace.Admin.ViewModels.ServiceViewModel
+@using Marketplace.Admin.Utils;
+
+@{
+    ViewBag.Title = "TCC Marketplace";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.ActionTitle = "Edit service";
+}
+
+@using (Html.BeginForm("Edit", "Services", FormMethod.Post, new { @id="serviceForm", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.Partial("_Service", @Model)
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/services")
+}

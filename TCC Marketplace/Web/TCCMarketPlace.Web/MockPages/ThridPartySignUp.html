@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div id="retUrl"></div>
+    <button id="submitBtn">Submit</button>
+</body>
+</html>
+<script src="../Scripts/jquery-1.9.1.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        debugger;
+        //var retUrl =  decodeURI(getParameterByName('returnUrl'));
+        var url = window.location.href;
+
+        var retUrl = url.substring((url.lastIndexOf('=')+1), url.length);
+        retUrl = decodeURIComponent(retUrl);
+        $('#retUrl').html(retUrl);
+
+        $('#submitBtn').click(function () {
+            debugger;
+            retUrl = retUrl + encodeURIComponent('http://google.co.in');
+            alert(retUrl);
+            window.location.href = retUrl;
+        });
+
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+    });
+
+</script>

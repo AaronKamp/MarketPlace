@@ -1,0 +1,44 @@
+﻿@model Marketplace.Admin.Models.SettingsViewModel
+
+@{
+    ViewBag.Title = "Settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="batchexport">
+    <h2>Settings</h2>
+    <div class="edit-wrap">
+        @using (Html.BeginForm("Edit", "Settings", FormMethod.Post, new { @id = "settingsForm", enctype = "multipart/form-data" }))
+        {
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @Html.HiddenFor(Model=> Model.Id)
+            <div class="form-horizontal">
+                @Html.Partial("_FTPDetails", Model.FtpDetails, new ViewDataDictionary(ViewData)
+                   {
+                       TemplateInfo = new TemplateInfo
+                       {
+                           HtmlFieldPrefix = "FtpDetails"
+                       }
+                   })
+
+                @Html.Partial("_SMTPDetails", Model.SmtpDetails, new ViewDataDictionary(ViewData)
+                   {
+                       TemplateInfo = new TemplateInfo
+                       {
+                           HtmlFieldPrefix = "SmtpDetails"
+                       }
+                   })
+
+                <div class="form-group">
+                    <div class="col-md-offset-4 col-md-8 MB-20">
+                        <input id="saveSettings" type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/settings")
+}

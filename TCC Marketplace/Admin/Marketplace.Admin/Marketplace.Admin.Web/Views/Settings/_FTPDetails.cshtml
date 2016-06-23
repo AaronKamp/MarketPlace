@@ -1,0 +1,89 @@
+﻿@model Marketplace.Admin.ViewModels.FtpDetailsViewModel
+
+<div class="form-horizontal">
+    <h4><b>FTP Details</b></h4>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.FtpHostAddress, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-7">
+            @Html.EditorFor(model => model.FtpHostAddress, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.FtpHostAddress, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.FtpPort, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-7">
+            @Html.EditorFor(model => model.FtpPort, new { htmlAttributes = new { @class = "form-control port-number" } })
+            @Html.ValidationMessageFor(model => model.FtpPort, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.FtpUser, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-7">
+            @Html.EditorFor(model => model.FtpUser, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.FtpUser, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SshPrivateKey, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-7">
+            @*<input type="radio" name="SshPrivateKey" value="Paste" />
+                <input type="radio" name="SshPrivateKey" value="Read from file" />*@
+            @Html.RadioButtonFor(model => model.ReadMode, "Paste", htmlAttributes: new { @id = "sshKeyOption" })
+            Paste here
+            @Html.RadioButtonFor(model => model.ReadMode, "ReadFromFile", htmlAttributes: new { @id = "sshKeyOption" })
+            Read from file
+
+        </div>
+        <div class="col-md-7">
+            <input type="file" accept=".ppk" id="sshKeyFile" name="sshKeyFile" />
+            @Html.TextAreaFor(model => model.SshPrivateKey, htmlAttributes: new { @class = "form-control", id = "ssh-key-text", style = "height:150px", disabled = "true" })
+            @Html.ValidationMessageFor(model => model.SshPrivateKey, "", new { @class = "text-danger" })
+        </div>
+
+    </div>
+
+    <div class="form-group">
+
+        @Html.LabelFor(model => model.SshPrivateKeyPassword, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-7">
+            <span>
+                @Html.CheckBoxFor(model => model.IsSshPasswordProtected, htmlAttributes: new { @id = "is-password-protected" })
+                SSH key is password protected
+            </span>
+        </div>
+        <div class="col-md-7">
+
+            @if (Model.SshPrivateKeyPassword != null)
+            {
+                Model.SshPrivateKeyPassword = null;
+                <a id="btnSshPwdChange">Change Password</a>
+                <div id="sshPwdField">
+                    @Html.EditorFor(model => model.SshPrivateKeyPassword, new { htmlAttributes = new { @class = "form-control password-field", id = "ssh-password", disabled = "true" } })
+                    @Html.ValidationMessageFor(model => model.SshPrivateKeyPassword, "", new { @class = "text-danger" })
+                </div>
+            }
+            else
+            {
+                <div id="sshPwdField" style="display:block">
+                    @Html.EditorFor(model => model.SshPrivateKeyPassword, new { htmlAttributes = new { @class = "form-control password-field", id = "ssh-password", disabled = "true" } })
+                    @Html.ValidationMessageFor(model => model.SshPrivateKeyPassword, "", new { @class = "text-danger" })
+                </div>
+
+            }
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.FtpRemotePath, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-7">
+            @Html.EditorFor(model => model.FtpRemotePath, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.FtpRemotePath, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+</div>

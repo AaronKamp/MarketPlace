@@ -1,0 +1,41 @@
+﻿
+SET IDENTITY_INSERT [dbo].[Product] ON ;
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (0, N'UNKNOWN MODEL', 1, 1, CAST(N'2016-05-20 16:15:12.360' AS DateTime), CAST(N'2016-05-20 16:15:12.360' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (1, N'FOCUS PRO REDLINK', 1, 1, CAST(N'2016-05-20 16:15:13.467' AS DateTime), CAST(N'2016-05-20 16:15:13.467' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (2, N'PRESTIGE', 1, 1, CAST(N'2016-05-20 16:15:27.437' AS DateTime), CAST(N'2016-05-20 16:15:27.437' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (3, N'COMMUNICATING VISION PRO RETAIL', 1, 1, CAST(N'2016-05-20 16:15:39.440' AS DateTime), CAST(N'2016-05-20 16:15:39.440' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (4, N'COMMUNICATING VISION PRO TRADE', 1, 1, CAST(N'2016-05-20 16:15:45.017' AS DateTime), CAST(N'2016-05-20 16:15:45.017' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (5, N'SONIC', 1, 1, CAST(N'2016-05-20 16:15:46.077' AS DateTime), CAST(N'2016-05-20 16:15:46.077' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (6, N'DUO', 1, 1, CAST(N'2016-05-20 16:15:47.140' AS DateTime), CAST(N'2016-05-20 16:15:47.140' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (9, N'COMMUNICATING FOCUS PRO RETAIL', 1, 1, CAST(N'2016-05-20 16:15:48.217' AS DateTime), CAST(N'2016-05-20 16:15:48.217' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (10, N'BAILY', 1, 1, CAST(N'2016-05-20 16:15:14.530' AS DateTime), CAST(N'2016-05-20 16:15:14.530' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (12, N'COMMUNICATING VISION PRO TRADE OPOWER', 1, 1, CAST(N'2016-05-20 16:15:20.953' AS DateTime), CAST(N'2016-05-20 16:15:20.953' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (13, N'DUO NO HUMIDIFIER', 1, 1, CAST(N'2016-05-20 16:15:22.013' AS DateTime), CAST(N'2016-05-20 16:15:22.013' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (14, N'DUO HUMIDIFIER', 1, 1, CAST(N'2016-05-20 16:15:23.100' AS DateTime), CAST(N'2016-05-20 16:15:23.100' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (15, N'FOSSIL', 1, 1, CAST(N'2016-05-20 16:15:24.170' AS DateTime), CAST(N'2016-05-20 16:15:24.170' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (18, N'MANHATTAN', 1, 1, CAST(N'2016-05-20 16:15:25.263' AS DateTime), CAST(N'2016-05-20 16:15:25.263' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (19, N'COMMUNICATING FOCUS PRO TRADE', 1, 1, CAST(N'2016-05-20 16:15:26.377' AS DateTime), CAST(N'2016-05-20 16:15:26.377' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (20, N'ALTO E-RETAIL', 1, 1, CAST(N'2016-05-20 16:15:28.700' AS DateTime), CAST(N'2016-05-20 16:15:28.700' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (21, N'SARATOGA', 1, 1, CAST(N'2016-05-20 16:15:29.780' AS DateTime), CAST(N'2016-05-20 16:15:29.780' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (22, N'RED LANTERN', 1, 1, CAST(N'2016-05-20 16:15:30.843' AS DateTime), CAST(N'2016-05-20 16:15:30.843' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (23, N'ETAIL GOLDILOCKS WIFI', 1, 1, CAST(N'2016-05-20 16:15:31.920' AS DateTime), CAST(N'2016-05-20 16:15:31.920' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (24, N'ETAIL FOCUS PRO WIFI', 1, 1, CAST(N'2016-05-20 16:15:32.987' AS DateTime), CAST(N'2016-05-20 16:15:32.987' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (25, N'ETAIL MANHATTAN', 1, 1, CAST(N'2016-05-20 16:15:34.080' AS DateTime), CAST(N'2016-05-20 16:15:34.080' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (26, N'HONEYBADGER BETTER RETAIL', 1, 1, CAST(N'2016-05-20 16:15:35.140' AS DateTime), CAST(N'2016-05-20 16:15:35.140' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (27, N'HONEYBADGER BETTER TRADE', 1, 1, CAST(N'2016-05-20 16:15:36.217' AS DateTime), CAST(N'2016-05-20 16:15:36.217' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (28, N'ALTO', 1, 1, CAST(N'2016-05-20 16:15:37.297' AS DateTime), CAST(N'2016-05-20 16:15:37.297' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (29, N'ALTO TRADE', 1, 1, CAST(N'2016-05-20 16:15:38.373' AS DateTime), CAST(N'2016-05-20 16:15:38.373' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (31, N'COLL', 1, 1, CAST(N'2016-05-20 16:15:40.513' AS DateTime), CAST(N'2016-05-20 16:15:40.513' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (32, N'DUO WIFI TRADE', 1, 1, CAST(N'2016-05-20 16:15:41.577' AS DateTime), CAST(N'2016-05-20 16:15:41.577' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (33, N'DUO WIFI OEM', 1, 1, CAST(N'2016-05-20 16:15:42.863' AS DateTime), CAST(N'2016-05-20 16:15:42.863' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (34, N'STRATUS', 1, 1, CAST(N'2016-05-20 16:15:43.933' AS DateTime), CAST(N'2016-05-20 16:15:43.933' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (1000, N'EVO TOUCH', 1, 1, CAST(N'2016-05-20 16:15:15.593' AS DateTime), CAST(N'2016-05-20 16:15:15.593' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (1001, N'EVOTOUCH DHW ZONE', 1, 1, CAST(N'2016-05-20 16:15:16.670' AS DateTime), CAST(N'2016-05-20 16:15:16.670' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (1002, N'EMEA ZONE', 1, 1, CAST(N'2016-05-20 16:15:17.733' AS DateTime), CAST(N'2016-05-20 16:15:17.733' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (1003, N'ROUND MODULATION', 1, 1, CAST(N'2016-05-20 16:15:18.813' AS DateTime), CAST(N'2016-05-20 16:15:18.813' AS DateTime))
+INSERT [dbo].[Product] ([Id], [Name], [ProductCategoryId], [IsActive], [CreatedDate], [UpdatedDate]) VALUES (1004, N'ROUND WIRELESS', 1, 1, CAST(N'2016-05-20 16:15:19.873' AS DateTime), CAST(N'2016-05-20 16:15:19.873' AS DateTime))
+SET IDENTITY_INSERT [dbo].[Product] OFF
+ 
+UPDATE [Product] SET 
+ CreatedDate = getdate(), UpdatedDate = getdate();
+ 

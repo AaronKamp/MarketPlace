@@ -1,0 +1,91 @@
+﻿<div class="main-wrapper  ">
+    <div class="top_header">
+        <a ng-if="buttonVisiblity();" href="Login/BlankPage.html" id="btn-done"><img src="/Images/btn-done.png" class="image-done-btn" align="left"></a> Marketplace
+        <img src="/Images/lens.png" align="right" class="lnsearch" ng-show="searchBtnVisiblity" ng-click="ctrl.openSearchModal()">
+    </div>
+    <div id="ajaxSpinner" ng-show="isLoaded"></div>
+    <div class="category-list">
+        <div class="category">
+            <div class="swiper-container">
+                <div class="swiper-wrapper" category-swiper>
+                    <div class="swiper-slide" id="{{$index}}" index="$index" ng-class="{'selectedCategory':($index==selectedCat)}" ng-repeat="category in ctrl.categoryList track by $index" is-loaded><a href="" ng-click="ctrl.getListOnCategory(category,$index)">{{category.name}}</a></div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </div>
+    <section style="overflow-x:hidden">
+        <uib-tabset class="nav-tab-set" active="activeTab">
+            <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" ng-click="ctrl.setTab(tab.index)" >
+                <section>
+                    <div>
+                        <div class="carousel-div">
+                            <uib-carousel interval="myInterval" no-wrap="noWrapSlides" no-pause="true" active="0">
+                                <uib-slide ng-repeat="slide in imageList track by $index" ng-swipe-right="next($index)" ng-swipe-left="prev($index)" index="$index">
+                                    <div>
+                                        <a ng-href="#/MarketPlaceDetails/{{slide.serviceId}}/{{tab.index}}/{{categoryName}}/{{SearchKey}}" style="text-decoration:none;">
+                                            <img ng-src="{{slide.imageBlobUrl}}" style="margin:auto;">
+                                        </a>
+                                    </div>
+                                </uib-slide>
+                            </uib-carousel>
+                        </div>
+                        <div>
+                            <div ng-show="isSet(1)">
+                                <div class="addonListContainer">
+                                    <div class="offers">
+                                        <ul>
+                                            <li ng-repeat="addon in ctrl.addons">
+                                                <a ng-href="#/MarketPlaceDetails/{{addon.serviceId}}/{{tab.index}}/{{categoryName}}/{{SearchKey}}" style="text-decoration:none;">
+                                                    <div class="img_thumb">
+                                                        <img src="{{addon.imageUrl}}">
+                                                    </div>
+                                                    <div class="offer_content">
+                                                        <h2>{{addon.title}}</h2>
+                                                        <p>{{addon.description}}</p>
+                                                    </div>
+                                                    <div class="actionbox add_title" ng-hide="(addon.isBought)"></div>
+                                                    <div class="actionbox " ng-show="(addon.isBought)">
+                                                        <span class="tick"></span>
+                                                        <span class="arrow"></span>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div ng-show="isSet(2)">
+                                <div class="offerListContainer">
+                                    <div class="offers MT-offer">
+                                        <ul>
+                                            <li ng-repeat="offer in ctrl.offers">
+                                                <a ng-href="#/MarketPlaceDetails/{{offer.serviceId}}/{{tab.index}}/{{categoryName}}/{{SearchKey}}" style="text-decoration:none;">
+                                                    <div class="img_thumb ">
+                                                        <img src="{{offer.imageUrl}}">
+                                                    </div>
+                                                    <div class="offer_content">
+                                                        <h2>{{offer.title}} </h2>
+                                                        <p>{{offer.description}}</p>
+                                                    </div>
+                                                    <div class="actionbox add_title" ng-hide="(offer.isBought)"></div>
+                                                    <div class="actionbox " ng-show="(offer.isBought)">
+                                                        <span class="tick"></span>
+                                                        <span class="arrow"></span>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </uib-tab>
+        </uib-tabset>
+    </section>
+</div>
+

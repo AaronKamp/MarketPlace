@@ -1,0 +1,20 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@using Logger;
+@using Marketplace.Admin.Filters;
+
+@{
+    ViewBag.Title = "Error";
+}
+
+@{
+    Guid execptionIdentifier = Guid.NewGuid();
+    LogManager.Instance.Log(CustomExceptionFilterAttribute.ComposeExceptionLog
+        (Model.ControllerName, Model.ActionName, Model.Exception, execptionIdentifier),
+        Model.Exception, LogLevelEnum.Error);
+}
+<h4 class="text-danger">Error.</h4>
+<label>
+    Something went wrong! Please contact your administrator with the <br />
+    identifier - <b>@execptionIdentifier</b>
+</label>
+

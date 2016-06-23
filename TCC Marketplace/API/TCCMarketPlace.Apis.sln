@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCCMarketPlace.Apis", "TCCMarketPlace.Apis\TCCMarketPlace.Apis.csproj", "{33A04E61-748D-464F-AD98-95B25F0EDBEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCCMarketPlace.Business", "TCCMarketPlace.Business\TCCMarketPlace.Business.csproj", "{B1FD6A46-F320-467B-B0E1-ADF5F7B829A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCCMarketPlace.Model", "TCCMarketPlace.Model\TCCMarketPlace.Model.csproj", "{F7FA0293-A9C6-4C18-BEBA-DCD318EFD196}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{33A04E61-748D-464F-AD98-95B25F0EDBEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33A04E61-748D-464F-AD98-95B25F0EDBEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33A04E61-748D-464F-AD98-95B25F0EDBEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33A04E61-748D-464F-AD98-95B25F0EDBEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1FD6A46-F320-467B-B0E1-ADF5F7B829A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1FD6A46-F320-467B-B0E1-ADF5F7B829A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1FD6A46-F320-467B-B0E1-ADF5F7B829A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1FD6A46-F320-467B-B0E1-ADF5F7B829A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7FA0293-A9C6-4C18-BEBA-DCD318EFD196}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7FA0293-A9C6-4C18-BEBA-DCD318EFD196}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7FA0293-A9C6-4C18-BEBA-DCD318EFD196}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7FA0293-A9C6-4C18-BEBA-DCD318EFD196}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://61.12.76.170:7777/tfs/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = TCCMarketPlace.Apis\\TCCMarketPlace.Apis.csproj
+		SccProjectName1 = TCCMarketPlace.Apis
+		SccLocalPath1 = TCCMarketPlace.Apis
+		SccProjectUniqueName2 = TCCMarketPlace.Business\\TCCMarketPlace.Business.csproj
+		SccProjectName2 = TCCMarketPlace.Business
+		SccLocalPath2 = TCCMarketPlace.Business
+		SccProjectUniqueName3 = TCCMarketPlace.Model\\TCCMarketPlace.Model.csproj
+		SccProjectName3 = TCCMarketPlace.Model
+		SccLocalPath3 = TCCMarketPlace.Model
+	EndGlobalSection
+EndGlobal

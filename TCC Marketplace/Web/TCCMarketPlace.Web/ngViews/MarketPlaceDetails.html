@@ -1,0 +1,36 @@
+﻿<div class="main-wrapper">
+    <div class="top_header">
+        <a ng-if="buttonVisiblity();" ng-click=ctrl.navigate('/Catalogue')><img src="/Images/backButton.png" class="back-btn-image" align="left"></a> Details
+    </div>
+    <div id="ajaxSpinner" ng-show="isLoaded"></div>
+    <div id="wrapper">
+        <div id="main">
+            <div class="add-ons-details">
+                <div class="lft_desc">
+                    <div class="img-pic"><img src={{ctrl.service.imageUrl}} class="img-responsive"></div>
+                    <div class="txt-desc">
+                        <h2>{{ctrl.service.title}}</h2>
+                        <p>{{ctrl.service.description}}</p>
+                    </div>
+                    <div class="clear-cols"></div>
+                    
+                </div>
+                <div class="rht_settings">
+                    <ul>
+                        <li ng-hide="(ctrl.service.isBought)">
+                            <a ng-show="(ctrl.service.price > 0)" ng-href={{ctrl.purchaseUrl}} class="lst-arrow">Sign Up</a>
+                            <a ng-show="!(ctrl.service.price > 0)" ng-click="ctrl.SubscribeToService()" class="lst-arrow">Sign Up</a>
+                        </li>
+                        <li ng-show="!(ctrl.service.isBought) && (ctrl.service.price > 0)" style="padding:9px 0px 9px 21px;">Price : ${{ctrl.service.price}}</li>
+                        <li ng-show="(ctrl.service.isBought)"><a ng-click="ctrl.ViewReports()" class="lst-arrow">View Reports</a></li>
+                        <li ng-show="(ctrl.service.isBought) && (ctrl.service.isDisableApiAvailable)"><a href="" ng-click="ctrl.EnableOrDisableService()" class="lst-arrow">{{ctrl.enableText}}</a></li>
+                        <li ng-show="(ctrl.service.isBought)"><a ng-click="ctrl.RemoveService()" class="lst-arrow">{{ctrl.removeText}}</a></li>
+                    </ul>
+                </div>
+                <div class="vw-reports clear-cols" ng-show="(ctrl.service.isBought)" style="clear:both;padding-top:35px;">
+                    <iframe style="width:100%; height:300px;" frameborder="0" allowtransparency="true" ng-src={{ctrl.ReportUrl.src}}></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

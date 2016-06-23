@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>TCC Market Place</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes">
+    <link href="Styles/main.min.css" rel="stylesheet" />
+</head>
+<body data-ng-controller="appController as appCtrl" ng-cloak>      
+    <div ng-class="{fixed_top:(addFixedTop==true)}">
+    </div>
+    <div data-ng-view="" keep-scroll-pos></div>   
+   
+    <script src="Scripts/jquery-1.9.1.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <script src="ngApp/app.config.js"></script>
+    <script src="Scripts/swiper/jquery.touchSwipe.min.js"></script>
+    <script src="Scripts/swiper/swiper.min.js"></script>
+    <script data-main="./Minified/js/global" src="Scripts/require.js"></script>
+
+    <!-- uncomment this during development -->
+    <!--<script data-main="main" src="Scripts/require.js"></script>-->
+    
+</body>
+</html>

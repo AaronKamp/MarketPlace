@@ -1,0 +1,68 @@
+﻿@model Marketplace.Admin.ViewModels.UserViewModel
+@{
+    ViewBag.Title = "Add New User";
+}
+<span class="pop-close">
+    <img id="close" src="~/Content/Images/close-button.png" />
+</span>
+<h2></h2>
+<div class="pop-content new-user">
+    @using (Html.BeginForm("", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "user-form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+
+        @Html.HiddenFor(m => m.Id);
+        <div class="row">
+            @Html.LabelFor(m => m.UserName)
+            @Html.TextBoxFor(m => m.UserName, new { style = "max-width:100%" })
+        </div>
+        <div align="right" style="margin:auto">
+            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email, new { style = "max-width:100%" })
+        </div>
+            <div align="right" style="margin:auto">
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+            <div class="row pwd-field-btn">
+                <label></label>
+                <a id="btnPwdChange">Change Password</a>
+            </div>
+            <div class="pwd-field">
+                <div class="row">
+                    @Html.LabelFor(m => m.Password)
+                    @Html.PasswordFor(m => m.Password, new { style = "max-width:100%" })
+                </div>
+                <div align="right" style="margin:auto">
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                </div>
+                <div class="row">
+                    @Html.LabelFor(m => m.ConfirmPassword)
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { style = "max-width:100%" })
+                </div>
+                <div align="right" style="margin:auto">
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div align="center"><button class="btn" type="submit" id="btnSave" value="Save">Save</button></div>
+            </div>
+    }
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+

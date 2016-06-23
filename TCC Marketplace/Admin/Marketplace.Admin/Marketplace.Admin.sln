@@ -1,0 +1,158 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketplace.Admin.Data", "Marketplace.Admin.Data\Marketplace.Admin.Data.csproj", "{E15175F5-1C7F-4A19-A0DF-4AE8FFF12250}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketplace.Admin.Model", "Marketplace.Admin.Model\Marketplace.Admin.Model.csproj", "{86206F5A-ECFB-4DEC-911A-FDF0F80A7DC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketplace.Admin.Core", "Marketplace.Admin.Core\Marketplace.Admin.Core.csproj", "{B1AA9011-16B4-424B-B1B8-5DA69C9B7CA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketplace.Admin.Web", "Marketplace.Admin.Web\Marketplace.Admin.Web.csproj", "{0A44624B-863A-4A3B-88B9-CE3D3DC84BCD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketplace.Admin.Business", "Marketplace.Admin.Business\Marketplace.Admin.Business.csproj", "{0B1C4FF4-31CF-4E5E-99A6-B8E466D960E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketplace.Admin.ExtractJob", "Marketplace.Admin.ExtractJob\Marketplace.Admin.ExtractJob.csproj", "{CDAAF87D-C7D7-4088-A0B8-9554AA3FA01B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketplace.Admin.Extract", "Marketplace.Admin.Extract\Marketplace.Admin.Extract.csproj", "{C3D9E1A5-B306-457B-923A-131C014B1549}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketplace.Admin.Identity", "Marketplace.Admin.Identity\Marketplace.Admin.Identity.csproj", "{F6011C3A-45AD-4DBC-A706-F06400E9751B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "Logger\Logger.csproj", "{A0E28820-477B-4CD3-9DC5-4D55A29024EF}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "TCCMarketplace.Admin.Database", "TCCMarketplace.Admin.Database\TCCMarketplace.Admin.Database.sqlproj", "{E803071B-F32B-4C10-B992-5B043949A9A7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E15175F5-1C7F-4A19-A0DF-4AE8FFF12250}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E15175F5-1C7F-4A19-A0DF-4AE8FFF12250}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E15175F5-1C7F-4A19-A0DF-4AE8FFF12250}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E15175F5-1C7F-4A19-A0DF-4AE8FFF12250}.Debug|x86.Build.0 = Debug|Any CPU
+		{E15175F5-1C7F-4A19-A0DF-4AE8FFF12250}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E15175F5-1C7F-4A19-A0DF-4AE8FFF12250}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E15175F5-1C7F-4A19-A0DF-4AE8FFF12250}.Release|x86.ActiveCfg = Release|Any CPU
+		{E15175F5-1C7F-4A19-A0DF-4AE8FFF12250}.Release|x86.Build.0 = Release|Any CPU
+		{86206F5A-ECFB-4DEC-911A-FDF0F80A7DC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86206F5A-ECFB-4DEC-911A-FDF0F80A7DC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86206F5A-ECFB-4DEC-911A-FDF0F80A7DC0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{86206F5A-ECFB-4DEC-911A-FDF0F80A7DC0}.Debug|x86.Build.0 = Debug|Any CPU
+		{86206F5A-ECFB-4DEC-911A-FDF0F80A7DC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86206F5A-ECFB-4DEC-911A-FDF0F80A7DC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86206F5A-ECFB-4DEC-911A-FDF0F80A7DC0}.Release|x86.ActiveCfg = Release|Any CPU
+		{86206F5A-ECFB-4DEC-911A-FDF0F80A7DC0}.Release|x86.Build.0 = Release|Any CPU
+		{B1AA9011-16B4-424B-B1B8-5DA69C9B7CA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1AA9011-16B4-424B-B1B8-5DA69C9B7CA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1AA9011-16B4-424B-B1B8-5DA69C9B7CA4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B1AA9011-16B4-424B-B1B8-5DA69C9B7CA4}.Debug|x86.Build.0 = Debug|Any CPU
+		{B1AA9011-16B4-424B-B1B8-5DA69C9B7CA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1AA9011-16B4-424B-B1B8-5DA69C9B7CA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1AA9011-16B4-424B-B1B8-5DA69C9B7CA4}.Release|x86.ActiveCfg = Release|Any CPU
+		{B1AA9011-16B4-424B-B1B8-5DA69C9B7CA4}.Release|x86.Build.0 = Release|Any CPU
+		{0A44624B-863A-4A3B-88B9-CE3D3DC84BCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A44624B-863A-4A3B-88B9-CE3D3DC84BCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A44624B-863A-4A3B-88B9-CE3D3DC84BCD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0A44624B-863A-4A3B-88B9-CE3D3DC84BCD}.Debug|x86.Build.0 = Debug|Any CPU
+		{0A44624B-863A-4A3B-88B9-CE3D3DC84BCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A44624B-863A-4A3B-88B9-CE3D3DC84BCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A44624B-863A-4A3B-88B9-CE3D3DC84BCD}.Release|x86.ActiveCfg = Release|Any CPU
+		{0A44624B-863A-4A3B-88B9-CE3D3DC84BCD}.Release|x86.Build.0 = Release|Any CPU
+		{0B1C4FF4-31CF-4E5E-99A6-B8E466D960E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B1C4FF4-31CF-4E5E-99A6-B8E466D960E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B1C4FF4-31CF-4E5E-99A6-B8E466D960E5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0B1C4FF4-31CF-4E5E-99A6-B8E466D960E5}.Debug|x86.Build.0 = Debug|Any CPU
+		{0B1C4FF4-31CF-4E5E-99A6-B8E466D960E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B1C4FF4-31CF-4E5E-99A6-B8E466D960E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B1C4FF4-31CF-4E5E-99A6-B8E466D960E5}.Release|x86.ActiveCfg = Release|Any CPU
+		{0B1C4FF4-31CF-4E5E-99A6-B8E466D960E5}.Release|x86.Build.0 = Release|Any CPU
+		{CDAAF87D-C7D7-4088-A0B8-9554AA3FA01B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDAAF87D-C7D7-4088-A0B8-9554AA3FA01B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDAAF87D-C7D7-4088-A0B8-9554AA3FA01B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CDAAF87D-C7D7-4088-A0B8-9554AA3FA01B}.Debug|x86.Build.0 = Debug|Any CPU
+		{CDAAF87D-C7D7-4088-A0B8-9554AA3FA01B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDAAF87D-C7D7-4088-A0B8-9554AA3FA01B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDAAF87D-C7D7-4088-A0B8-9554AA3FA01B}.Release|x86.ActiveCfg = Release|Any CPU
+		{CDAAF87D-C7D7-4088-A0B8-9554AA3FA01B}.Release|x86.Build.0 = Release|Any CPU
+		{C3D9E1A5-B306-457B-923A-131C014B1549}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3D9E1A5-B306-457B-923A-131C014B1549}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3D9E1A5-B306-457B-923A-131C014B1549}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C3D9E1A5-B306-457B-923A-131C014B1549}.Debug|x86.Build.0 = Debug|Any CPU
+		{C3D9E1A5-B306-457B-923A-131C014B1549}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3D9E1A5-B306-457B-923A-131C014B1549}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3D9E1A5-B306-457B-923A-131C014B1549}.Release|x86.ActiveCfg = Release|Any CPU
+		{C3D9E1A5-B306-457B-923A-131C014B1549}.Release|x86.Build.0 = Release|Any CPU
+		{F6011C3A-45AD-4DBC-A706-F06400E9751B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6011C3A-45AD-4DBC-A706-F06400E9751B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6011C3A-45AD-4DBC-A706-F06400E9751B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F6011C3A-45AD-4DBC-A706-F06400E9751B}.Debug|x86.Build.0 = Debug|Any CPU
+		{F6011C3A-45AD-4DBC-A706-F06400E9751B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6011C3A-45AD-4DBC-A706-F06400E9751B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6011C3A-45AD-4DBC-A706-F06400E9751B}.Release|x86.ActiveCfg = Release|Any CPU
+		{F6011C3A-45AD-4DBC-A706-F06400E9751B}.Release|x86.Build.0 = Release|Any CPU
+		{A0E28820-477B-4CD3-9DC5-4D55A29024EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0E28820-477B-4CD3-9DC5-4D55A29024EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0E28820-477B-4CD3-9DC5-4D55A29024EF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A0E28820-477B-4CD3-9DC5-4D55A29024EF}.Debug|x86.Build.0 = Debug|Any CPU
+		{A0E28820-477B-4CD3-9DC5-4D55A29024EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0E28820-477B-4CD3-9DC5-4D55A29024EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0E28820-477B-4CD3-9DC5-4D55A29024EF}.Release|x86.ActiveCfg = Release|Any CPU
+		{A0E28820-477B-4CD3-9DC5-4D55A29024EF}.Release|x86.Build.0 = Release|Any CPU
+		{E803071B-F32B-4C10-B992-5B043949A9A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E803071B-F32B-4C10-B992-5B043949A9A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E803071B-F32B-4C10-B992-5B043949A9A7}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{E803071B-F32B-4C10-B992-5B043949A9A7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E803071B-F32B-4C10-B992-5B043949A9A7}.Debug|x86.Build.0 = Debug|Any CPU
+		{E803071B-F32B-4C10-B992-5B043949A9A7}.Debug|x86.Deploy.0 = Debug|Any CPU
+		{E803071B-F32B-4C10-B992-5B043949A9A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E803071B-F32B-4C10-B992-5B043949A9A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E803071B-F32B-4C10-B992-5B043949A9A7}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{E803071B-F32B-4C10-B992-5B043949A9A7}.Release|x86.ActiveCfg = Release|Any CPU
+		{E803071B-F32B-4C10-B992-5B043949A9A7}.Release|x86.Build.0 = Release|Any CPU
+		{E803071B-F32B-4C10-B992-5B043949A9A7}.Release|x86.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 11
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://61.12.76.170:7777/tfs/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Marketplace.Admin.Core\\Marketplace.Admin.Core.csproj
+		SccProjectName1 = Marketplace.Admin.Core
+		SccLocalPath1 = Marketplace.Admin.Core
+		SccProjectUniqueName2 = Marketplace.Admin.Data\\Marketplace.Admin.Data.csproj
+		SccProjectName2 = Marketplace.Admin.Data
+		SccLocalPath2 = Marketplace.Admin.Data
+		SccProjectUniqueName3 = Marketplace.Admin.Extract\\Marketplace.Admin.Extract.csproj
+		SccProjectName3 = Marketplace.Admin.Extract
+		SccLocalPath3 = Marketplace.Admin.Extract
+		SccProjectUniqueName4 = Marketplace.Admin.ExtractJob\\Marketplace.Admin.ExtractJob.csproj
+		SccProjectName4 = Marketplace.Admin.ExtractJob
+		SccLocalPath4 = Marketplace.Admin.ExtractJob
+		SccProjectUniqueName5 = Marketplace.Admin.Identity\\Marketplace.Admin.Identity.csproj
+		SccProjectName5 = Marketplace.Admin.Identity
+		SccLocalPath5 = Marketplace.Admin.Identity
+		SccProjectUniqueName6 = Marketplace.Admin.Model\\Marketplace.Admin.Model.csproj
+		SccProjectName6 = Marketplace.Admin.Model
+		SccLocalPath6 = Marketplace.Admin.Model
+		SccProjectUniqueName7 = Marketplace.Admin.Web\\Marketplace.Admin.Web.csproj
+		SccProjectName7 = Marketplace.Admin.Web
+		SccLocalPath7 = Marketplace.Admin.Web
+		SccProjectUniqueName8 = Logger\\Logger.csproj
+		SccProjectName8 = Logger
+		SccLocalPath8 = Logger
+		SccProjectUniqueName9 = TCCMarketplace.Admin.Database\\TCCMarketplace.Admin.Database.sqlproj
+		SccProjectName9 = TCCMarketplace.Admin.Database
+		SccLocalPath9 = TCCMarketplace.Admin.Database
+		SccProjectUniqueName10 = Marketplace.Admin.Business\\Marketplace.Admin.Business.csproj
+		SccProjectName10 = Marketplace.Admin.Business
+		SccLocalPath10 = Marketplace.Admin.Business
+	EndGlobalSection
+EndGlobal

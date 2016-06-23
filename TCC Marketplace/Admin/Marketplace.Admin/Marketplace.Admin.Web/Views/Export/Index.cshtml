@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Index", "Export", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="batchexport">
+        <h2>Batch Export Job</h2>
+        <div class="row scheduler">
+            <label class="pull-left">Set frequency</label>
+            <div class="select-style pull-left">
+                @Html.DropDownList("Frequncies", null, htmlAttributes: new { @class = "form-control" })
+            </div>
+
+            <div id="divMessage" class="MT-20 success pull-left" style="margin-left:20%"></div>
+
+            <div class="clear"></div>
+
+            <div class="MT-20">
+                <input type="button" id="btnSubmit" value="Save schedule" class="btn" style="margin-left:100px;" disabled="disabled" />
+                <div class="rht_field pull-right">
+                    <input type="button" id="btnRunNow" value="Run now" class="btn" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/export")
+}

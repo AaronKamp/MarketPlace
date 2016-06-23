@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DataSource>
+  <Queries>
+    <Query name ="ServiceType">
+      <Sql>select Id, Description, IsActive, CreatedDate, UpdatedDate from ServiceType</Sql>
+      <FileName>HCM_001_MKPSERVTYPE_YYYYMMDD.TXT</FileName>
+    </Query>
+    <Query name ="State">
+      <Sql>select Id, State_Name, State_Code, CountryId, CreatedDate, UpdatedDate from State</Sql>
+      <FileName>HCM_001_MKPSTATECODES_YYYYMMDD.TXT</FileName>
+    </Query>
+    <Query name ="SCF">
+      <Sql>select Id, SCF_Code, City_Name, DisplayText, StateId, IsActive, CreatedDate, UpdatedDate from SCF</Sql>
+      <FileName>HCM_001_MKPSCF_DATA_YYYYMMDD.TXT</FileName>
+    </Query>
+    <Query name ="Service">
+      <Sql>select s.Id as ServiceId, s.ServiceTypeId, s.Tilte, s.ShortDescription, s.LongDescription, s.URL, s.PartnerPromoCode, s.CreatedDate, s.StartDate, s.EndDate, s.IsActive, s.CustomField1, s.CustomField2, s.CustomField3, s.MakeLive, s.IconImage, s.SliderImage, s.UpdatedDate, s.UpdatedUser, [LastExtractedDate], InAppPurchaseID, [PurchasePrice], [ServiceStatusAPIAvailable], 'False'  DisableAPIAvailable, ThirdPartyAPI from [Service] s</Sql>
+      <FileName>HCM_001_MKPSERVICE_YYYYMMDD.TXT</FileName>
+    </Query>
+    <Query name ="ServiceSCF">
+      <Sql>select ServiceId, SCFId from ServiceSCF</Sql>
+      <FileName>HCM_001_MKPSERVSCF_YYYYMMDD.TXT</FileName>
+    </Query>
+    <Query name ="ServiceZipCode">
+      <Sql>select sz.Id as ServiceId, sz.ZipCodes from [Service] sz where isnull(sz.ZipCodes,'') != ''</Sql>
+      <FileName>HCM_001_MKPSERVZIPCODES_YYYYMMDD.TXT</FileName>
+    </Query>
+    <Query name ="Product">
+      <Sql>select Id, Name, ProductCategoryId, IsActive, CreatedDate, UpdatedDate from Product</Sql>
+      <FileName>HCM_001_MKPPRODUCT_YYYYMMDD.TXT</FileName>
+    </Query>
+    <Query name ="ProductCategory">
+      <Sql> select Id, Name, IsActive, CreatedDate, UpdatedDate from ProductCategory</Sql>
+      <FileName>HCM_001_MKPPRODCATEGORY_YYYYMMDD.TXT</FileName>
+    </Query>
+      <Query name ="ServiceProduct">
+      <Sql>select Id, ServiceId,ProductId from ServiceProduct order by Id</Sql>
+        <FileName>HCM_001_MKPSERVPRODUCT_YYYYMMDD.TXT</FileName>
+    </Query>
+    <Query name ="ServiceCategory">
+      <Sql>select Id,Description,IsActive,CreatedDate,UpdatedDate from ServiceCategory</Sql>
+      <FileName>HCM_001_MKPSERVCATEGORY_YYYYMMDD.TXT</FileName>
+    </Query>
+    <Query name ="Status">
+      <Sql>select Id,Name,IsActive,CreatedDate,UpdatedDate from [Status]</Sql>
+      <FileName>HCM_001_MKPSTATUSCODES_YYYYMMDD.TXT</FileName>
+    </Query>
+  </Queries>
+</DataSource>

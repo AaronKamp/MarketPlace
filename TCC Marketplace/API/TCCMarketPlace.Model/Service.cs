@@ -1,0 +1,20 @@
+﻿namespace TCCMarketPlace.Model
+{
+    public class Service
+    {
+        public int ServiceId { get; set; }
+        public int ServiceTypeId { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string ImageUrl { get; set; }
+        public bool IsBought { get; set; }
+        public bool IsEnabled { get; set; }
+        public string ReportUrl { get; set; }
+        public string SignUpUrl { get; set; }
+        public string ApiUrl { get; set; }
+        public decimal Price { get; set; }
+        public string ProductId { get; set; }
+        public int ThermostatId { get; set; }
+        public bool IsDisableApiAvailable { get; set; }
+    }
+}

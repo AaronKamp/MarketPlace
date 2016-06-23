@@ -1,0 +1,334 @@
+﻿@model Marketplace.Admin.ViewModels.ServiceViewModel
+
+<div class="batchexport">
+    <h2>@ViewBag.ActionTitle</h2>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="edit-wrap">
+        <div class="row">
+            <div class="lft_field pull-left">
+                <label>Slider image</label>
+                @if (Model == null)
+                {
+                    <img id="prvSlider" alt="Slider preview" style="max-width: 620px; max-height: 250px;">
+
+                }
+                else
+                {
+                    <img id="prvSlider" alt="Slider preview" src="@Model.SliderImage" style="max-width: 620px; max-height: 250px;">
+                }
+            </div>
+            <div class="rht_field pull-right">
+
+                @if (Model != null && Model.Id > 0)
+                {
+                    @Html.HiddenFor(model => model.Id)
+
+                    @Html.HiddenFor(model => model.IsActive)
+
+                    <label class="topspace">Service status: </label>
+
+                    if (Model.IsActive)
+                    {
+                        <img id="imgActive" src="/Content/images/tick.png" align="absmiddle"> <span>@Html.Raw("Active")</span>
+                        <input id="btnToogleStatus" type="button" name="" value="Deactivate service" class="pull-right btn" />
+                    }
+                    else
+                    {
+                        <img id="imgActive" src="/Content/images/cross.png" align="absmiddle">                        <span>
+                            @Html.Raw("Inactive")
+                        </span>
+                        <input id="btnToogleStatus" type="button" name="" value="Activate service" class="pull-right btn" />
+                    }
+                }
+
+                <label class="topspace">Service type: </label>
+                <div class="select-style pull-left">
+                    @Html.DropDownList("ServiceTypeId", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ServiceTypeId, "", new { @class = "text-danger" })
+                </div>
+                <div class="clear"></div>
+                <div class="file_top_space">
+                    <input type="file" name="sliderFile" id="sliderFile" class="inputfile" />
+                    <label for="sliderFile" class="btn">Change slide</label>
+                    @Html.TextBoxFor(x => x.SliderImage, new { @style = "visibility:hidden" })
+                    <br />    @Html.ValidationMessageFor(model => model.SliderImage, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="lft_field pull-left">
+                <label>Title</label>
+                @Html.EditorFor(model => model.Tilte)
+                <br />  @Html.ValidationMessageFor(model => model.Tilte, "", new { @class = "text-danger" })
+                <label>Short description</label>
+                @Html.TextAreaFor(model => model.ShortDescription, new { @class = "shortdesc" })
+                <br /> @Html.ValidationMessageFor(model => model.ShortDescription, "", new { @class = "text-danger" })
+                <label>Description</label>
+                @Html.TextAreaFor(model => model.LongDescription, new { @class = "desc" })
+                <br />       @Html.ValidationMessageFor(model => model.LongDescription, "", new { @class = "text-danger" })
+            </div>
+            <div class="rht_field pull-right prdtopspace">
+
+                @if (Model == null)
+                {
+                    <img alt="Icon preview" class="prd-image" id="prvIcon" style="max-width: 130px; max-height: 130px;">
+
+                }
+                else {
+                    <img alt="Icon preview" class="prd-image" id="prvIcon" src="@Model.IconImage" style="max-width: 130px; max-height: 130px;">
+                }
+
+                <div class="clear">
+                    <input type="file" name="iconFile" id="iconFile" class="inputfile" />
+                    <label for="iconFile" class="btn">Change icon</label>
+                    @Html.TextBoxFor(x => x.IconImage, new { @style = "visibility:hidden" })
+                    <br />   @Html.ValidationMessageFor(model => model.IconImage, "", new { @class = "text-danger" })
+                </div>
+                <label class="MT-40">In-app purchase ID</label>
+                @Html.EditorFor(model => model.InAppPurchaseId)
+                <br />@Html.ValidationMessageFor(model => model.InAppPurchaseId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="custom-wrap">
+            <div class="row">
+                <div class="lft_field pull-left">
+                    <div class="cstm_field pull-left">
+                        <label>Custom 1</label>
+                        @Html.TextBoxFor(model => model.CustomField1)
+                        <br />   @Html.ValidationMessageFor(model => model.CustomField3, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="cstm_field pull-right">
+                        <label>Custom 2</label>
+                        @Html.TextBoxFor(model => model.CustomField2)
+                        <br />  @Html.ValidationMessageFor(model => model.CustomField2, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="rht_field pull-right">
+                    <label>Make live</label>
+                    &nbsp; &nbsp;  @Html.RadioButtonFor(model => model.MakeLive, "True")
+                    &nbsp;  Yes &nbsp; &nbsp;
+                    @Html.RadioButtonFor(model => model.MakeLive, "False", new { @class = "ML-20", @checked = "checked" })
+                    &nbsp;  No
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="lft_field pull-left">
+                    <div class="cstm_field pull-left">
+                        <label>Custom 3</label>
+                        @Html.TextBoxFor(model => model.CustomField3, new { @style = "width:91%;" })
+                        <br />   @Html.ValidationMessageFor(model => model.CustomField3, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="cstm_field pull-right">
+                        <label>Disable service API available</label>
+                        &nbsp; &nbsp; @Html.RadioButtonFor(model => model.DisableAPIAvailable, "True")
+                        &nbsp; Yes &nbsp; &nbsp;
+                        @Html.RadioButtonFor(model => model.DisableAPIAvailable, "False", new { @class = "ML-20", @checked = "checked" })
+                        &nbsp; No
+                    </div>
+                </div>
+                <div class="rht_field pull-right">
+                    <label>Service status API available</label>
+                    &nbsp; &nbsp; @Html.RadioButtonFor(model => model.ServiceStatusAPIAvailable, "True")
+                    &nbsp; Yes &nbsp; &nbsp;
+                    @Html.RadioButtonFor(model => model.ServiceStatusAPIAvailable, "False", new { @class = "ML-20", @checked = "checked" })
+                    &nbsp; No
+                </div>
+            </div>
+            <div class="row">
+                <h3>Service</h3>
+                <div class="lft_field pull-left">
+                    <div class="cstm_field pull-left srv-wrap">
+                        <div class="cstm_field pull-left">
+                            <label>Start date</label>
+                            @if (Model == null)
+                            {
+                                @Html.TextBoxFor(model => model.StartDate, new { @class = "datepicker", placeholder = "Enter start date" })
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(model => model.StartDate, new { Value = Model.StartDate.ToString("MM/dd/yyyy"), @class = "datepicker", placeholder = "Enter start date" })
+                            }
+                            <br />   @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="cstm_field pull-right">
+                            <label>End date</label>
+                            @if (Model == null)
+                            {
+                                @Html.TextBoxFor(model => model.EndDate, new { @class = "datepicker", placeholder = "Enter end date" })
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(model => model.EndDate, new { Value = Model.EndDate.ToString("MM/dd/yyyy"), @class = "datepicker", placeholder = "Enter end date" })
+                            }
+                            <br />  @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                            <span class="custom-validation text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="cstm_field pull-right">
+                        <label>Partner promo code</label>
+                        @Html.EditorFor(model => model.PartnerPromoCode)
+                        <br /> @Html.ValidationMessageFor(model => model.PartnerPromoCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="rht_field pull-right">
+                    <label>Price</label>
+                    @Html.EditorFor(model => model.PurchasePrice, new { htmlAttributes= new { @type = "number" } })
+                    <br />  @Html.ValidationMessageFor(model => model.PurchasePrice, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="lft_field pull-left">
+                    <label>Sign-up URL</label>
+                    @Html.EditorFor(model => model.URL)
+                    <br />  @Html.ValidationMessageFor(model => model.URL, "", new { @class = "text-danger" })
+                </div>
+                <div class="rht_field pull-right"></div>
+            </div>
+            <div class="row">
+                <div class="lft_field pull-left">
+                    <label>Third party API URL</label>
+                    @Html.EditorFor(model => model.ThirdPartyAPI)
+
+                    <br /> @Html.ValidationMessageFor(model => model.ThirdPartyAPI, "", new { @class = "text-danger" })
+                </div>
+                <div class="rht_field pull-right"></div>
+            </div>
+            <div class="row">
+                <h3>Location</h3>
+                <div class="srv-list pull-left">
+                    <div class="srv-scroll mCustomScrollbar">
+                        <table id="tblLocation" style="width:100%" border="0" cellspacing="0" cellpadding="0">
+                            <thead>
+                                <th align="center" width="15%">Country</th>
+                                <th align="center" width="20%">State</th>
+                                <th align="center" width="49%">SCF</th>
+                                <th align="center" width="8%">&nbsp;</th>
+                                <th align="center" width="8%">&nbsp;</th>
+                            </thead>
+                            <tbody>
+                                @if (Model != null && Model.Locations != null)
+                                {
+                                    foreach (var loc in Model.Locations)
+                                    {
+                                        <tr id=@string.Format("trLocation{0}", @loc.StateId)>
+                                            <input type='hidden' value='@Json.Encode(loc)' name='Location' />
+                                            <td>@loc.CountryName</td>
+                                            <td>@loc.StateName</td>
+                                            <td><span class="trim-column" style="width:250px">@loc.SCFNames
+                                                </span>
+                                            </td>
+                                            <td align="center"><a href="#" name="editLocation"><img src="/Content/images/edit.png"></a></td>
+
+                                            <td align="center"><a href="#" name="deleteLocation"><img src="/Content/images/delete.png"></a></td>
+                                        </tr>
+                                    }
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div align="right" class="adn-link"><a href="#" id="add_location">Add new location</a></div>
+                </div>
+                <div class="add-info pull-right">
+                    <div class="click-pops" id="click-pops">
+                        <div class="cstm_field pull-left srv-wrap">
+                            <div class="cstm_field pull-left ">
+                                <div class="srv_pops pull-left MB-20">
+                                    <label>Country</label>
+                                    <div class="select-style pull-left">
+                                        @Html.DropDownList("CountryList", null, "Country")
+                                    </div>
+                                    <input type="checkbox" name="chkAllCountries" value="" id="chkAllCountries" /> All countries
+                                    
+                                </div>
+                                <div class="srv_pops pull-right MB-20">
+                                    <label>State</label>
+                                    <div class="select-style pull-left">
+                                        <select id="StateList" , name="StateList">
+                                            @*<option value="0" disabled selected>State</option>*@
+                                        </select>
+                                    </div>
+                                    <input type="checkbox" name="chkAllStates" value="" id="chkAllStates" /> All states
+                                </div>                                
+                            </div>
+                            <div class="srv-list pull-left ad-location MB-20">
+                                <div class="srv-scroll mCustomScrollbar ">
+                                    <div class="pull-left ad-location-data" id="dvZFC">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="MT-20"><input type="button" class="btn" name="" value="Add" id="btnSaveLoc" /></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="lft_field pull-left">
+                    <label>ZIP codes</label>
+                    @Html.EditorFor(model => model.ZipCodes)
+                    <br />  @Html.ValidationMessageFor(model => model.ZipCodes, "", new { @class = "text-danger" })
+                </div>
+                <div class="rht_field pull-right"></div>
+            </div>
+            <div class="row">
+                <h3>Products</h3>
+                <div class="srv-list pull-left">
+                    <div class="srv-scroll mCustomScrollbar">
+                        <table style="width:100%" border="0" cellspacing="0" cellpadding="0" id="tblProducts">
+                            <tr>
+                                <th align="center" width="20%">Category</th>
+                                <th align="center" width="64%">Product</th>
+                                <th align="center" width="8%">&nbsp;</th>
+                                <th align="center" width="8%">&nbsp;</th>
+                            </tr>
+                            @if (Model != null && Model.Products != null)
+                            {
+                                foreach (var prod in Model.Products)
+                                {
+                                    <tr id=@string.Format("trProduct{0}", @prod.CategoryId)>
+                                        <input type='hidden' value='@Json.Encode(prod)' name='Product' />
+                                        <td>
+                                            @prod.CategoryName
+                                        </td>
+                                        <td><span class="trim-column" style="width:325px">
+                                                @prod.ProductNames
+                                            </span>
+                                        </td>
+                                        <td align="center"><a href="#" name="editProduct"><img src="/Content/images/edit.png"></a></td>
+
+                                        <td align="center"> <a href="#" name="deleteProduct"><img src="/Content/images/delete.png"></a></td>
+                                    </tr>
+                                }
+
+                            }
+                        </table>
+                    </div>
+                    <div align="right" class="adn-link"><a href="#" id="add_product">Add new product</a></div>
+                </div>
+                <div class="add-info pull-right">
+                    <div class="click-pops" id="product-pops">
+                        <div class="cstm_field pull-left srv-wrap">
+                            <div class="cstm_field pull-left">
+                                <label>Product Category</label>
+                                <div class="select-style pull-left MB-20">
+                                    @Html.DropDownList("ProductCategories", null, "Product Category")
+                                </div>
+                                <div class="srv-list pull-left ad-product MT-20 MB-20">
+                                    <div class="srv-scroll mCustomScrollbar ">
+                                        <div class="pull-left ad-product-data" id="dvProducts">
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+
+                        </div>
+                        <div class="MT-30"><input type="button" class="btn" name="" id="btnAddProduct" value="Add"/></div>
+                    </div>
+                </div>
+            </div>
+            <div class="MT-20" align="center"><input id="btnSave" type="submit" name="" value="Save" class="MB-20 btn" /></div>
+        </div>
+    </div>
+</div>
