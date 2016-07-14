@@ -1,0 +1,63 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "hostingPlanName": {
+      "value": "tccMpAdminHostplan"
+    },
+    "MobileServerHostingPlanName": {
+      "value": "tccMpMobileApiHostplan"
+    },
+    "administratorLogin": {
+      "value": "tccmpadmin"
+    },
+    "databaseName": {
+      "value": "tccmpadmindb"
+    },
+    "WebDeployPackageFolder": {
+      "value": "tccmarketplace-stageartifacts"
+    },
+    "WebDeployPackageFileName": {
+      "value": "Marketplace.Admin.zip"
+    },
+    "_artifactsLocation": {
+      "value": null
+    },
+    "_artifactsLocationSasToken": {
+      "value": null
+    },
+    "WebDeployMobileUIPackageFolder": {
+      "value": "tccmarketplace-stageartifacts"
+    },
+    "WebDeployApiPackageFileName": {
+      "value": "TCCMarketPlace.Apis.zip"
+    },
+    "WebDeployApiPackageFolder": {
+      "value": "tccmarketplace-stageartifacts"
+    },
+    "WebDeployMobileUIPackageFileName": {
+      "value": "TCCMarketPlace.Web.zip"
+    },
+    "YLM.ApiUrl": {
+      "value": "https://test.api.infoconnect.com/hw_mktpl/v1/"
+    },
+    "EN.ApiUrl": {
+      "value": "https://thepulseapi.earthnetworks.com/oauth20/"
+    },
+    "EN.PartnerName": {
+      "value": "EarthNetworkPartnerName"
+    },
+    "TCC.ApiUrl": {
+      "value": "https://qtccna.honeywell.com/TrueHomeQA/"
+    },
+    "TCC.AppId": {
+      "value": "53cd5e17-0def-468d-9ede-c60f808ddb1b"
+    },
+    "EN.Consumer_Key": {
+      "value": "YetToReceive"
+    },
+    "Cache.Environment": {
+      "value": "QA"
+    }
+  }
+}

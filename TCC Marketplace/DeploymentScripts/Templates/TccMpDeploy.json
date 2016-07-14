@@ -1,0 +1,566 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "hostingPlanName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "skuName": {
+      "type": "string",
+      "defaultValue": "S1",
+      "allowedValues": [
+        "F1",
+        "D1",
+        "B1",
+        "B2",
+        "B3",
+        "S1",
+        "S2",
+        "S3",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "metadata": {
+        "description": "Describes plan's pricing tier and instance size. Check details at https://azure.microsoft.com/en-us/pricing/details/app-service/"
+      }
+    },
+    "skuCapacity": {
+      "type": "int",
+      "defaultValue": 1,
+      "minValue": 1,
+      "metadata": {
+        "description": "Describes plan's instance count"
+      }
+    },
+    "administratorLogin": {
+      "type": "string"
+    },
+    "administratorLoginPassword": {
+      "type": "securestring"
+    },
+    "databaseName": {
+      "type": "string"
+    },
+    "collation": {
+      "type": "string",
+      "defaultValue": "SQL_Latin1_General_CP1_CI_AS"
+    },
+    "edition": {
+      "type": "string",
+      "defaultValue": "Basic",
+      "allowedValues": [
+        "Basic",
+        "Standard",
+        "Premium"
+      ]
+    },
+    "maxSizeBytes": {
+      "type": "string",
+      "defaultValue": "1073741824"
+    },
+    "requestedServiceObjectiveName": {
+      "type": "string",
+      "defaultValue": "Basic",
+      "allowedValues": [
+        "Basic",
+        "S0",
+        "S1",
+        "S2",
+        "P1",
+        "P2",
+        "P3"
+      ],
+      "metadata": {
+        "description": "Describes the performance level for Edition"
+      }
+    },
+    "_artifactsLocationSasToken": {
+      "type": "securestring",
+      "metadata": {
+        "description": ""
+      }
+    },
+    "_artifactsLocation": {
+      "type": "string",
+      "metadata": {
+        "description": ""
+      }
+    },
+    "WebDeployPackageFolder": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "WebDeploy package location. This path is relative to the _artifactsLocation parameter"
+      }
+    },
+    "WebDeployPackageFileName": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "Name of the webdeploy package"
+      }
+    },
+    "storageType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_ZRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Premium_LRS"
+      ]
+    },
+    "MobileServerHostingPlanName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "MobileServerHostingPlanSKU": {
+      "type": "string",
+      "allowedValues": [
+        "Free",
+        "Shared",
+        "Basic",
+        "Standard"
+      ],
+      "defaultValue": "Basic"
+    },
+    "MobileServerHostingPlanWorkerSize": {
+      "type": "string",
+      "allowedValues": [
+        "0",
+        "1",
+        "2"
+      ],
+      "defaultValue": "1"
+    },
+    "WebDeployApiPackageFolder": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "WebDeploy package location. This path is relative to the _artifactsLocation parameter"
+      }
+    },
+    "WebDeployApiPackageFileName": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "Name of the webdeploy package"
+      }
+    },
+    "WebDeployMobileUIPackageFolder": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "WebDeploy package location. This path is relative to the _artifactsLocation parameter"
+      }
+    },
+    "WebDeployMobileUIPackageFileName": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "Name of the webdeploy package"
+      }
+    },
+    "mpRedisCacheSKUName": {
+      "type": "string",
+      "allowedValues": [
+        "Basic",
+        "Standard"
+      ],
+      "defaultValue": "Standard"
+    },
+    "mpRedisCacheSKUFamily": {
+      "type": "string",
+      "allowedValues": [
+        "C"
+      ],
+      "defaultValue": "C"
+    },
+    "mpRedisCacheSKUCapacity": {
+      "type": "int",
+      "allowedValues": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "defaultValue": 0
+    },
+    "mpRedisCacheRedisVersion": {
+      "type": "string",
+      "allowedValues": [
+        "2.8"
+      ],
+      "defaultValue": "2.8"
+    },
+    "YLM.ApiUrl": {
+      "type": "string"
+    },
+    "YLM.Api_Key": {
+      "type": "securestring"
+    },
+    "EN.ApiUrl": {
+      "type": "string"
+    },
+    "EN.PartnerName": {
+      "type": "string"
+    },
+    "TCC.ApiUrl": {
+      "type": "string"
+    },
+    "TCC.AppId": {
+      "type": "string"
+    },
+    "TCC.Secret_Key": {
+      "type": "securestring"
+    },
+    "EN.Consumer_Key": {
+      "type": "string"
+    },
+    "EN.Secret_Key": {
+      "type": "securestring"
+    },
+    "Cache.Environment": {
+      "type": "string",
+      "allowedValues": [
+        "DEV",
+        "QA",
+        "STAGE",
+        "PROD"
+      ],
+      "defaultValue": "STAGE"
+    }
+  },
+  "variables": {
+    "mpAdminWebAppName": "[concat('mpAdminWebApp', uniqueString(resourceGroup().id))]",
+    "mpSqlserverName": "[concat('mpsqlserver', uniqueString(resourceGroup().id))]",
+    "mpStorageName": "[concat('mpstorage', uniqueString(resourceGroup().id))]",
+    "mpWebApiName": "[concat('mpWebApi', uniqueString(resourceGroup().id))]",
+    "mpMobileWebUIName": "[concat('mpMobileWebUI', uniqueString(resourceGroup().id))]",
+    "mpRedisCacheName": "[concat('mpRedisCacheName', uniqueString(resourceGroup().id))]"
+  },
+  "resources": [
+    {
+      "name": "[variables('mpSqlserverName')]",
+      "type": "Microsoft.Sql/servers",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "mpSqlServer"
+      },
+      "apiVersion": "2014-04-01-preview",
+      "properties": {
+        "administratorLogin": "[parameters('administratorLogin')]",
+        "administratorLoginPassword": "[parameters('administratorLoginPassword')]"
+      },
+      "resources": [
+        {
+          "name": "[parameters('databaseName')]",
+          "type": "databases",
+          "location": "[resourceGroup().location]",
+          "tags": {
+            "displayName": "mpAdminDatabase"
+          },
+          "apiVersion": "2014-04-01-preview",
+          "dependsOn": [
+            "[concat('Microsoft.Sql/servers/', variables('mpSqlserverName'))]"
+          ],
+          "properties": {
+            "edition": "[parameters('edition')]",
+            "collation": "[parameters('collation')]",
+            "maxSizeBytes": "[parameters('maxSizeBytes')]",
+            "requestedServiceObjectiveName": "[parameters('requestedServiceObjectiveName')]"
+          }
+        },
+        {
+          "type": "firewallrules",
+          "apiVersion": "2014-04-01-preview",
+          "dependsOn": [
+            "[concat('Microsoft.Sql/servers/', variables('mpSqlserverName'))]"
+          ],
+          "location": "[resourceGroup().location]",
+          "name": "AllowAllWindowsAzureIps",
+          "properties": {
+            "endIpAddress": "0.0.0.0",
+            "startIpAddress": "0.0.0.0"
+          }
+        }
+      ]
+    },
+    {
+      "apiVersion": "2015-08-01",
+      "name": "[parameters('hostingPlanName')]",
+      "type": "Microsoft.Web/serverfarms",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "mpAdminHostingPlan"
+      },
+      "sku": {
+        "name": "[parameters('skuName')]",
+        "capacity": "[parameters('skuCapacity')]"
+      },
+      "properties": {
+        "name": "[parameters('hostingPlanName')]"
+      }
+    },
+    {
+      "apiVersion": "2015-08-01",
+      "name": "[variables('mpAdminWebAppName')]",
+      "type": "Microsoft.Web/sites",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Web/serverFarms/', parameters('hostingPlanName'))]"
+      ],
+      "tags": {
+        "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]": "empty",
+        "displayName": "mpAdminWebApp"
+      },
+      "properties": {
+        "name": "[variables('mpAdminWebAppName')]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]",
+        "siteConfig": {
+          "AlwaysOn": true
+        }
+
+      },
+      "resources": [
+
+        {
+          "name": "MSDeploy",
+          "type": "extensions",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2015-08-01",
+          "dependsOn": [
+            "[concat('Microsoft.Web/sites/', variables('mpAdminWebAppName'))]"
+          ],
+          "tags": {
+            "displayName": "mpAdminWebDeploy"
+          },
+          "properties": {
+            "packageUri": "[concat(parameters('_artifactsLocation'), '/', parameters('WebDeployPackageFileName'), parameters('_artifactsLocationSasToken'))]",
+            "dbType": "None",
+            "connectionString": "",
+            "setParameters": {
+              "IIS Web Application Name": "[variables('mpAdminWebAppName')]"
+            }
+          }
+        },
+        {
+          "apiVersion": "2015-08-01",
+          "type": "config",
+          "name": "connectionstrings",
+          "dependsOn": [
+            "[concat('Microsoft.Web/Sites/', variables('mpAdminWebAppName'))]",
+            "[concat('Microsoft.Web/Sites/', variables('mpAdminWebAppName'),'/extensions/MSDeploy')]"
+          ],
+          "properties": {
+            "DefaultConnection": {
+              "value": "[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', variables('mpSqlserverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('databaseName'), ';User Id=', parameters('administratorLogin'), '@', variables('mpSqlserverName'), ';Password=', parameters('administratorLoginPassword'), ';')]",
+              "type": "SQLServer"
+            },
+            "MarketplaceAdminDb": {
+              "value": "[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', variables('mpSqlserverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('databaseName'), ';User Id=', parameters('administratorLogin'), '@', variables('mpSqlserverName'), ';Password=', parameters('administratorLoginPassword'), ';')]",
+              "type": "SQLServer"
+            },
+            "StorageConnection": {
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('mpStorageName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('mpStorageName')), '2015-05-01-preview').key1)]",
+              "type": "Custom"
+            }
+          }
+        },
+        {
+          "name": "appsettings",
+          "type": "config",
+          "apiVersion": "2015-08-01",
+          "dependsOn": [
+            "[concat('Microsoft.Web/sites/', variables('mpAdminWebAppName'))]",
+            "[concat('Microsoft.Web/Sites/', variables('mpAdminWebAppName'),'/extensions/MSDeploy')]"
+          ],
+          "tags": {
+            "displayName": "appsettings"
+          },
+          "properties": {
+            "WebJobApi": "https://{0}.scm.azurewebsites.net/api/triggeredwebjobs/{1}/{2}",
+            "ExtractJob": "MarketplaceAdminExtractJob",
+            "SiteUserName": "[list(resourceId('Microsoft.Web/sites/config', variables('mpAdminWebAppName'), 'publishingcredentials'), '2014-06-01').properties.PublishingUserName]",
+            "SiteUserPwd": "[list(resourceId('Microsoft.Web/sites/config', variables('mpAdminWebAppName'), 'publishingcredentials'), '2014-06-01').properties.PublishingPassword]",
+            "SiteName": "[variables('mpAdminWebAppName')]",
+            "userPageSize": "10"
+          }
+        }
+      ]
+    },
+    {
+      "name": "[variables('mpStorageName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [ ],
+      "tags": {
+        "displayName": "mpStorage"
+      },
+      "properties": {
+        "accountType": "[parameters('storageType')]"
+      }
+    },
+    {
+      "name": "[parameters('MobileServerHostingPlanName')]",
+      "type": "Microsoft.Web/serverfarms",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2014-06-01",
+      "dependsOn": [ ],
+      "tags": {
+        "displayName": "MobileServerHostingPlan"
+      },
+      "properties": {
+        "name": "[parameters('MobileServerHostingPlanName')]",
+        "sku": "[parameters('MobileServerHostingPlanSKU')]",
+        "workerSize": "[parameters('MobileServerHostingPlanWorkerSize')]",
+        "numberOfWorkers": 1
+      }
+    },
+    {
+      "name": "[variables('mpWebApiName')]",
+      "type": "Microsoft.Web/sites",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-08-01",
+      "dependsOn": [
+        "[concat('Microsoft.Web/serverfarms/', parameters('MobileServerHostingPlanName'))]"
+      ],
+      "tags": {
+        "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', parameters('MobileServerHostingPlanName'))]": "Resource",
+        "displayName": "mpWebApi"
+      },
+      "properties": {
+        "name": "[variables('mpWebApiName')]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms/', parameters('MobileServerHostingPlanName'))]"
+      },
+      "resources": [
+        {
+          "name": "MSDeploy",
+          "type": "extensions",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2015-08-01",
+          "dependsOn": [
+            "[concat('Microsoft.Web/sites/', variables('mpWebApiName'))]"
+          ],
+          "tags": {
+            "displayName": "mpWebDeployApi"
+          },
+          "properties": {
+            "packageUri": "[concat(parameters('_artifactsLocation'), '/', parameters('WebDeployApiPackageFileName'), parameters('_artifactsLocationSasToken'))]",
+            "dbType": "None",
+            "connectionString": "",
+            "setParameters": {
+              "IIS Web Application Name": "[variables('mpWebApiName')]"
+            }
+          }
+        },
+        {
+          "apiVersion": "2015-08-01",
+          "type": "config",
+          "name": "connectionstrings",
+          "dependsOn": [
+            "[concat('Microsoft.Web/Sites/', variables('mpWebApiName'))]",
+            "[concat('Microsoft.Web/Sites/', variables('mpWebApiName'),'/extensions/MSDeploy')]"
+          ],
+          "properties": {
+            "AzureRedisCache": {
+              "value": "[concat(variables('mpRedisCacheName'),'.redis.cache.windows.net,abortConnect=false,ssl=true,password=', listKeys(resourceId('Microsoft.Cache/Redis', variables('mpRedisCacheName')), '2015-08-01').primaryKey)]",
+              "type": "Custom"
+            }
+          }
+        },
+        {
+          "name": "appsettings",
+          "type": "config",
+          "apiVersion": "2015-08-01",
+          "dependsOn": [
+            "[concat('Microsoft.Web/sites/', variables('mpWebApiName'))]",
+            "[concat('Microsoft.Web/Sites/', variables('mpWebApiName'),'/extensions/MSDeploy')]"
+          ],
+          "tags": {
+            "displayName": "appsettings"
+          },
+          "properties": {
+            "MarketPlaceUrl": "[concat('https://',variables('mpMobileWebUIName'),'.azurewebsites.net/')]",
+            "MarketPlaceDetailsUrl": "[concat('https://',variables('mpMobileWebUIName'),'.azurewebsites.net/#/MarketPlaceDetails/')]",
+            "YLM.ApiUrl": "[parameters('YLM.ApiUrl')]", //"https://test.api.infoconnect.com/hw_mktpl/v1/",
+            "YLM.Api_Key": "[parameters('YLM.Api_Key')]", //  "GEe5xWXeMn4wTAaijBfpXCVGsy1qWhHM",
+            "EN.ApiUrl": "[parameters('EN.ApiUrl')]", //          "https://thepulseapi.earthnetworks.com/",
+            "EN.PartnerName": "[parameters('EN.PartnerName')]", //            "EarthNetworkPartnerName",
+            "TCC.ApiUrl": "[parameters('TCC.ApiUrl')]",
+            "TCC.AppId": "[parameters('TCC.AppId')]",
+            "TCC.Secret_Key": "[parameters('TCC.Secret_Key')]",
+            "EN.Consumer_Key": "[parameters('EN.Consumer_Key')]",
+            "EN.Secret_Key": "[parameters('EN.Secret_Key')]",
+            "Cache.Environment": "[parameters('Cache.Environment')]"
+          }
+        }
+      ]
+    },
+    {
+      "name": "[variables('mpMobileWebUIName')]",
+      "type": "Microsoft.Web/sites",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-08-01",
+      "dependsOn": [
+        "[concat('Microsoft.Web/serverfarms/', parameters('MobileServerHostingPlanName'))]"
+      ],
+      "tags": {
+        "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', parameters('MobileServerHostingPlanName'))]": "Resource",
+        "displayName": "mpMobileWebUI"
+      },
+      "properties": {
+        "name": "[variables('mpMobileWebUIName')]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms/', parameters('MobileServerHostingPlanName'))]"
+      },
+      "resources": [
+        {
+          "name": "MSDeploy",
+          "type": "extensions",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2015-08-01",
+          "dependsOn": [
+            "[concat('Microsoft.Web/sites/', variables('mpMobileWebUIName'))]"
+          ],
+          "tags": {
+            "displayName": "mpWebDeployMobileUI"
+          },
+          "properties": {
+            "packageUri": "[concat(parameters('_artifactsLocation'), '/', parameters('WebDeployMobileUIPackageFileName'), parameters('_artifactsLocationSasToken'))]",
+            "dbType": "None",
+            "connectionString": "",
+            "setParameters": {
+              "IIS Web Application Name": "[variables('mpMobileWebUIName')]"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "[variables('mpRedisCacheName')]",
+      "type": "Microsoft.Cache/Redis",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2014-04-01-preview",
+      "dependsOn": [ ],
+      "tags": {
+        "displayName": "mpRedisCache"
+      },
+      "properties": {
+        "sku": {
+          "name": "[parameters('mpRedisCacheSKUName')]",
+          "family": "[parameters('mpRedisCacheSKUFamily')]",
+          "capacity": "[parameters('mpRedisCacheSKUCapacity')]"
+        },
+        "redisVersion": "[parameters('mpRedisCacheRedisVersion')]"
+      }
+    }
+  ]
+}
