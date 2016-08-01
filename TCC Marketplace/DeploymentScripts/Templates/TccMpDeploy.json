@@ -2,11 +2,11 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "hostingPlanName": {
+    "AdminServerHostingPlanName": {
       "type": "string",
       "minLength": 1
     },
-    "skuName": {
+    "AdminServerSkuName": {
       "type": "string",
       "defaultValue": "S1",
       "allowedValues": [
@@ -27,7 +27,7 @@
         "description": "Describes plan's pricing tier and instance size. Check details at https://azure.microsoft.com/en-us/pricing/details/app-service/"
       }
     },
-    "skuCapacity": {
+    "AdminServerSkuCapacity": {
       "type": "int",
       "defaultValue": 1,
       "minValue": 1,
@@ -35,35 +35,35 @@
         "description": "Describes plan's instance count"
       }
     },
-    "administratorLogin": {
+    "AdminDatabaseAdministratorLogin": {
       "type": "string"
     },
-    "administratorLoginPassword": {
+    "AdminDbAdministratorLoginPassword": {
       "type": "securestring"
     },
-    "databaseName": {
+    "AdminDbName": {
       "type": "string"
     },
-    "collation": {
+    "AdminDbCollation": {
       "type": "string",
       "defaultValue": "SQL_Latin1_General_CP1_CI_AS"
     },
-    "edition": {
+    "AdminDbEdition": {
       "type": "string",
-      "defaultValue": "Basic",
+      "defaultValue": "Standard",
       "allowedValues": [
         "Basic",
         "Standard",
         "Premium"
       ]
     },
-    "maxSizeBytes": {
+    "AdminDbMaxSizeBytes": {
       "type": "string",
-      "defaultValue": "1073741824"
+      "defaultValue": "268435456000"
     },
-    "requestedServiceObjectiveName": {
+    "AdminDbRequestedServiceObjectiveName": {
       "type": "string",
-      "defaultValue": "Basic",
+      "defaultValue": "S0",
       "allowedValues": [
         "Basic",
         "S0",
@@ -89,21 +89,21 @@
         "description": ""
       }
     },
-    "WebDeployPackageFolder": {
+    "AdminWebDeployPackageFolder": {
       "type": "string",
       "minLength": 1,
       "metadata": {
         "description": "WebDeploy package location. This path is relative to the _artifactsLocation parameter"
       }
     },
-    "WebDeployPackageFileName": {
+    "AdminWebDeployPackageFileName": {
       "type": "string",
       "minLength": 1,
       "metadata": {
         "description": "Name of the webdeploy package"
       }
     },
-    "storageType": {
+    "MarketplaceStorageType": {
       "type": "string",
       "defaultValue": "Standard_LRS",
       "allowedValues": [
@@ -118,24 +118,35 @@
       "type": "string",
       "minLength": 1
     },
+
     "MobileServerHostingPlanSKU": {
       "type": "string",
+      "defaultValue": "S1",
       "allowedValues": [
-        "Free",
-        "Shared",
-        "Basic",
-        "Standard"
+        "F1",
+        "D1",
+        "B1",
+        "B2",
+        "B3",
+        "S1",
+        "S2",
+        "S3",
+        "P1",
+        "P2",
+        "P3",
+        "P4"
       ],
-      "defaultValue": "Basic"
+      "metadata": {
+        "description": "Describes plan's pricing tier and instance size. Check details at https://azure.microsoft.com/en-us/pricing/details/app-service/"
+      }
     },
-    "MobileServerHostingPlanWorkerSize": {
-      "type": "string",
-      "allowedValues": [
-        "0",
-        "1",
-        "2"
-      ],
-      "defaultValue": "1"
+    "MobileServerSkuCapacity": {
+      "type": "int",
+      "defaultValue": 1,
+      "minValue": 1,
+      "metadata": {
+        "description": "Describes plan's instance count"
+      }
     },
     "WebDeployApiPackageFolder": {
       "type": "string",
@@ -256,12 +267,12 @@
       },
       "apiVersion": "2014-04-01-preview",
       "properties": {
-        "administratorLogin": "[parameters('administratorLogin')]",
-        "administratorLoginPassword": "[parameters('administratorLoginPassword')]"
+        "administratorLogin": "[parameters('AdminDatabaseAdministratorLogin')]",
+        "administratorLoginPassword": "[parameters('AdminDbAdministratorLoginPassword')]"
       },
       "resources": [
         {
-          "name": "[parameters('databaseName')]",
+          "name": "[parameters('AdminDbName')]",
           "type": "databases",
           "location": "[resourceGroup().location]",
           "tags": {
@@ -272,10 +283,10 @@
             "[concat('Microsoft.Sql/servers/', variables('mpSqlserverName'))]"
           ],
           "properties": {
-            "edition": "[parameters('edition')]",
-            "collation": "[parameters('collation')]",
-            "maxSizeBytes": "[parameters('maxSizeBytes')]",
-            "requestedServiceObjectiveName": "[parameters('requestedServiceObjectiveName')]"
+            "edition": "[parameters('AdminDbEdition')]",
+            "collation": "[parameters('AdminDbCollation')]",
+            "maxSizeBytes": "[parameters('AdminDbMaxSizeBytes')]",
+            "requestedServiceObjectiveName": "[parameters('AdminDbRequestedServiceObjectiveName')]"
           }
         },
         {
@@ -295,18 +306,18 @@
     },
     {
       "apiVersion": "2015-08-01",
-      "name": "[parameters('hostingPlanName')]",
+      "name": "[parameters('AdminServerHostingPlanName')]",
       "type": "Microsoft.Web/serverfarms",
       "location": "[resourceGroup().location]",
       "tags": {
         "displayName": "mpAdminHostingPlan"
       },
       "sku": {
-        "name": "[parameters('skuName')]",
-        "capacity": "[parameters('skuCapacity')]"
+        "name": "[parameters('AdminServerSkuName')]",
+        "capacity": "[parameters('AdminServerSkuCapacity')]"
       },
       "properties": {
-        "name": "[parameters('hostingPlanName')]"
+        "name": "[parameters('AdminServerHostingPlanName')]"
       }
     },
     {
@@ -315,15 +326,15 @@
       "type": "Microsoft.Web/sites",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Web/serverFarms/', parameters('hostingPlanName'))]"
+        "[concat('Microsoft.Web/serverFarms/', parameters('AdminServerHostingPlanName'))]"
       ],
       "tags": {
-        "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]": "empty",
+        "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', parameters('AdminServerHostingPlanName'))]": "empty",
         "displayName": "mpAdminWebApp"
       },
       "properties": {
         "name": "[variables('mpAdminWebAppName')]",
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('AdminServerHostingPlanName'))]",
         "siteConfig": {
           "AlwaysOn": true
         }
@@ -343,7 +354,7 @@
             "displayName": "mpAdminWebDeploy"
           },
           "properties": {
-            "packageUri": "[concat(parameters('_artifactsLocation'), '/', parameters('WebDeployPackageFileName'), parameters('_artifactsLocationSasToken'))]",
+            "packageUri": "[concat(parameters('_artifactsLocation'), '/', parameters('AdminWebDeployPackageFileName'), parameters('_artifactsLocationSasToken'))]",
             "dbType": "None",
             "connectionString": "",
             "setParameters": {
@@ -361,11 +372,11 @@
           ],
           "properties": {
             "DefaultConnection": {
-              "value": "[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', variables('mpSqlserverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('databaseName'), ';User Id=', parameters('administratorLogin'), '@', variables('mpSqlserverName'), ';Password=', parameters('administratorLoginPassword'), ';')]",
+              "value": "[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', variables('mpSqlserverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('AdminDbName'), ';User Id=', parameters('AdminDatabaseAdministratorLogin'), '@', variables('mpSqlserverName'), ';Password=', parameters('AdminDbAdministratorLoginPassword'), ';')]",
               "type": "SQLServer"
             },
             "MarketplaceAdminDb": {
-              "value": "[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', variables('mpSqlserverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('databaseName'), ';User Id=', parameters('administratorLogin'), '@', variables('mpSqlserverName'), ';Password=', parameters('administratorLoginPassword'), ';')]",
+              "value": "[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', variables('mpSqlserverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('AdminDbName'), ';User Id=', parameters('AdminDatabaseAdministratorLogin'), '@', variables('mpSqlserverName'), ';Password=', parameters('AdminDbAdministratorLoginPassword'), ';')]",
               "type": "SQLServer"
             },
             "StorageConnection": {
@@ -406,23 +417,24 @@
         "displayName": "mpStorage"
       },
       "properties": {
-        "accountType": "[parameters('storageType')]"
+        "accountType": "[parameters('MarketplaceStorageType')]"
       }
     },
+
     {
+      "apiVersion": "2015-08-01",
       "name": "[parameters('MobileServerHostingPlanName')]",
       "type": "Microsoft.Web/serverfarms",
       "location": "[resourceGroup().location]",
-      "apiVersion": "2014-06-01",
-      "dependsOn": [ ],
       "tags": {
         "displayName": "MobileServerHostingPlan"
       },
+      "sku": {
+        "name": "[parameters('MobileServerHostingPlanSKU')]",
+        "capacity": "[parameters('MobileServerSkuCapacity')]"
+      },
       "properties": {
-        "name": "[parameters('MobileServerHostingPlanName')]",
-        "sku": "[parameters('MobileServerHostingPlanSKU')]",
-        "workerSize": "[parameters('MobileServerHostingPlanWorkerSize')]",
-        "numberOfWorkers": 1
+        "name": "[parameters('MobileServerHostingPlanName')]"
       }
     },
     {
@@ -491,10 +503,10 @@
           "properties": {
             "MarketPlaceUrl": "[concat('https://',variables('mpMobileWebUIName'),'.azurewebsites.net/')]",
             "MarketPlaceDetailsUrl": "[concat('https://',variables('mpMobileWebUIName'),'.azurewebsites.net/#/MarketPlaceDetails/')]",
-            "YLM.ApiUrl": "[parameters('YLM.ApiUrl')]", //"https://test.api.infoconnect.com/hw_mktpl/v1/",
-            "YLM.Api_Key": "[parameters('YLM.Api_Key')]", //  "GEe5xWXeMn4wTAaijBfpXCVGsy1qWhHM",
-            "EN.ApiUrl": "[parameters('EN.ApiUrl')]", //          "https://thepulseapi.earthnetworks.com/",
-            "EN.PartnerName": "[parameters('EN.PartnerName')]", //            "EarthNetworkPartnerName",
+            "YLM.ApiUrl": "[parameters('YLM.ApiUrl')]",
+            "YLM.Api_Key": "[parameters('YLM.Api_Key')]",
+            "EN.ApiUrl": "[parameters('EN.ApiUrl')]",
+            "EN.PartnerName": "[parameters('EN.PartnerName')]",
             "TCC.ApiUrl": "[parameters('TCC.ApiUrl')]",
             "TCC.AppId": "[parameters('TCC.AppId')]",
             "TCC.Secret_Key": "[parameters('TCC.Secret_Key')]",

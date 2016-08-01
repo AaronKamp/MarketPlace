@@ -16,11 +16,17 @@ Param(
     [string] $DSCSourceFolder = '..\DSC'
 )
 
-Import-Module Azure -ErrorAction SilentlyContinue
+Import-Module Azure -ErrorAction Stop
+
+
 
 try {
     [Microsoft.Azure.Common.Authentication.AzureSession]::ClientFactory.AddUserAgent("VSAzureTools-$UI$($host.name)".replace(" ","_"), "2.8")
-} catch { }
+} catch { 
+
+Login-AzureRmAccount
+
+}
 
 Set-StrictMode -Version 3
 
@@ -96,7 +102,7 @@ if ($UploadArtifacts) {
    
 
 
-    $StorageAccountKey = (Get-AzureRmStorageAccountKey -ResourceGroupName $StorageAccountResourceGroupName -Name $StorageAccountName)[0].Value 
+    $StorageAccountKey = (Get-AzureRmStorageAccountKey -ResourceGroupName $StorageAccountResourceGroupName -Name $StorageAccountName).Key1
        
     $StorageAccountContext = (Get-AzureRmStorageAccount -ResourceGroupName $StorageAccountResourceGroupName -Name $StorageAccountName).Context
    
