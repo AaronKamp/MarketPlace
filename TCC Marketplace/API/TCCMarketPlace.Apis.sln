@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCCMarketPlace.Business", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCCMarketPlace.Model", "TCCMarketPlace.Model\TCCMarketPlace.Model.csproj", "{F7FA0293-A9C6-4C18-BEBA-DCD318EFD196}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extensions", "Extensions\Extensions.csproj", "{AE3AEBBD-C8A6-4053-84DD-FBE421579C03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCCMarketPlace.Cache", "TCCMarketPlace.Cache\TCCMarketPlace.Cache.csproj", "{6D94BB73-D911-4F50-9897-0FC184F5E685}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,12 +31,20 @@ Global
 		{F7FA0293-A9C6-4C18-BEBA-DCD318EFD196}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7FA0293-A9C6-4C18-BEBA-DCD318EFD196}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7FA0293-A9C6-4C18-BEBA-DCD318EFD196}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE3AEBBD-C8A6-4053-84DD-FBE421579C03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE3AEBBD-C8A6-4053-84DD-FBE421579C03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE3AEBBD-C8A6-4053-84DD-FBE421579C03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE3AEBBD-C8A6-4053-84DD-FBE421579C03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D94BB73-D911-4F50-9897-0FC184F5E685}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D94BB73-D911-4F50-9897-0FC184F5E685}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D94BB73-D911-4F50-9897-0FC184F5E685}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D94BB73-D911-4F50-9897-0FC184F5E685}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
+		SccNumberOfProjects = 6
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://61.12.76.170:7777/tfs/defaultcollection
 		SccLocalPath0 = .
@@ -45,5 +57,11 @@ Global
 		SccProjectUniqueName3 = TCCMarketPlace.Model\\TCCMarketPlace.Model.csproj
 		SccProjectName3 = TCCMarketPlace.Model
 		SccLocalPath3 = TCCMarketPlace.Model
+		SccProjectUniqueName4 = Extensions\\Extensions.csproj
+		SccProjectName4 = Extensions
+		SccLocalPath4 = Extensions
+		SccProjectUniqueName5 = TCCMarketPlace.Cache\\TCCMarketPlace.Cache.csproj
+		SccProjectName5 = TCCMarketPlace.Cache
+		SccLocalPath5 = TCCMarketPlace.Cache
 	EndGlobalSection
 EndGlobal

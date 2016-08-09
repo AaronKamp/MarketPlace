@@ -34,9 +34,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="adodb, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.StorageClient">
+      <HintPath>..\..\Admin\MarketPlace.Admin\Marketplace.Admin.Web\bin\Microsoft.WindowsAzure.StorageClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -52,19 +58,30 @@
   <ItemGroup>
     <Compile Include="AuthorizationHeader.cs" />
     <Compile Include="BusinessFacade.cs" />
+    <Compile Include="Cryptography.cs" />
     <Compile Include="Enum\AuthorizationScheme.cs" />
     <Compile Include="Interface\IAuthentication.cs" />
     <Compile Include="Interface\IMarketPlace.cs" />
+    <Compile Include="Interface\IThirdPartyService.cs" />
     <Compile Include="MarketPlace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TccAuthentication.cs" />
     <Compile Include="ThirdPartyAPIImplementation.cs" />
+    <Compile Include="ThridPartyServices\ThirdPartyService.cs" />
+    <Compile Include="ThridPartyServices\ServiceProviderManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TCCMarketPlace.Cache\TCCMarketPlace.Cache.csproj">
+      <Project>{6d94bb73-d911-4f50-9897-0fc184f5e685}</Project>
+      <Name>TCCMarketPlace.Cache</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TCCMarketPlace.Model\TCCMarketPlace.Model.csproj">
       <Project>{f7fa0293-a9c6-4c18-beba-dcd318efd196}</Project>
       <Name>TCCMarketPlace.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

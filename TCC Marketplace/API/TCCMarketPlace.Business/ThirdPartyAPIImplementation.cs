@@ -32,7 +32,7 @@ namespace TCCMarketPlace.Business
 
         public static async Task<string> DeleteValues(string address)
         {
-            var result = await DeleteValues(address);
+            var result = await GetDeleteResponse(address);
             return result;
         }
 
@@ -61,7 +61,10 @@ namespace TCCMarketPlace.Business
                            
                         case System.Net.HttpStatusCode.BadRequest:
                             throw new BusinessException("Invalid Request or a validation error occured");
-                           
+
+                        case System.Net.HttpStatusCode.Unauthorized:
+                            throw new BusinessException("User is not authorized to complete the process");
+
                         default: throw new BusinessException("Details Unavailable");
                     }
                 }
@@ -89,13 +92,12 @@ namespace TCCMarketPlace.Business
                     switch (response.StatusCode)
                     {
                         case System.Net.HttpStatusCode.NotFound: throw new BusinessException("Details Unavailable");
-                                                                 break;
+                                                                 
                         case System.Net.HttpStatusCode.BadRequest: throw new BusinessException("Invalid Request or a validation error occured");
-                                                                   break;
+                                                                  
                         default: throw new BusinessException("Details Unavailable");
                     }
                 }               
-                               
             }
             return result;
         }
@@ -194,10 +196,8 @@ namespace TCCMarketPlace.Business
                     {
                         case System.Net.HttpStatusCode.NotFound:
                             throw new BusinessException("Record cannot be found");
-                            break;
                         case System.Net.HttpStatusCode.BadRequest:
                             throw new BusinessException("Invalid Request or a validation error occured");
-                            break;
                         default: throw new BusinessException("Internal Server error");
                     }
                 }

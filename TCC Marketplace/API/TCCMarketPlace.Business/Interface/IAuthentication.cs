@@ -10,7 +10,6 @@ namespace TCCMarketPlace.Business.Interface
 {
     public interface IAuthentication : IDisposable
     {
-        Task<string> GetBearerToken();
         Task<LoginResult> ValidateUser(LoginRequest loginRequest);
     }
 }

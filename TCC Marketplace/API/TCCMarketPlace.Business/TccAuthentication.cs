@@ -12,14 +12,15 @@ using TCCMarketPlace.Business.Enum;
 using TCCMarketPlace.Business.Interface;
 using TCCMarketPlace.Model;
 using TCCMarketPlace.Model.TccOAuth;
+using TCCMarketPlace.Cache;
 
 namespace TCCMarketPlace.Business
 {
     internal class TccAuthentication : IAuthentication
     {
-        internal string TccnaBaseAddress => ConfigurationManager.AppSettings["TccnaBaseAddress"];
+        internal string TccnaBaseAddress => ConfigurationManager.AppSettings["TCC.ApiUrl"];
 
-        public async Task<string> GetBearerToken()
+        private async Task<string> GenerateBearerToken()
         {
             //Auth/Oauth/Token
             var body = "grant_type = client_credentials";
@@ -58,12 +59,24 @@ namespace TCCMarketPlace.Business
             return loginResult;
         }
 
+        private async Task<string> GetBearerToken()
+        {
+            string tccnaBearerToken = CacheManager.Instance.GetItem<string>("TccnaBearerToken");
+            if(string.IsNullOrWhiteSpace(tccnaBearerToken))
+            {
+                tccnaBearerToken = await GenerateBearerToken();
+                CacheManager.Instance.PutItem<string>("TccnaBearerToken", tccnaBearerToken, true);
+            }
+            return tccnaBearerToken;
+        }
+
         private string BasicAuthHeader()
         {
-            var authInfo = ConfigurationManager.AppSettings["TccAppId"] + ":" + ConfigurationManager.AppSettings["TccAppSecretKey"];
+            var authInfo = ConfigurationManager.AppSettings["TCC.AppId"] + ":" + ConfigurationManager.AppSettings["TCC.Secret_Key"];
             var byteArray = Encoding.ASCII.GetBytes(authInfo);
             return Convert.ToBase64String(byteArray);
         }
+
 
         public virtual void Dispose()
         {

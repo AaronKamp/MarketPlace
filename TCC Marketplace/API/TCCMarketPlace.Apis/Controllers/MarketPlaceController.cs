@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Security;
 using JWT;
@@ -67,18 +68,6 @@ namespace TCCMarketPlace.Apis.Controllers
             return response;
         }
 
-        [Route("GetDetails/{serviceId}")]
-        public async Task<ApiResponse<Service>> GetDetails(int serviceId  )
-        {
-            ApiResponse<Service> response = new ApiResponse<Service>();
-
-            using (var marketPlace = BusinessFacade.GetMarketPlaceInstance())
-            {
-                response.Data = await marketPlace.GetDetails(CurrentUser, serviceId);
-            }
-
-            return response;
-        }
 
         [Route("GetSlideShowImages/{typeId}")]
         public async Task<ApiResponse<object>> GetSlideShowImages(int typeId)
@@ -92,7 +81,31 @@ namespace TCCMarketPlace.Apis.Controllers
 
             return response;
         }
-       
+
+        [Route("GetDetails/{serviceId}")]
+        public async Task<ApiResponse<Service>> GetDetails(int serviceId)
+        {
+            ApiResponse<Service> response = new ApiResponse<Service>();
+
+            using (var marketPlace = BusinessFacade.GetMarketPlaceInstance())
+            {
+                response.Data = await marketPlace.GetDetails(CurrentUser, serviceId);
+            }
+
+            return response;
+        }
+
+        [Route("IsSubscribed/{serviceId}")]
+        public async Task<ApiResponse<bool>> GetServiceSubscriptionStatus(int serviceId)
+        {
+            ApiResponse<bool> response = new ApiResponse<bool>();
+            using (var marketPlace = BusinessFacade.GetMarketPlaceInstance())
+            {
+                response.Data = await marketPlace.IsServiceSubscribed(CurrentUser, serviceId);
+            }
+            return response;
+        }
+
         [Route("EnableOrDisableService")]
         [HttpPost]
         public async Task<ApiResponse<Service>> EnableOrDisableService([FromBody] Service service)
@@ -143,7 +156,8 @@ namespace TCCMarketPlace.Apis.Controllers
 
         [AllowAnonymous]
         [Route("Login")]
-        [HttpPost]
+        [HttpPost] 
+        [System.Web.Mvc.RequireHttps]
         public async Task<IHttpActionResult> Login([FromBody] LoginRequest login)
         {
             // add code for user authentication
@@ -154,10 +168,22 @@ namespace TCCMarketPlace.Apis.Controllers
             {
                 string hostedurl = ConfigurationManager.AppSettings["MarketPlaceUrl"];
 
+
+                if (HttpContext.Current.Request.Url.Scheme == "https" && hostedurl.Contains("https") == false)
+                {
+                    hostedurl = hostedurl.Replace("http", "https");
+                }
+                else if (HttpContext.Current.Request.Url.Scheme == "http" && hostedurl.Contains("https"))
+                {
+                    hostedurl =  hostedurl.Replace("https", "http");
+                }
+
                 var token = CreateToken(login);
 
-                var landingPageUrl = $"{hostedurl}#/UserAuth/{GetJSonUser(login)}/{token}";
+                var apiBaseUri = HttpUtility.UrlEncode(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + "/api");
 
+                var landingPageUrl = $"{hostedurl}#/UserAuth/{GetJSonUser(login)}/{token}/{apiBaseUri}";
+                
                 var responseData = new LoginResponse
                 {
                     MarketPlaceUrl = landingPageUrl,
@@ -217,9 +243,29 @@ namespace TCCMarketPlace.Apis.Controllers
             ApiResponse<TransactionResponse> response = new ApiResponse<TransactionResponse>();
             using (var marketPlace = BusinessFacade.GetMarketPlaceInstance())
             {
-                var responseData = await marketPlace.CreateInAppPurchaseTransaction(request);
-                response.Data = responseData;
-                response.Status = "SUCCESS";
+                var user = new User
+                {
+                    UserId = request.UserId,
+                    ThermostatId = request.ThermostatId
+                };
+                var serviceDetails = await marketPlace.GetDetails(user, request.ServiceId);
+
+                if (serviceDetails.IsBought)
+                {
+                    var responseData = new TransactionResponse
+                    {
+                        TransactionId = -1,
+                        DetailsUrl = marketPlace.GetDetailsUrl(request.ServiceId, serviceDetails.ServiceTypeId)
+                    };
+                    response.Data = responseData;
+                    response.Status = "SUCCESS";
+                }
+                else
+                {
+                    var responseData = await marketPlace.CreateInAppPurchaseTransaction(request);
+                    response.Data = responseData;
+                    response.Status = "SUCCESS";
+                }
             }
 
             return Ok(response);
@@ -229,7 +275,8 @@ namespace TCCMarketPlace.Apis.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> UpdateInAppPurchaseTransaction([FromBody] UpdateTransactionRequest request)
         {
-            ApiResponse<UpdateTransactionResponse> response = new ApiResponse<UpdateTransactionResponse>();
+
+            ApiResponse<TransactionResponse> response = new ApiResponse<TransactionResponse>();
             using (var marketPlace = BusinessFacade.GetMarketPlaceInstance())
             {
                 var responseData = await marketPlace.UpdateInAppPurchaseTransaction(request);

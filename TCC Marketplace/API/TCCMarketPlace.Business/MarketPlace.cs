@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using TCCMarketPlace.Business.Interface;
 using TCCMarketPlace.Model;
+using TCCMarketPlace.Cache;
 using System.Configuration;
 using System;
 using System.Threading.Tasks;
 using System.Text;
 using System.Web;
 using Newtonsoft.Json;
+using TCCMarketPlace.Model.ExceptionHandlers;
 using System.Linq;
-using System.Web.Security;
-using System.Xml.Linq;
-using System.IO;
+using TCCMarketPlace.Model.Logger;
 
 namespace TCCMarketPlace.Business
 {
@@ -18,14 +18,11 @@ namespace TCCMarketPlace.Business
     {
         private string containerName = string.Empty;
 
-        internal string ServiceUrl => ConfigurationManager.AppSettings["YLM_ServiceUrl"];
+        internal string ServiceUrl => ConfigurationManager.AppSettings["YLM.ApiUrl"];
 
-        internal string APIKey => ConfigurationManager.AppSettings["YLM_APIKey"];
+        internal string APIKey => ConfigurationManager.AppSettings["YLM.Api_Key"];
 
-        internal string EarthApiUrl => ConfigurationManager.AppSettings["EarthNetworkServiceUrl"];
-
-        internal string PartnerName => ConfigurationManager.AppSettings["EarthNetworkPartnerName"];
-
+      
         #region public functions
 
         public async Task<MarketPlaceDetails> GetMarketPlaceList(User currentUser, int typeId, string key)
@@ -102,6 +99,26 @@ namespace TCCMarketPlace.Business
 
         public async Task<string> RemoveService(User currentUser, Service service)
         {
+            if (!string.IsNullOrWhiteSpace(service.ServiceProviderId))
+            {
+                int serviceProviderId;
+                ServiceProvider serviceProvider;
+                if (int.TryParse(service.ServiceProviderId, out serviceProviderId))
+                {
+                    serviceProvider = GetServiceProviderDetails(serviceProviderId);
+                    using (var thirdPartyService = BusinessFacade.GetServiceProviderInstance(serviceProvider))
+                    {
+                        await thirdPartyService.UnEnroll(currentUser, service);
+                    }
+                }
+                else
+                {
+                    var ex = new BusinessException($"ServiceProviderId did not return valid service provider Id for {service.ServiceId},{currentUser.UserId}.");
+                    new Log4NetLogger().Log(ex.Message, ex, LogLevelEnum.Information);
+                }
+                
+            }
+
             var param = JsonConvert.SerializeObject(new
             {
                 userid = currentUser.UserId.ToString(),
@@ -109,8 +126,20 @@ namespace TCCMarketPlace.Business
                 ServiceId = service.ServiceId,
                 Remove = "Y"
             });
+
             var result = await ThirdPartyAPIImplementation.PostValues(GetUrlForUpdateServiceSettings(), param);
             return result;
+        }
+
+        private ServiceProvider GetServiceProviderDetails(int serviceProviderId)
+        {
+            var list = CacheManager.Instance.GetItem<ICollection<ServiceProvider>>("ServiceProviderCollection");
+            if(list == null)
+            {
+                list = ServiceProviderManager.GetServiceProviderList().ToList();
+                CacheManager.Instance.PutItem<ICollection<ServiceProvider>>("ServiceProviderCollection", list, new TimeSpan(0, 5, 0));
+            }
+            return list.Where(p => p.Id == serviceProviderId).FirstOrDefault();
         }
 
         public async Task<string> SaveReportUrl(User currentUser, Service service)
@@ -125,17 +154,6 @@ namespace TCCMarketPlace.Business
 
             var result = await ThirdPartyAPIImplementation.PostValues(GetUrlForUpdateServiceSettings(), param);
             return result;
-        }
-
-        public async Task<bool> UnEnrollFromEarthNetwork(int userId)
-        {
-            var unEnroll = await ThirdPartyAPIImplementation.DeleteValues(GetUrlForUnEnrollEarthNetworkService(userId).ToString());
-
-            var unEnrollResult = JsonConvert.DeserializeObject<DeleteResponse>(unEnroll);
-
-            if (string.Equals(unEnrollResult.Status, "Cancelled"))
-                return true;
-            else return false;
         }
 
         public async Task<string> SubscribeToService(User currentUser, Service service)
@@ -178,19 +196,6 @@ namespace TCCMarketPlace.Business
             return result;
         }
 
-        private async Task<Service> UpdateReportUrl(User currentUser, Service service)
-        {
-            var param = JsonConvert.SerializeObject(new
-            {
-                userid = currentUser.UserId,
-                thermostat_id = service.ThermostatId,
-                ServiceId = service.ServiceId,
-                Reporturl = ""
-            });
-            var result = await ThirdPartyAPIImplementation.PostValues(GetUrlForUpdateServiceSettings(), param);
-            return service;
-        }
-
         public async Task<TransactionResponse> CreateInAppPurchaseTransaction(CreateTransactionRequest request)
         {
             var param = JsonConvert.SerializeObject(new
@@ -204,15 +209,15 @@ namespace TCCMarketPlace.Business
             });
 
             var result = await ThirdPartyAPIImplementation.PostValues(GetUrlForCreateTransaction(), param);
-            var repsonse = JsonConvert.DeserializeObject<CreateTransactionResponse>(result);
+            var response = JsonConvert.DeserializeObject<CreateTransactionResponse>(result);
 
             return new TransactionResponse()
             {
-                TransactionId = Convert.ToInt32(repsonse.Message.Split('=')[1])
+                TransactionId = Convert.ToInt32(response.Message.Split('=')[1])
             };
         }
 
-        public async Task<UpdateTransactionResponse> UpdateInAppPurchaseTransaction(UpdateTransactionRequest request)
+        public async Task<TransactionResponse> UpdateInAppPurchaseTransaction(UpdateTransactionRequest request)
         {
             string subscribeResult = string.Empty;
 
@@ -240,17 +245,32 @@ namespace TCCMarketPlace.Business
                 var result = await ThirdPartyAPIImplementation.PostValues(GetUrlForUpdateTransaction(), param);
             }
 
-            string hostedDetailsurl = ConfigurationManager.AppSettings["MarketPlaceDetailsUrl"];
+            string detailsUrl = GetDetailsUrl(request.ServiceId, serviceDetails.ServiceTypeId);
 
-            string detailsUrl = hostedDetailsurl + request.ServiceId + "/" + serviceDetails.ServiceTypeId + "/" + "All/";
-
-            return new UpdateTransactionResponse()
+            return new TransactionResponse()
             {
                 TransactionId = request.TransactionId,
                 DetailsUrl = detailsUrl
             };
         }
-        
+
+        public string GetDetailsUrl(int serviceId, int serviceTypeId)
+        {
+            string hostedDetailsurl = ConfigurationManager.AppSettings["MarketPlaceDetailsUrl"];
+
+            if (HttpContext.Current.Request.Url.Scheme == "https" && hostedDetailsurl.Contains("https") == false)
+            {
+                hostedDetailsurl = hostedDetailsurl.Replace("http", "https");
+            }
+            else if (HttpContext.Current.Request.Url.Scheme == "http" && hostedDetailsurl.Contains("https"))
+            {
+                hostedDetailsurl = hostedDetailsurl.Replace("https", "http");
+            }
+
+            string detailsUrl = hostedDetailsurl + serviceId + "/" + serviceTypeId + "/" + "All/";
+            return detailsUrl;
+        }
+
         public async Task<TransactionDetailsResponse> GetTransactionDetails(CreateTransactionRequest request)
         {
             var result = await ThirdPartyAPIImplementation.GetValues(GetUrlForTransactionDetails(request.UserId, request.ProductId, request.DeviceType));
@@ -314,7 +334,9 @@ namespace TCCMarketPlace.Business
         {
             var result = await ThirdPartyAPIImplementation.GetValues(GetUrlForServiceDetails(currentUser, serviceId));
             YLMService details = JsonConvert.DeserializeObject<YLMService>(result);
-            return new Service()
+           //details.Service_Provider = "1";
+           // details.Url = "http://stg.consumer.weatherbughome.enqa.co/";
+            var service = new Service()
             {
                 Title = details.Service_Title,
                 Description = details.Service_Short_Desc,
@@ -323,22 +345,24 @@ namespace TCCMarketPlace.Business
                 ServiceTypeId = details.Service_Type_Id,
                 IsBought = details.Signup_Status == "Y" ? true : false,
                 ReportUrl = details.Signup_Status == "Y" ? HttpUtility.UrlEncode(details.Report_Url) : "",
-                SignUpUrl = HttpUtility.UrlEncode(string.Format("{0}?UserID={1}&UserName={2}&ServiceID={3}&ThermostatID={4}&LocationID={5}&MacID={6}&PartnerPromoCode={7}",
-                            details.Url, currentUser.UserId, currentUser.UserName, details.Service_Id, currentUser.ThermostatId, currentUser.LocationId, currentUser.MacID, details.Partner_Promo_Code)),
+                SignUpUrl = HttpUtility.UrlEncode(string.Format("{0}?progid={1}&partneruid={2}&partnerdevid={3}&serviceID={4}&thermostatId={5}&locationId={6}",
+                            details.Url, details.Partner_Promo_Code, currentUser.UserId, currentUser.MacID, details.Service_Id, currentUser.ThermostatId, currentUser.LocationId)),
                 IsEnabled = details.Serv_Enable == "Y" ? true : false,
                 Price = details.Purchase_Price,
                 ProductId = details.Inapp_Purchase_Id,
-                ThermostatId = currentUser.ThermostatId
+                PartnerPromoCode =details.Partner_Promo_Code,
+                ThermostatId = currentUser.ThermostatId,
+                ServiceProviderId = details.Service_Provider
             };
+            return service;
         }
-
-        //private async Task<bool> IsServiceSubscribed(User currentUser, int serviceId)
-        //{
-        //    var typeId = 1;
-        //    var service = await GetServiceDetails(currentUser, serviceId, typeId);
-        //    return service.IsBought;
-        //}
-
+        public async Task<bool> IsServiceSubscribed(User currentUser, int serviceId)
+        {
+            var result = await ThirdPartyAPIImplementation.GetValues(GetUrlForServiceDetails(currentUser, serviceId));
+            YLMService details = JsonConvert.DeserializeObject<YLMService>(result);
+            bool isBought = details.Signup_Status == "Y" ? true : false;
+            return isBought;
+        }
         private async Task<TransactionDetailsResponse> GetTransaction(int transactionId)
         {
             var result = await ThirdPartyAPIImplementation.GetValues(GetUrlForReadTransacion(transactionId));
@@ -431,69 +455,7 @@ namespace TCCMarketPlace.Business
 
         }
 
-        private async Task<string> GetUrlForUnEnrollEarthNetworkService(int userId)
-        {
-            string accessToken = await GetToken("EarthNetwork");
-            StringBuilder strQueryParams = new StringBuilder();
-            strQueryParams.Append(EarthApiUrl + "weatherbughome-staging/api/enroll?");
-            strQueryParams.Append(string.Format("{0}={1}", HttpUtility.UrlEncode("partnerName"), HttpUtility.UrlEncode(PartnerName) + "&"));
-            strQueryParams.Append(string.Format("{0}={1}", HttpUtility.UrlEncode("customerIds"), HttpUtility.UrlEncode(userId.ToString()) + "&"));
-            strQueryParams.Append(string.Format("{0}={1}", HttpUtility.UrlEncode("access_token"), HttpUtility.UrlEncode(accessToken)));
-            return strQueryParams.ToString();
-        }
-
-        private string GetUrlForAccessToken()
-        {
-            var consumerKey = ConfigurationManager.AppSettings["Consumer_Key"];
-            var secretKey = ConfigurationManager.AppSettings["Secret_Key"];
-            StringBuilder strQueryParams = new StringBuilder();
-            strQueryParams.Append(EarthApiUrl + "oauth20/token?");
-            strQueryParams.Append(string.Format("{0}={1}", HttpUtility.UrlEncode("client_Id"), HttpUtility.UrlEncode(consumerKey) + "&"));
-            strQueryParams.Append(string.Format("{0}={1}", HttpUtility.UrlEncode("client_secret"), HttpUtility.UrlEncode(secretKey) + "&"));
-            strQueryParams.Append(string.Format("{0}={1}", HttpUtility.UrlEncode("grant_type"), HttpUtility.UrlEncode("client_credentials")));
-            return strQueryParams.ToString();
-        }
-
-        private async Task<string> GetToken(string providerName)
-        {
-            XDocument document = new XDocument();
-
-            if (!File.Exists(HttpContext.Current.Server.MapPath("~/XML/AccessToken.xml")))
-            {
-                document.Add(new XElement("TokenData"));
-                document.Save(HttpContext.Current.Server.MapPath("~/XML/AccessToken.xml"));
-            }
-
-            document = XDocument.Load(HttpContext.Current.Server.MapPath("~/XML/AccessToken.xml"));
-            XElement rootElement = document.Descendants("TokenData").FirstOrDefault();
-            var token = from providers in rootElement.Descendants("ServiceProvider")
-                                .Where(providers => string.Equals((string)providers.Attribute("Name"), providerName, StringComparison.OrdinalIgnoreCase))
-                        select providers.Element("Token").Value;
-
-            if (token != null && token.Any())
-            {
-                return token.FirstOrDefault();
-            }
-            else
-            {
-                var providerToken = await GetTokenFromAPI(providerName);
-
-                rootElement.Add(new XElement("ServiceProvider",
-                                            new XAttribute("Name", providerName),
-                                            new XElement("Token", providerToken)));
-                document.Save(HttpContext.Current.Server.MapPath("~/XML/AccessToken.xml"));
-                return providerToken;
-            }
-
-
-        }
-
-        private async Task<string> GetTokenFromAPI(string providerName)
-        {
-            var result = await ThirdPartyAPIImplementation.GetValues(GetUrlForAccessToken());
-            var response = JsonConvert.DeserializeObject<EarthNetworkTokenResponse>(result);
-            return response.OAuth.AccessToken.Token;
-        }
+        
 
         private string GetUrlForUpdateServiceSettings()
         {
@@ -535,7 +497,6 @@ namespace TCCMarketPlace.Business
         }
 
         #endregion
-
         public virtual void Dispose()
         {
         }

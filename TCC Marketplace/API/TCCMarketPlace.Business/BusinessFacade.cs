@@ -1,4 +1,5 @@
 ﻿using TCCMarketPlace.Business.Interface;
+using TCCMarketPlace.Model;
 
 namespace TCCMarketPlace.Business
 {
@@ -13,5 +14,11 @@ namespace TCCMarketPlace.Business
         {
             return new TccAuthentication();
         }
+
+        public static IThirdPartyService GetServiceProviderInstance(ServiceProvider serviceProvider)
+        {
+            return new ThirdPartyService(serviceProvider);
+        }
+       
     }
 }

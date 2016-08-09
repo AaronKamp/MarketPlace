@@ -11,10 +11,11 @@
         public bool IsEnabled { get; set; }
         public string ReportUrl { get; set; }
         public string SignUpUrl { get; set; }
-        public string ApiUrl { get; set; }
+        public string ServiceProviderId { get; set; }
         public decimal Price { get; set; }
         public string ProductId { get; set; }
         public int ThermostatId { get; set; }
+        public string PartnerPromoCode { get; set; }
         public bool IsDisableApiAvailable { get; set; }
     }
 }

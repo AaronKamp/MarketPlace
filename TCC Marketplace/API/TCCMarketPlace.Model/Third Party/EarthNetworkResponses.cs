@@ -35,5 +35,6 @@ namespace TCCMarketPlace.Model
         public int ErrorId { get; set; }
         public string Message { get; set; }
         public string CustomerId { get; set; }
+        public string DeviceId { get; set; }
     }
 }
