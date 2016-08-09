@@ -1,0 +1,66 @@
+﻿@model Marketplace.Admin.ViewModels.ServiceProviderViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="batchexport">
+    <h2>Service Provider</h2>
+    <div class="edit-wrap">
+        @using (Html.BeginForm("Save", "ServiceProvider", FormMethod.Post, new { @id= "srv-providerform" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @if (ViewData.ModelState.IsValidField("Name"))
+                {
+                    <div id="list-srvProviderName" class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-6 select-style" style="width:300px;margin-left:15px;">
+                            @Html.DropDownList("ProviderList", null, "Select Service Provider")
+                        </div>
+                        <div class="col-md-4">
+                            <button id="new-srvProvider" type="button" class="btn"><img src="~/Content/images/add_new.png" /></button>
+                        </div>
+                    </div>
+                                                                                                                                                                               
+                    <div id="txt-srvProviderName" class="form-group hide">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div id="txt-srvProviderName" class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                }
+                <div id="details-container">
+                    @Html.Partial("_Edit", @Model)
+                </div>
+                <div class="form-group MB-20">
+                    <div class="col-md-offset-4 col-md-6 MB-20">
+                        <input id="Save" type="submit" value="Save" class="btn" />
+                        <a href="/ServiceProvider/Index">
+                            <input id="reset-btn" type="button" value="Cancel" class="btn" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/serviceProvider")
+}

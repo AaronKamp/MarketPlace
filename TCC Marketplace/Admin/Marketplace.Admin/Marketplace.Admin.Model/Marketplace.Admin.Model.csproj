@@ -65,6 +65,7 @@
     <Compile Include="Model\Frequency.cs" />
     <Compile Include="Model\Product.cs" />
     <Compile Include="Model\ProductCategory.cs" />
+    <Compile Include="Model\ImageQueue.cs" />
     <Compile Include="Model\ServiceProduct.cs" />
     <Compile Include="Model\ServiceSCF.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

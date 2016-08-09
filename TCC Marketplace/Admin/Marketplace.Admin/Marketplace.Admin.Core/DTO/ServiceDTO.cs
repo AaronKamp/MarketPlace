@@ -32,7 +32,7 @@ namespace Marketplace.Admin.Core.DTO
         public string InAppPurchaseId { get; set; }
         public decimal PurchasePrice { get; set; }
         public bool ServiceStatusAPIAvailable { get; set; }
-        public string ThirdPartyAPI { get; set; }
+        public string ServiceProviderId { get; set; }
 
         public List<int> Locations {
             get

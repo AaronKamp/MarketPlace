@@ -38,6 +38,7 @@ namespace Marketplace.Admin.Data
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<ServicesView> ServicesViews { get; set; }
         public virtual DbSet<ConfigurationSettings> ConfigurationSettings { get; set; }
+        public virtual DbSet<ImageQueue> ScheduledItems { get; set;}
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -236,6 +237,18 @@ namespace Marketplace.Admin.Data
             modelBuilder.Entity<ServicesView>()
                 .Property(e => e.ZipCodes)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<ImageQueue>()
+                .HasKey(e => e.Id);
+
+            modelBuilder.Entity<ImageQueue>()
+                .Property(e => e.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
+            modelBuilder.Entity<ImageQueue>()
+                .Property(e => e.IsDeleted)
+                .HasColumnType("bit");
+        
         }
 
     }

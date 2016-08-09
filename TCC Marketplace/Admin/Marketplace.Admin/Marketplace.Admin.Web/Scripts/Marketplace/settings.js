@@ -61,22 +61,22 @@ $(function () {
     var validateForm = function(){
         var form = $("#settingsForm");
         var isValid = true;
-            if ($("#emailPwdField").is(":visible")) {
-                if ($("#emailPwdField input").val() == "") {
-                    $("#emailPwdField span").html("Enter from email password");
-                    isValid = false;
-                }
+        if ($("#emailPwdField").is(":visible")) {
+            if ($("#emailPwdField input").val() == "") {
+                $("#emailPwdField span").html("Enter from email password");
+                isValid = false;
             }
-            if ($("#sshPwdField").is(":visible") && $("#is-password-protected").is(":checked")) {
-                if ($("#sshPwdField input").val() == "") {
-                    $("#sshPwdField span").html("Enter from email password");
-                    isValid = false;
-                }
+        }
+        if ($("#sshPwdField").is(":visible") && $("#is-password-protected").is(":checked")) {
+            if ($("#sshPwdField input").val() == "") {
+                $("#sshPwdField span").html("Enter SSH key password");
+                isValid = false;
             }
-            form.valid();
-            if (isValid)
-                return true;
-            else return false;
+        }
+        form.valid();
+        if (isValid)
+            return true;
+        else return false;
     }
 
 

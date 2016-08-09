@@ -44,11 +44,11 @@ VALUES
 INSERT INTO [Frequency]
 	([Name],[CronExpression])
 VALUES
-	('2 hours','0 0 1/2 * * *'),
-	('8 hours','0 0 1/8 * * *'),
-	('1 day','0 0 0 1/1 * *'),
-	('5 days','0 0 0 1/5 * *'),
-	('7 days','0 0 0 1/7 * *');
+	('2 hours','0 0 0/2 * * *'),
+	('8 hours','0 0 0/8 * * *'),
+	('1 day','0 0 0 */1 * *'),
+	('5 days','0 0 0 */5 * *'),
+	('7 days','0 0 0 */7 * *');
 
 INSERT INTO [dbo].[AspNetUsers] ([Email], [EmailConfirmed], [PasswordHash], [SecurityStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEndDateUtc], [LockoutEnabled], [AccessFailedCount], [UserName],[CreatedDate],[UpdatedDate] )
 	VALUES (N'Administrator@email.em', CAST ('False' AS bit), N'AMEzGt6400O9MyfmZH8z7ZfTlAxnOj12GaSPUWZCObKuIyHlVTiy42rgbTkId+kWKA==', N'414f53ae-576e-4608-b43c-d2ada3cc570a', NULL, CAST ('False' AS bit), CAST ('False' AS bit), NULL, CAST ('False' AS bit), 0, N'Administrator',getdate(),getdate() );

@@ -48,7 +48,6 @@ namespace Marketplace.Admin.Model
         [StringLength(255)]
         public string IconImage { get; set; }
 
-        [Required]
         [StringLength(255)]
         public string SliderImage { get; set; }
 
@@ -78,7 +77,7 @@ namespace Marketplace.Admin.Model
 
         public decimal PurchasePrice { get; set; }
 
-        public string ThirdPartyAPI { get; set; }
+        public string ServiceProviderId { get; set; }
 
         public bool ServiceStatusAPIAvailable { get; set; }
 

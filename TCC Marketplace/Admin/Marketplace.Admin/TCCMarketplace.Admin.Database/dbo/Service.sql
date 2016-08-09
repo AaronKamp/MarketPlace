@@ -10,7 +10,7 @@
     [PartnerPromoCode]          VARCHAR (255)   NULL,
     [IsActive]                  BIT             NOT NULL,
     [IconImage]                 VARCHAR (255)   NOT NULL,
-    [SliderImage]               VARCHAR (255)   NOT NULL,
+    [SliderImage]               VARCHAR (255)   NULL,
     [CustomField1]              VARCHAR (255)   NULL,
     [CustomField2]              VARCHAR (255)   NULL,
     [CustomField3]              VARCHAR (255)   NULL,
@@ -24,7 +24,7 @@
     [ServiceStatusAPIAvailable] BIT             DEFAULT ((0)) NOT NULL,
     [ZipCodes]                  VARCHAR (2000)  NULL,
     [DisableAPIAvailable]       BIT             DEFAULT ((0)) NOT NULL,
-    [ThirdPartyAPI]             VARCHAR (256)   NULL,
+    [ServiceProviderId]             VARCHAR (256)   NULL,
     CONSTRAINT [PK_Service_Id] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Service_ServiceType_ServiceTypeId] FOREIGN KEY ([ServiceTypeId]) REFERENCES [dbo].[ServiceType] ([Id])
 );

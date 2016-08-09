@@ -46,12 +46,17 @@
                     @Html.DropDownList("ServiceTypeId", null, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.ServiceTypeId, "", new { @class = "text-danger" })
                 </div>
-                <div class="clear"></div>
+                <div class="clear">
+                    
+                </div>
+                @Html.HiddenFor(model => model.SliderImage)
                 <div class="file_top_space">
                     <input type="file" name="sliderFile" id="sliderFile" class="inputfile" />
                     <label for="sliderFile" class="btn">Change slide</label>
-                    @Html.TextBoxFor(x => x.SliderImage, new { @style = "visibility:hidden" })
+                    <input type="button" id="deleteSlider" class="btn" value="Remove slide">
+                    @Html.TextBoxFor(x => x.SliderImage, new { @style = "display:none" })
                     <br />    @Html.ValidationMessageFor(model => model.SliderImage, "", new { @class = "text-danger" })
+
                 </div>
             </div>
         </div>
@@ -107,11 +112,17 @@
                     <label>Make live</label>
                     &nbsp; &nbsp;  @Html.RadioButtonFor(model => model.MakeLive, "True")
                     &nbsp;  Yes &nbsp; &nbsp;
-                    @Html.RadioButtonFor(model => model.MakeLive, "False", new { @class = "ML-20", @checked = "checked" })
+                    @if (Model != null && Model.Id > 0)
+                    {
+                        @Html.RadioButtonFor(model => model.MakeLive, "False", new { @class = "ML-20" })
+                    }
+                    else
+                    {
+                        @Html.RadioButtonFor(model => model.MakeLive, "False", new { @class = "ML-20", @checked = true })
+                    }
                     &nbsp;  No
                 </div>
             </div>
-
 
             <div class="row">
                 <div class="lft_field pull-left">
@@ -124,15 +135,30 @@
                         <label>Disable service API available</label>
                         &nbsp; &nbsp; @Html.RadioButtonFor(model => model.DisableAPIAvailable, "True")
                         &nbsp; Yes &nbsp; &nbsp;
-                        @Html.RadioButtonFor(model => model.DisableAPIAvailable, "False", new { @class = "ML-20", @checked = "checked" })
+                        @if (Model != null && Model.Id > 0)
+                        {
+                            @Html.RadioButtonFor(model => model.DisableAPIAvailable, "False", new { @class = "ML-20" })
+                        }
+                        else
+                        {
+                            @Html.RadioButtonFor(model => model.DisableAPIAvailable, "False", new { @class = "ML-20", @checked = "checked" })
+                        }
+
                         &nbsp; No
                     </div>
                 </div>
+
                 <div class="rht_field pull-right">
                     <label>Service status API available</label>
                     &nbsp; &nbsp; @Html.RadioButtonFor(model => model.ServiceStatusAPIAvailable, "True")
                     &nbsp; Yes &nbsp; &nbsp;
-                    @Html.RadioButtonFor(model => model.ServiceStatusAPIAvailable, "False", new { @class = "ML-20", @checked = "checked" })
+                    @if (Model != null && Model.Id > 0)
+                    {
+                        @Html.RadioButtonFor(model => model.ServiceStatusAPIAvailable, "False", new { @class = "ML-20" })
+                    }
+                    else {
+                        @Html.RadioButtonFor(model => model.ServiceStatusAPIAvailable, "False", new { @class = "ML-20", @checked = "checked" })
+                    }
                     &nbsp; No
                 </div>
             </div>
@@ -174,9 +200,20 @@
                 </div>
                 <div class="rht_field pull-right">
                     <label>Price</label>
-                    @Html.EditorFor(model => model.PurchasePrice, new { htmlAttributes= new { @type = "number" } })
+                    @Html.EditorFor(model => model.PurchasePrice, new { htmlAttributes = new { @type = "number" } })
                     <br />  @Html.ValidationMessageFor(model => model.PurchasePrice, "", new { @class = "text-danger" })
                 </div>
+            </div>
+            <div class="row">
+                <div class="lft_field pull-left">
+                    <label>Service Provider</label>
+                    <div class="select-style" style="width:300px;">
+                        @Html.DropDownListFor(model => model.ServiceProviderId, (SelectList)ViewBag.ServiceProviderNameList, "Service Provider")
+                    </div>
+
+                    <br /> @Html.ValidationMessageFor(model => model.ServiceProviderId, "", new { @class = "text-danger" })
+                </div>
+                <div class="rht_field pull-right"></div>
             </div>
             <div class="row">
                 <div class="lft_field pull-left">
@@ -186,26 +223,18 @@
                 </div>
                 <div class="rht_field pull-right"></div>
             </div>
-            <div class="row">
-                <div class="lft_field pull-left">
-                    <label>Third party API URL</label>
-                    @Html.EditorFor(model => model.ThirdPartyAPI)
-
-                    <br /> @Html.ValidationMessageFor(model => model.ThirdPartyAPI, "", new { @class = "text-danger" })
-                </div>
-                <div class="rht_field pull-right"></div>
-            </div>
+            
             <div class="row">
                 <h3>Location</h3>
                 <div class="srv-list pull-left">
                     <div class="srv-scroll mCustomScrollbar">
                         <table id="tblLocation" style="width:100%" border="0" cellspacing="0" cellpadding="0">
                             <thead>
-                                <th align="center" width="15%">Country</th>
-                                <th align="center" width="20%">State</th>
-                                <th align="center" width="49%">SCF</th>
-                                <th align="center" width="8%">&nbsp;</th>
-                                <th align="center" width="8%">&nbsp;</th>
+                            <th align="center" width="15%">Country</th>
+                            <th align="center" width="20%">State</th>
+                            <th align="center" width="49%">SCF</th>
+                            <th align="center" width="8%">&nbsp;</th>
+                            <th align="center" width="8%">&nbsp;</th>
                             </thead>
                             <tbody>
                                 @if (Model != null && Model.Locations != null)
@@ -216,7 +245,9 @@
                                             <input type='hidden' value='@Json.Encode(loc)' name='Location' />
                                             <td>@loc.CountryName</td>
                                             <td>@loc.StateName</td>
-                                            <td><span class="trim-column" style="width:250px">@loc.SCFNames
+                                            <td>
+                                                <span class="trim-column" style="width:250px">
+                                                    @loc.SCFNames
                                                 </span>
                                             </td>
                                             <td align="center"><a href="#" name="editLocation"><img src="/Content/images/edit.png"></a></td>
@@ -241,7 +272,7 @@
                                         @Html.DropDownList("CountryList", null, "Country")
                                     </div>
                                     <input type="checkbox" name="chkAllCountries" value="" id="chkAllCountries" /> All countries
-                                    
+
                                 </div>
                                 <div class="srv_pops pull-right MB-20">
                                     <label>State</label>
@@ -251,7 +282,7 @@
                                         </select>
                                     </div>
                                     <input type="checkbox" name="chkAllStates" value="" id="chkAllStates" /> All states
-                                </div>                                
+                                </div>
                             </div>
                             <div class="srv-list pull-left ad-location MB-20">
                                 <div class="srv-scroll mCustomScrollbar ">
@@ -292,7 +323,8 @@
                                         <td>
                                             @prod.CategoryName
                                         </td>
-                                        <td><span class="trim-column" style="width:325px">
+                                        <td>
+                                            <span class="trim-column" style="width:325px">
                                                 @prod.ProductNames
                                             </span>
                                         </td>
@@ -320,11 +352,11 @@
                                         <div class="pull-left ad-product-data" id="dvProducts">
                                         </div>
                                     </div>
-                                </div>                                
+                                </div>
                             </div>
 
                         </div>
-                        <div class="MT-30"><input type="button" class="btn" name="" id="btnAddProduct" value="Add"/></div>
+                        <div class="MT-30"><input type="button" class="btn" name="" id="btnAddProduct" value="Add" /></div>
                     </div>
                 </div>
             </div>

@@ -14,15 +14,17 @@ namespace Marketplace.Admin.Business
         private readonly IServiceTypeRepository _serviceTypeRepository;
         private readonly IServiceProductRepository _serviceProductRepository;
         private readonly IUnitOfWork _unitOfWork;
-
+        private readonly IImageQueueRepository _imageQueue;
         public ServiceManager(IServiceRepository serviceRepository,
                                     IServiceTypeRepository serviceTypeRepository,
                                     IServiceProductRepository serviceProductRepository,
+                                    IImageQueueRepository imageQueue,
                                     IUnitOfWork unitOfWork)
         {
             _serviceRepository = serviceRepository;
             _serviceTypeRepository = serviceTypeRepository;
             _serviceProductRepository = serviceProductRepository;
+            _imageQueue = imageQueue;
             _unitOfWork = unitOfWork;
         }
 
@@ -91,7 +93,7 @@ namespace Marketplace.Admin.Business
             serviceDataModel.MakeLive = serviceDto.MakeLive;
             serviceDataModel.StartDate = serviceDto.StartDate;
             serviceDataModel.EndDate = serviceDto.EndDate;
-            serviceDataModel.ThirdPartyAPI = serviceDto.ThirdPartyAPI;
+            serviceDataModel.ServiceProviderId = serviceDto.ServiceProviderId;
             serviceDataModel.PartnerPromoCode = serviceDto.PartnerPromoCode;
             serviceDataModel.PurchasePrice = serviceDto.PurchasePrice;
             serviceDataModel.URL = serviceDto.URL;
@@ -99,14 +101,29 @@ namespace Marketplace.Admin.Business
             serviceDataModel.ZipCodes = serviceDto.ZipCodes;
             serviceDataModel.DisableAPIAvailable = serviceDto.DisableAPIAvailable;
             serviceDataModel.IconImage = serviceDto.IconImage ?? serviceDataModel.IconImage;
-            serviceDataModel.SliderImage = serviceDto.SliderImage ?? serviceDataModel.SliderImage;
+            if (serviceDto.SliderImage != serviceDataModel.SliderImage)
+            {
+                if (serviceDataModel.SliderImage != null)
+                    QueueImageForDelete(serviceDataModel.SliderImage, serviceDto.UpdatedUser);
+
+                serviceDataModel.SliderImage = serviceDto.SliderImage;
+            }
             serviceDataModel.UpdatedDate = DateTime.Now;
-            
 
             ManageProducts(serviceDto, serviceDataModel);
             ManageScFs(serviceDto, serviceDataModel);
         }
 
+        private void QueueImageForDelete(string existingImageUrl, string deletedUser)
+        {
+            _imageQueue.Add(new ImageQueue
+            {
+                ImageUrl = existingImageUrl,
+                DeletedUser = deletedUser,
+                ActualDeletedDate = DateTime.Now,
+                PurgedDate = null
+            });
+        }
         private void ManageProducts(ServiceDTO serviceDto, Model.Service existingService)
         {
             if (existingService.ServiceProducts == null)
@@ -116,7 +133,9 @@ namespace Marketplace.Admin.Business
 
             var updatedProducts = serviceDto.Products.Select(p => new ServiceProduct
             {
-                ProductId = p, Product = new Product {Id = p}, ServiceId = existingService.Id
+                ProductId = p,
+                Product = new Product { Id = p },
+                ServiceId = existingService.Id
             }).ToList();
 
             var deletedProducts = existingProducts.Where(p1 => updatedProducts.All(p2 => p2.ProductId != p1.ProductId));
@@ -140,7 +159,7 @@ namespace Marketplace.Admin.Business
 
             var existingScFs = existingService.SCFs.ToList();
 
-            var updatedScFs = serviceDto.Locations.Select(scfId => new SCF {Id = scfId}).ToList();
+            var updatedScFs = serviceDto.Locations.Select(scfId => new SCF { Id = scfId }).ToList();
 
 
             var deletedScFs = existingScFs.Where(s1 => updatedScFs.All(s2 => s2.Id != s1.Id));

@@ -40,6 +40,21 @@ function showAjaxLoader() {
     loaderDiv.show();
 }
 
+function showResponseMessage(text)
+{
+    var responseDiv = $("#response-message-container");
+    responseDiv.html(text);
+    responseDiv.addClass("alert-success").show();
+    //setTimeout(function () {
+    //    responseDiv.hide();
+    //    responseDiv.empty();
+    //},1500)
+    setTimeout(
+    $("#response-message-container").hide('slow', function () { responseDiv.empty(); }), 1500);
+
+
+}
+
 function hideAjaxLoader() {
     //hide ajax loader div tag, if present
     $("#__AjaxLoader").hide();

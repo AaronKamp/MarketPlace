@@ -51,7 +51,6 @@ namespace Marketplace.Admin.ViewModels
         [DisplayName("Icon image")]
         public string IconImage { get; set; }
 
-        [Required(ErrorMessage = "Please select a slider image")]
         [DisplayName("Slider image")]
         public string SliderImage { get; set; }
 
@@ -81,9 +80,9 @@ namespace Marketplace.Admin.ViewModels
         [DisplayName("Service status API available")]
         public bool ServiceStatusAPIAvailable { get; set; }
 
-        [Url]
-        [DisplayName("Third party API URL")]
-        public string ThirdPartyAPI { get; set; }
+        [Required]
+        [DisplayName("Service Provider Name")]
+        public string ServiceProviderId { get; set; }
 
         [DisplayName("Service Locations")]
         public List<LocationViewModel> Locations { get; set; }

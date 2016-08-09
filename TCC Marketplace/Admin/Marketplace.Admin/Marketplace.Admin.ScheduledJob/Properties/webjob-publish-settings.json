@@ -1,0 +1,9 @@
+﻿{
+  "$schema": "http://schemastore.org/schemas/json/webjob-publish-settings.json",
+  "webJobName": "MarketplaceAdminScheduledJobs",
+  "startTime": "2016-08-05T00:00:00+05:30",
+  "endTime": null,
+  "jobRecurrenceFrequency": "Week",
+  "interval": 1,
+  "runMode": "OnDemand"
+}

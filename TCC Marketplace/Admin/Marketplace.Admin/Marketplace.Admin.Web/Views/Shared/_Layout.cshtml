@@ -6,6 +6,7 @@
     <title>TCC Marketplace</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap", "~/bundles/site")
 </head>
 <body>
     <div class="outerwrap">
@@ -13,6 +14,7 @@
             <ul>
                 <li class="addnew"> @Html.ActionLink("Add New", "Create", "Services")</li>
                 <li class="services">@Html.ActionLink("Services", "Index", "Services")</li>
+                <li class="service-provider">@Html.ActionLink("Service Provider","Index","ServiceProvider")</li>
                 <li class="schedule">@Html.ActionLink("Batch Export Job", "Index", "Export")</li>
                 <li class="user">@Html.ActionLink("User", "Index", "User")</li>
                 <li class="settings">@Html.ActionLink("Settings","Index","Settings")</li>
@@ -23,6 +25,13 @@
             <div class="logo-innerpage" align="right">
                 <img src="~/Content/images/honeywell-logo.png" width="150">
             </div>
+            @*@if(TempData["ResponseMessage"] != null)
+            {               
+                var resp = TempData["ResponseMessage"];
+                <div id="response-message-container" class="alert">
+                </div>
+                <script>showResponseMessage('@resp');</script>
+            }*@
             @RenderBody()
         </div>
 
@@ -33,7 +42,7 @@
         &copy; Copy right 2016 all rights reserved
     </footer>
 
-    @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap", "~/bundles/site")
+    
     @Scripts.Render("~/bundles/jqueryval");
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
     @RenderSection("scripts", required: false)

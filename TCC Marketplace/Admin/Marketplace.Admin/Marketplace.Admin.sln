@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "Logger\Logger.csp
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "TCCMarketplace.Admin.Database", "TCCMarketplace.Admin.Database\TCCMarketplace.Admin.Database.sqlproj", "{E803071B-F32B-4C10-B992-5B043949A9A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketplace.Admin.ScheduledJob", "Marketplace.Admin.ScheduledJob\Marketplace.Admin.ScheduledJob.csproj", "{44C5B411-171F-4A13-A6AC-7DB659BBD905}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,12 +117,20 @@ Global
 		{E803071B-F32B-4C10-B992-5B043949A9A7}.Release|x86.ActiveCfg = Release|Any CPU
 		{E803071B-F32B-4C10-B992-5B043949A9A7}.Release|x86.Build.0 = Release|Any CPU
 		{E803071B-F32B-4C10-B992-5B043949A9A7}.Release|x86.Deploy.0 = Release|Any CPU
+		{44C5B411-171F-4A13-A6AC-7DB659BBD905}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44C5B411-171F-4A13-A6AC-7DB659BBD905}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44C5B411-171F-4A13-A6AC-7DB659BBD905}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{44C5B411-171F-4A13-A6AC-7DB659BBD905}.Debug|x86.Build.0 = Debug|Any CPU
+		{44C5B411-171F-4A13-A6AC-7DB659BBD905}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44C5B411-171F-4A13-A6AC-7DB659BBD905}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44C5B411-171F-4A13-A6AC-7DB659BBD905}.Release|x86.ActiveCfg = Release|Any CPU
+		{44C5B411-171F-4A13-A6AC-7DB659BBD905}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 11
+		SccNumberOfProjects = 12
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://61.12.76.170:7777/tfs/defaultcollection
 		SccLocalPath0 = .
@@ -154,5 +164,8 @@ Global
 		SccProjectUniqueName10 = Marketplace.Admin.Business\\Marketplace.Admin.Business.csproj
 		SccProjectName10 = Marketplace.Admin.Business
 		SccLocalPath10 = Marketplace.Admin.Business
+		SccProjectUniqueName11 = Marketplace.Admin.ScheduledJob\\Marketplace.Admin.ScheduledJob.csproj
+		SccProjectName11 = Marketplace.Admin.ScheduledJob
+		SccLocalPath11 = Marketplace.Admin.ScheduledJob
 	EndGlobalSection
 EndGlobal

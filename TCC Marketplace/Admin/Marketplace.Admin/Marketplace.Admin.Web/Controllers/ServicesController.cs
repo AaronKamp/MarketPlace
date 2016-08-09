@@ -14,13 +14,16 @@ using System.Configuration;
 using Marketplace.Admin.Business;
 using Marketplace.Admin.Core.DTO;
 using Marketplace.Admin.ViewModels;
+using Marketplace.Admin.Enums;
+using Marketplace.Admin.Utils;
+using System.Collections;
 
 namespace Marketplace.Admin.Controllers
 {
     [Authorize]
     public class ServicesController : Controller
     {
-
+        private const string imageDirectory = "images";
         private readonly IServiceManager _serviceManager;
         private readonly ILocationManager _locationManager;
         private readonly IProductManager _productManager;
@@ -77,10 +80,14 @@ namespace Marketplace.Admin.Controllers
         public ActionResult Create()
         {
             ViewBag.CountryList = GetCountries();
+            ViewBag.ServiceProviderNameList = GetServiceProviderNameList();
             ViewBag.ProductCategories = new SelectList(_productManager.GetProductCategories(), "Id", "Name");
             ViewBag.ServiceTypeId = new SelectList(_serviceManager.GetServiceTypes(), "Id", "Description");
             return View();
         }
+
+      
+
 
         // POST: Services/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -113,6 +120,7 @@ namespace Marketplace.Admin.Controllers
             }
 
             ViewBag.CountryList = GetCountries();
+            ViewBag.ServiceProviderNameList = GetServiceProviderNameList();
             ViewBag.ProductCategories = new SelectList(_productManager.GetProductCategories(), "Id", "Name");
             ViewBag.ServiceTypeId = new SelectList(_serviceManager.GetServiceTypes(), "Id", "Description", serviceViewModel.ServiceTypeId);
             return View(serviceViewModel);
@@ -160,7 +168,7 @@ namespace Marketplace.Admin.Controllers
                 MakeLive = serviceViewModel.MakeLive,
                 StartDate = serviceViewModel.StartDate,
                 EndDate = serviceViewModel.EndDate.AddHours(23).AddMinutes(59).AddSeconds(59),
-                ThirdPartyAPI = serviceViewModel.ThirdPartyAPI,
+                ServiceProviderId = serviceViewModel.ServiceProviderId,
                 PartnerPromoCode = serviceViewModel.PartnerPromoCode,
                 PurchasePrice = serviceViewModel.PurchasePrice,
                 URL = serviceViewModel.URL,
@@ -191,7 +199,7 @@ namespace Marketplace.Admin.Controllers
                 if (img.Width > 130 || img.Height > 130)
                     img.Resize(130, 130, true, false);
 
-                var blob = CreateCloudBlob(iconFile);
+                var blob = CreateCloudBlob(iconFile,ImageType.Icon);
                 blob.Properties.ContentType = iconFile.ContentType;
                 blob.UploadByteArray(img.GetBytes());
 
@@ -204,21 +212,24 @@ namespace Marketplace.Admin.Controllers
                 if (sliderImage.Width > 620 || sliderImage.Height > 250)
                     sliderImage.Resize(620, 250, true, false);
 
-                var blob = CreateCloudBlob(sliderFile);
+                var blob = CreateCloudBlob(sliderFile,ImageType.Slider);
                 blob.Properties.ContentType = sliderFile.ContentType;
                 blob.UploadByteArray(sliderImage.GetBytes());
 
                 serviceDto.SliderImage = blob.Uri.ToString();
             }
-
+            else if(serviceViewModel.SliderImage !=null)
+            {
+                serviceDto.SliderImage = serviceViewModel.SliderImage;
+            }
             return serviceDto;
         }
 
-        private static CloudBlockBlob CreateCloudBlob(HttpPostedFileBase image)
+        private static CloudBlockBlob CreateCloudBlob(HttpPostedFileBase image,ImageType type)
         {
             var storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["StorageConnection"].ConnectionString);
             var blobStorage = storageAccount.CreateCloudBlobClient();
-            var container = blobStorage.GetContainerReference("mkplqa");
+            var container = blobStorage.GetContainerReference(ConfigurationManager.AppSettings["Application.Environment"].ToLower());
             if (container.CreateIfNotExist())
             {
                 // configure container for public access
@@ -226,8 +237,8 @@ namespace Marketplace.Admin.Controllers
                 permissions.PublicAccess = BlobContainerPublicAccessType.Container;
                 container.SetPermissions(permissions);
             }
-
-            var uniqueBlobName = $"mkplqa/image_{Guid.NewGuid()}{Path.GetExtension(image.FileName)}";
+            var directory = container.GetDirectoryReference($"{imageDirectory.ToLower()}/{type.ToString().ToLower()}");
+            var uniqueBlobName = $"{ConfigurationManager.AppSettings["Application.Environment"].ToLower()}/{imageDirectory.ToLower()}/{type.ToString().ToLower()}/image_{Guid.NewGuid()}{Path.GetExtension(image.FileName)}";
 
             return blobStorage.GetBlockBlobReference(uniqueBlobName);
         }
@@ -262,12 +273,13 @@ namespace Marketplace.Admin.Controllers
                 CustomField2 = service.CustomField2,
                 CustomField3 = service.CustomField3,
                 ServiceStatusAPIAvailable = service.ServiceStatusAPIAvailable,
+                DisableAPIAvailable =service.DisableAPIAvailable,
                 MakeLive = service.MakeLive,
                 StartDate = service.StartDate,
                 EndDate = service.EndDate,
                 PartnerPromoCode = service.PartnerPromoCode,
                 PurchasePrice = service.PurchasePrice,
-                ThirdPartyAPI = service.ThirdPartyAPI,
+                ServiceProviderId = service.ServiceProviderId,
                 URL = service.URL,
                 ZipCodes = service.ZipCodes
             };
@@ -284,7 +296,6 @@ namespace Marketplace.Admin.Controllers
                         CategoryName = prod.Product.ProductCategory.Name,
                         ProductIds = new List<int> { prod.Product.Id },
                         ProductNames = prod.Product.Name
-
                     };
 
                     productViewModelList.Add(pvm);
@@ -328,6 +339,8 @@ namespace Marketplace.Admin.Controllers
             serviceViewModel.Products = productViewModelList;
 
             ViewBag.CountryList = GetCountries();
+            int serviceProviderId;
+            ViewBag.ServiceProviderNameList = int.TryParse(service.ServiceProviderId, out serviceProviderId) ? GetServiceProviderNameList(serviceProviderId) : GetServiceProviderNameList();
             ViewBag.ProductCategories = new SelectList(_productManager.GetProductCategories(), "Id", "Name");
             ViewBag.ServiceTypeId = new SelectList(_serviceManager.GetServiceTypes(), "Id", "Description", service.ServiceTypeId);
 
@@ -347,8 +360,6 @@ namespace Marketplace.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                //var serviceDataModel = marketplaceService.GetService(service.Id);
-
                 var serviceDataModel = BuildServiceDto(service, iconFile, sliderFile);
 
                 _serviceManager.UpdateService(serviceDataModel);
@@ -359,6 +370,8 @@ namespace Marketplace.Admin.Controllers
             }
 
             ViewBag.CountryList = GetCountries();
+            int serviceProviderId;
+            ViewBag.ServiceProviderNameList = int.TryParse(service.ServiceProviderId,out serviceProviderId)?GetServiceProviderNameList(serviceProviderId): GetServiceProviderNameList();
             ViewBag.ProductCategories = new SelectList(_productManager.GetProductCategories(), "Id", "Name");
             ViewBag.ServiceTypeId = new SelectList(_serviceManager.GetServiceTypes(), "Id", "Description", service.ServiceTypeId);
             return View(service);
@@ -386,12 +399,6 @@ namespace Marketplace.Admin.Controllers
         {
             var serviceList = GetServiceList(country, state, keywords, thermostats, SCFs, zipCodes, page);
             return Json(serviceList, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult ViewLocationModal(IEnumerable<LocationViewModel> locations)
-        {
-            ViewBag.CountryList = GetCountries();
-            return PartialView("_ServiceLocation", locations);
         }
 
         private IEnumerable<SelectListItem> GetCountries()
@@ -445,6 +452,19 @@ namespace Marketplace.Admin.Controllers
             }
 
             return Json(locationViewModelList.ToList(), JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetSignUpUrl(int id)
+        {
+            string signUpUrl = ServiceProviderManager.GetSignUpUrl(id);
+            return Json(signUpUrl,JsonRequestBehavior.AllowGet);
+        }
+        private IEnumerable<SelectListItem> GetServiceProviderNameList()
+        {
+            return new SelectList(ServiceProviderManager.GetActiveServiceProviderList(), "Id", "Name");
+        }
+        private IEnumerable<SelectListItem> GetServiceProviderNameList(int id)
+        {
+            return new SelectList(ServiceProviderManager.GetActiveServiceProviderList(), "Id", "Name", id);
         }
     }
 }

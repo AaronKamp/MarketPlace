@@ -16,9 +16,9 @@ namespace Marketplace.Admin.Controllers
     {
         private readonly IExportManager _exportManager;
 
-        public ExportController(IExportManager _exportManager)
+        public ExportController(IExportManager exportManager)
         {
-            this._exportManager = _exportManager;
+            _exportManager = exportManager;
         }
 
         // GET: Export

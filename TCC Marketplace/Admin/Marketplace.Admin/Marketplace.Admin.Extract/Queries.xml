@@ -14,7 +14,7 @@
       <FileName>HCM_001_MKPSCF_DATA_YYYYMMDD.TXT</FileName>
     </Query>
     <Query name ="Service">
-      <Sql>select s.Id as ServiceId, s.ServiceTypeId, s.Tilte, s.ShortDescription, s.LongDescription, s.URL, s.PartnerPromoCode, s.CreatedDate, s.StartDate, s.EndDate, s.IsActive, s.CustomField1, s.CustomField2, s.CustomField3, s.MakeLive, s.IconImage, s.SliderImage, s.UpdatedDate, s.UpdatedUser, [LastExtractedDate], InAppPurchaseID, [PurchasePrice], [ServiceStatusAPIAvailable], 'False'  DisableAPIAvailable, ThirdPartyAPI from [Service] s</Sql>
+      <Sql>select s.Id as ServiceId, s.ServiceTypeId, s.Tilte, s.ShortDescription, s.LongDescription, s.URL, s.PartnerPromoCode, s.CreatedDate, s.StartDate, s.EndDate, s.IsActive, s.CustomField1, s.CustomField2, s.CustomField3, s.MakeLive, s.IconImage, s.SliderImage, s.UpdatedDate, s.UpdatedUser, [LastExtractedDate], InAppPurchaseID, [PurchasePrice], [ServiceStatusAPIAvailable], 'False'  DisableAPIAvailable, ServiceProviderId as ServiceProvider from [Service] s</Sql>
       <FileName>HCM_001_MKPSERVICE_YYYYMMDD.TXT</FileName>
     </Query>
     <Query name ="ServiceSCF">

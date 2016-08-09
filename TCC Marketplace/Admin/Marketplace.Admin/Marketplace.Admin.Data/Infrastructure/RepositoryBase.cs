@@ -36,20 +36,17 @@ namespace Marketplace.Admin.Data.Infrastructure
         public virtual void Add(T entity)
         {
             dbSet.Add(entity);
-            //dataContext.SaveChanges();
         }
 
         public virtual void Update(T entity)
         {
             dbSet.Attach(entity);
             dataContext.Entry(entity).State = EntityState.Modified;
-            //dataContext.SaveChanges();
         }
 
         public virtual void Delete(T entity)
         {
             dbSet.Remove(entity);
-            //dataContext.SaveChanges();
         }
 
         public virtual void Delete(Expression<Func<T, bool>> where)
@@ -57,7 +54,6 @@ namespace Marketplace.Admin.Data.Infrastructure
             IEnumerable<T> objects = dbSet.Where<T>(where).AsEnumerable();
             foreach (T obj in objects)
                 dbSet.Remove(obj);
-            //dataContext.SaveChanges();
         }
 
         public virtual T GetById(int id)

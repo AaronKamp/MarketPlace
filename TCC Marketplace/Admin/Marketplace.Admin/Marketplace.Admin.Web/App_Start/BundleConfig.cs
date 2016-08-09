@@ -49,6 +49,9 @@ namespace Marketplace.Admin
             bundles.Add(new ScriptBundle("~/bundles/settings").Include(
                 "~/Scripts/Marketplace/settings.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/serviceProvider").Include(
+                "~/Scripts/Marketplace/service-provider.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/user").Include(
                 "~/Scripts/Marketplace/users.js"));
 

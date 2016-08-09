@@ -3,6 +3,9 @@
   "WebJobs": [
     {
       "filePath": "../Marketplace.Admin.ExtractJob/Marketplace.Admin.ExtractJob.csproj"
+    },
+    {
+      "filePath": "../Marketplace.Admin.ScheduledJob/Marketplace.Admin.ScheduledJob.csproj"
     }
   ]
 }

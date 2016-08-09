@@ -74,33 +74,40 @@ namespace Marketplace.Admin.Data.Repository
 
         public override void Update(Service service)
         {
+            DbContext.Configuration.AutoDetectChangesEnabled = false;
             foreach (var serProd in service.ServiceProducts)
             {
-                DbContext.Entry<Product>(serProd.Product).State = EntityState.Unchanged;
+                DbContext.Entry(serProd.Product).State = EntityState.Unchanged;
             }
 
             foreach (var scf in service.SCFs)
             {
-                DbContext.Entry<SCF>(scf).State = EntityState.Unchanged;
+                DbContext.Entry(scf).State = EntityState.Unchanged;
             }
 
             DbContext.Set<Service>().Attach(service);
             DbContext.Entry(service).State = EntityState.Modified;
+
+            DbContext.Configuration.AutoDetectChangesEnabled = true;
         }
 
         public override void Add(Service service)
         {
+            DbContext.Configuration.AutoDetectChangesEnabled = false;
+
             foreach (var serProd in service.ServiceProducts)
             {
-                DbContext.Entry<Product>(serProd.Product).State = EntityState.Unchanged;
+                DbContext.Entry(serProd.Product).State = EntityState.Unchanged;
             }
 
             foreach (var scf in service.SCFs)
             {
-                DbContext.Entry<SCF>(scf).State = EntityState.Unchanged;
+               DbContext.Entry(scf).State = EntityState.Unchanged;
             }
-
+            
             DbContext.Services.Add(service);
+
+            DbContext.Configuration.AutoDetectChangesEnabled = true;
         }
     }
 }

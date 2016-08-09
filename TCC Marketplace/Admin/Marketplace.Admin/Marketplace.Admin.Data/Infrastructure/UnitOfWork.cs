@@ -2,17 +2,17 @@
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly IDbFactory dbFactory;
-        private MarketplaceAdminDb dbContext;
+        private readonly IDbFactory _dbFactory;
+        private MarketplaceAdminDb _dbContext;
 
         public UnitOfWork(IDbFactory dbFactory)
         {
-            this.dbFactory = dbFactory;
+            _dbFactory = dbFactory;
         }
 
         public MarketplaceAdminDb DbContext
         {
-            get { return dbContext ?? (dbContext = dbFactory.Init()); }
+            get { return _dbContext ?? (_dbContext = _dbFactory.Init()); }
         }
 
         public void Commit()

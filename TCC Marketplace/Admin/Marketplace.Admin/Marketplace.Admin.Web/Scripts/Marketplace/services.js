@@ -1,7 +1,7 @@
 ﻿/// <reference path="../site.js" />
 
 $(document).ready(function () {
-
+    hideAjaxLoader();
     var maxDate = new Date($('#EndDate').val());
     if (maxDate.isValid()) {
         maxDate.setDate(maxDate.getDate() - 1);
@@ -31,6 +31,15 @@ $(document).ready(function () {
             filerdr.readAsDataURL(input.files[0]);
             $('#SliderImage').val(input.value);
         }
+    });
+
+    $('#deleteSlider').click(function () {
+        var input = $('#sliderFile');
+        input.empty();
+        img = $('#prvSlider');
+        img.attr('src', null);
+        $('#SliderImage').val("");
+
     });
 
     $('#iconFile').change(function () {
@@ -147,6 +156,20 @@ $(document).ready(function () {
             hideAjaxLoader();
             return false;
         }
+    });
+
+    $("#ServiceProviderId").on("change", function () {
+        var srvPvdrId = $("#ServiceProviderId").val();
+        $.ajax({
+            type: "GET",
+            url: "/Services/GetSignUpUrl",
+            data: { id: srvPvdrId },
+            datatype: 'json'
+        })
+        .done(function (signUpUrl) {
+            $("#URL").val(signUpUrl);
+        });
+
     });
 
 });

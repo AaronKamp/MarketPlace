@@ -15,9 +15,9 @@ namespace Marketplace.Admin.Controllers
     {
         private readonly ISettingsManager _settingsManager;
 
-        public SettingsController(ISettingsManager _settingsManager)
+        public SettingsController(ISettingsManager settingsManager)
         {
-            this._settingsManager = _settingsManager;
+            _settingsManager = settingsManager;
         }
         // GET: Settings
         public ActionResult Index()

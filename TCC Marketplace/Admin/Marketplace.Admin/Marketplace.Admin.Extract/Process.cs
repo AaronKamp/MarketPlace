@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using System.Configuration;
@@ -10,15 +11,22 @@ using System.Net;
 using WinSCP;
 using System.Net.Mail;
 using Marketplace.Admin.Core;
-
+using Marketplace.Admin.Data.Repository;
+using Marketplace.Admin.Data.Infrastructure;
 
 namespace Marketplace.Admin.Extract
 {
     public class Process
     {
+        private readonly SettingsRepository _settingsRepository;
         const string Delimiter = "|";
         readonly DataSet DataSet = new DataSet();
         private string RootPath = AppDomain.CurrentDomain.BaseDirectory + "CSV_Extracts";
+
+        public Process()
+        {
+            _settingsRepository = new SettingsRepository(new DbFactory());
+        }
         public void UploadFiles()
         {
             var xml = XDocument.Load(@"Queries.xml");
@@ -29,7 +37,7 @@ namespace Marketplace.Admin.Extract
                 ProcessQuery(query);
             }
 
-            ConfigurationSettings settings = GetSettings();
+            Model.ConfigurationSettings settings = GetSettings();
                  
             BuildDelimittedFiles();
 
@@ -37,28 +45,14 @@ namespace Marketplace.Admin.Extract
             
             SendEmail(message, settings);
         }
+        
 
-        private ConfigurationSettings GetSettings()
+        private Model.ConfigurationSettings GetSettings()
         {
-            DataTable settingsTable = new DataTable("Configuration Settings");
-            settingsTable = GetSettingTable();
-            DataRow settingsRow = settingsTable.Rows[0];
-
-            var settings = new ConfigurationSettings
-            {
-                FtpHostAddress = settingsRow["FtpHostAddress"].ToString(),
-                FtpPort = Convert.ToInt32(settingsRow["FtpPort"]),
-                FtpUser = settingsRow["FtpUser"].ToString(),
-                SshPrivateKey = Cryptography.DecryptContent(settingsRow["SshPrivateKey"].ToString()),
-                IsSshPasswordProtected = Convert.ToBoolean (settingsRow["IsSshPasswordProtected"]),
-                SshPrivateKeyPassword = Convert.ToBoolean(settingsRow["IsSshPasswordProtected"]) ? Cryptography.DecryptContent(settingsRow["SshPrivateKeyPassword"].ToString()):null,
-                FtpRemotePath = settingsRow["FtpRemotePath"].ToString(),
-                FromEmail = settingsRow["FromEmail"].ToString(),
-                FromEmailPassword = Cryptography.DecryptContent(settingsRow["FromEmailPassword"].ToString()),
-                ToEmails = settingsRow["ToEmails"].ToString(),
-                SmtpClient = settingsRow["SmtpClient"].ToString(),
-                SmtpPort = Convert.ToInt32(settingsRow["SmtpPort"])
-            };
+            var settings = _settingsRepository.GetAll().FirstOrDefault();
+            settings.SshPrivateKey = Cryptography.DecryptContent(settings.SshPrivateKey);
+            settings.SshPrivateKeyPassword = settings.IsSshPasswordProtected ? Cryptography.DecryptContent(settings.SshPrivateKeyPassword) : null;
+            settings.FromEmailPassword = Cryptography.DecryptContent(settings.FromEmailPassword);
             return settings;
         }
 
@@ -77,7 +71,7 @@ namespace Marketplace.Admin.Extract
             return ds.Tables[0];
         }
 
-        private void SendEmail(string messageBody,ConfigurationSettings settings)
+        private void SendEmail(string messageBody, Model.ConfigurationSettings settings)
         {
 
             string recepientList = settings.ToEmails;
@@ -106,9 +100,7 @@ namespace Marketplace.Admin.Extract
             }
         }
 
-
-
-        private string UploadToFTP(ConfigurationSettings settings)
+        private string UploadToFTP(Model.ConfigurationSettings settings)
         {
             try
             {

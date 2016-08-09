@@ -227,13 +227,17 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ExportController.cs" />
+    <Compile Include="Controllers\ServiceProviderController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Enums\ImageType.cs" />
     <Compile Include="Filters\CustomExceptionFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Utils\BlobExtensions.cs" />
+    <Compile Include="Utils\ServiceProviderManager.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\FTPDetailsViewModel.cs" />
     <Compile Include="ViewModels\LocationViewModel.cs" />
@@ -242,6 +246,7 @@
     <Compile Include="ViewModels\ProductViewModel.cs" />
     <Compile Include="ViewModels\SCFViewModel.cs" />
     <Compile Include="ViewModels\ServiceGridViewModel.cs" />
+    <Compile Include="ViewModels\ServiceProviderViewModel.cs" />
     <Compile Include="ViewModels\ServiceViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\SMTPDetailsViewModel.cs" />
@@ -263,6 +268,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\datepicker.css" />
     <Content Include="Content\images\addnew.png" />
+    <Content Include="Content\images\add_new.png" />
     <Content Include="Content\images\ajax-loader.gif" />
     <Content Include="Content\images\calendar-icon.png" />
     <Content Include="Content\images\close-button.png" />
@@ -281,6 +287,7 @@
     <Content Include="Content\images\pic-thump.png" />
     <Content Include="Content\images\products.jpg" />
     <Content Include="Content\images\schedule.png" />
+    <Content Include="Content\images\service-provider.png" />
     <Content Include="Content\images\services.png" />
     <Content Include="Content\images\settings.png" />
     <Content Include="Content\images\slider.jpg" />
@@ -319,7 +326,9 @@
     <Content Include="Content\bootstrap.css.map" />
     <None Include="Properties\PublishProfiles\hmktdemo - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\MarketplaceAdminWeb.pubxml" />
+    <None Include="Properties\PublishProfiles\mktplcqa - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\mktplcqa - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\testTccMPAdminWebApp - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\webSitegnbigeeklc2fq - Web Deploy.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -343,6 +352,7 @@
     <Content Include="Scripts\Marketplace\image-helper.js" />
     <Content Include="Scripts\Marketplace\location.js" />
     <Content Include="Scripts\Marketplace\product.js" />
+    <Content Include="Scripts\Marketplace\service-provider.js" />
     <Content Include="Scripts\Marketplace\serviceList.js" />
     <Content Include="Scripts\Marketplace\services.js" />
     <Content Include="Scripts\Marketplace\settings.js" />
@@ -383,6 +393,8 @@
     <Content Include="Views\Settings\_FTPDetails.cshtml" />
     <Content Include="Views\Settings\_SMTPDetails.cshtml" />
     <Content Include="Views\Settings\Index.cshtml" />
+    <Content Include="Views\ServiceProvider\Index.cshtml" />
+    <Content Include="Views\ServiceProvider\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -392,7 +404,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
@@ -465,6 +479,7 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.10\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.10\tools\webjobs.targets')" />
+  <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.12\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.12\tools\webjobs.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

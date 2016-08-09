@@ -72,7 +72,17 @@
     <Compile Include="Infrastructure\UnitOfWork.cs" />
     <Compile Include="MarketplaceAdminDb.cs" />
     <Compile Include="MarketPlaceAdminDbContextInitialiser.cs" />
+    <Compile Include="Migrations\201607291340015_InitialCreate.cs" />
+    <Compile Include="Migrations\201607291340015_InitialCreate.Designer.cs">
+      <DependentUpon>201607291340015_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608040627148_ThirdPartyUrltoServiceProviderId.cs" />
+    <Compile Include="Migrations\201608040627148_ThirdPartyUrltoServiceProviderId.Designer.cs">
+      <DependentUpon>201608040627148_ThirdPartyUrltoServiceProviderId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\ImageQueueRepository.cs" />
     <Compile Include="Repository\RoleRepository.cs" />
     <Compile Include="Repository\SettingsRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
@@ -117,6 +127,14 @@
     <Content Include="PostDeploymentScripts\Script.ProductMasterData.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201607291340015_InitialCreate.resx">
+      <DependentUpon>201607291340015_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608040627148_ThirdPartyUrltoServiceProviderId.resx">
+      <DependentUpon>201608040627148_ThirdPartyUrltoServiceProviderId.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
