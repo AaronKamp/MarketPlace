@@ -463,6 +463,10 @@
             "AzureRedisCache": {
               "value": "[concat(variables('mpRedisCacheName'),'.redis.cache.windows.net,abortConnect=false,ssl=true,password=', listKeys(resourceId('Microsoft.Cache/Redis', variables('mpRedisCacheName')), '2015-08-01').primaryKey)]",
               "type": "Custom"
+            },
+			"StorageConnection": {
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('mpStorageName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('mpStorageName')), '2015-05-01-preview').key1)]",
+              "type": "Custom"
             }
           }
         },
