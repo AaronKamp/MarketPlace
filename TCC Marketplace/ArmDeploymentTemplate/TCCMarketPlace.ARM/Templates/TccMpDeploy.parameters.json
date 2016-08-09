@@ -49,7 +49,7 @@
       "value": "53cd5e17-0def-468d-9ede-c60f808ddb1b"
     },
     "Application.Environment": {
-      "value": "QA"
+      "value": "STAGE"
     }
 
   }

@@ -219,7 +219,7 @@
       "type": "string",
       "allowedValues": [
         "DEV",
-        "QA",
+        "TEST",
         "STAGE",
         "PROD"
       ],
