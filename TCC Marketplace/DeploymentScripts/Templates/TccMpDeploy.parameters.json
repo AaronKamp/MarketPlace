@@ -2,28 +2,22 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "AdminServerHostingPlanName": {
+    "hostingPlanName": {
       "value": "tccMpAdminHostplan"
     },
-    "AdminServerSkuName": {
-      "value": "B1"
+    "MobileServerHostingPlanName": {
+      "value": "tccMpMobileApiHostplan"
     },
-    "AdminDbRequestedServiceObjectiveName": {
-      "value": "S0"
-    },
-    "AdminDbMaxSizeBytes": {
-      "value": "268435456000"
-    },
-    "AdminDbName": {
-      "value": "tccmpadmindb"
-    },
-    "AdminDatabaseAdministratorLogin": {
+    "administratorLogin": {
       "value": "tccmpadmin"
     },
-    "AdminWebDeployPackageFolder": {
+    "databaseName": {
+      "value": "tccmpadmindb"
+    },
+    "WebDeployPackageFolder": {
       "value": "tccmarketplace-stageartifacts"
     },
-    "AdminWebDeployPackageFileName": {
+    "WebDeployPackageFileName": {
       "value": "Marketplace.Admin.zip"
     },
     "_artifactsLocation": {
@@ -31,12 +25,6 @@
     },
     "_artifactsLocationSasToken": {
       "value": null
-    },
-    "MobileServerHostingPlanName": {
-      "value": "tccMpMobileApiHostplan"
-    },
-    "MobileServerHostingPlanSKU": {
-      "value": "S2"
     },
     "WebDeployMobileUIPackageFolder": {
       "value": "tccmarketplace-stageartifacts"
@@ -53,23 +41,16 @@
     "YLM.ApiUrl": {
       "value": "https://test.api.infoconnect.com/hw_mktpl/v1/"
     },
-    "EN.ApiUrl": {
-      "value": "https://thepulseapi.earthnetworks.com/oauth20/"
-    },
-    "EN.PartnerName": {
-      "value": "EarthNetworkPartnerName"
-    },
+
     "TCC.ApiUrl": {
-      "value": "https://qtccna.honeywell.com/TrueHomeQA/"
+      "value": "https://qtccna.honeywell.com/TrueHomeStage/"
     },
     "TCC.AppId": {
       "value": "53cd5e17-0def-468d-9ede-c60f808ddb1b"
     },
-    "EN.Consumer_Key": {
-      "value": "YetToReceive"
-    },
-    "Cache.Environment": {
-      "value": "QA"
+    "Application.Environment": {
+      "value": "STAGE"
     }
+
   }
 }

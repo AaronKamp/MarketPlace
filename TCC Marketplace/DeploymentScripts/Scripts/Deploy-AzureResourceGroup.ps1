@@ -18,13 +18,12 @@ Param(
 
 Import-Module Azure -ErrorAction Stop
 
-
+Login-AzureRmAccount
 
 try {
     [Microsoft.Azure.Common.Authentication.AzureSession]::ClientFactory.AddUserAgent("VSAzureTools-$UI$($host.name)".replace(" ","_"), "2.8")
 } catch { 
 
-Login-AzureRmAccount
 
 }
 
@@ -102,7 +101,7 @@ if ($UploadArtifacts) {
    
 
 
-    $StorageAccountKey = (Get-AzureRmStorageAccountKey -ResourceGroupName $StorageAccountResourceGroupName -Name $StorageAccountName).Key1
+    $StorageAccountKey = (Get-AzureRmStorageAccountKey -ResourceGroupName $StorageAccountResourceGroupName -Name $StorageAccountName)[0].Value
        
     $StorageAccountContext = (Get-AzureRmStorageAccount -ResourceGroupName $StorageAccountResourceGroupName -Name $StorageAccountName).Context
    
