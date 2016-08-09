@@ -4,12 +4,24 @@ define(['angularAMD'], function (angularAMD) {
     angularAMD.service('configService', function () {
 
         this.getApiBaseUrl = function () {
-            return AppConfig[AppConfig.Environment].apiBaseUri;
-        };       
+            
+            var apiBaseUri = decodeURIComponent(localStorage.getItem("base_uri"));
 
-        this.getAppUrl = function () {
-            return AppConfig[AppConfig.Environment].appHomePage;
+            if (apiBaseUri == null || apiBaseUri === "null" || apiBaseUri === "undefined") {
+
+                var locationHash = window.location.hash;
+                apiBaseUri = locationHash.substring(locationHash.indexOf("http"));
+                localStorage.setItem("base_uri", apiBaseUri);
+            }
+
+            if (apiBaseUri.endsWith("/") === false) {
+                apiBaseUri = apiBaseUri + "/";
+            }
+
+            return apiBaseUri;
         };
+
+
 
     });
 

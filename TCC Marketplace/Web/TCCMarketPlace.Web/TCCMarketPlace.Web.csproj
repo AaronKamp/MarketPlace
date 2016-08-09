@@ -15,10 +15,11 @@
     <AssemblyName>TCCMarketPlace.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
@@ -102,6 +103,7 @@
     <Content Include="Minified\js\global.js" />
     <Content Include="ngControllers\MarketPlaceController.js" />
     <Content Include="ngControllers\MarketPlaceDetailsController.js" />
+    <Content Include="ngControllers\MarketPlaceReportController.js" />
     <Content Include="ngControllers\SearchController.js" />
     <Content Include="ngDirectives\isLoadedDirective.js" />
     <Content Include="ngDirectives\keepScrollPosDirective.js" />
@@ -114,6 +116,8 @@
     <Content Include="ngServices\MarketPlaceService.js" />
     <Content Include="ngViews\MarketPlace.html" />
     <Content Include="ngViews\MarketPlaceDetails.html" />
+    <Content Include="ngViews\MarketPlaceReports.html" />
+    <Content Include="ngViews\ReturnToPage.html" />
     <Content Include="ngViews\SearchModal.html" />
     <Content Include="packages.config" />
     <Content Include="r.js" />
@@ -133,8 +137,6 @@
     <Content Include="Scripts\swiper\jquery.touchSwipe.min.js" />
     <Content Include="Scripts\swiper\swiper.min.js" />
     <Content Include="Scripts\version.json" />
-    <None Include="Properties\PublishProfiles\hmktmobile - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\mktplcWeb - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -154,7 +156,6 @@
     <Content Include="Login\Login.js" />
     <Content Include="Login\Style.css" />
     <Content Include="main.js" />
-    <Content Include="ngApp\app.config.js" />
     <Content Include="ngApp\App.js" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
@@ -940,7 +941,7 @@
     <Content Include="Styles\App.css" />
     <Content Include="Styles\main.css" />
     <Content Include="Styles\main.min.css" />
-    <Content Include="ThirdPartyPage\ThridPartySignURLPage.html" />
+    <Content Include="ThirdPartyPage\ThirdPartySignURLPage.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -948,7 +949,9 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -1,6 +1,6 @@
 ﻿
 'use strict';
-define(['angularAMD', 'angularRoute', 'configService', 'uiBootstrap', 'uiBootstrapTpl', 'angularTouch', 'notificationService', 'interceptor', 'notificationModalService', 'keepScrollPos', 'marketPlaceService', 'searchCatalogueController', 'MarketPlaceController', 'MarketPlaceDetailsController', 'categorySwiper', 'isLoaded', 'noSpecialCharacters'],
+define(['angularAMD', 'angularRoute', 'configService', 'uiBootstrap', 'uiBootstrapTpl', 'angularTouch', 'notificationService', 'interceptor', 'notificationModalService', 'keepScrollPos', 'marketPlaceService', 'searchCatalogueController', 'MarketPlaceController', 'MarketPlaceDetailsController','MarketPlaceReportController', 'categorySwiper', 'isLoaded', 'noSpecialCharacters'],
     function (angularAMD) {
 
         var app = angular.module('tccMarketPlaceApp',
@@ -37,7 +37,7 @@ define(['angularAMD', 'angularRoute', 'configService', 'uiBootstrap', 'uiBootstr
                         controllerAs: 'ctrl'
 
                     }))
-                    .when('/UserAuth/:userData?/:jwtToken?', angularAMD.route({
+                    .when('/UserAuth/:userData/:jwtToken/:apiBaseUri*', angularAMD.route({
                         templateUrl: 'ngViews/MarketPlace.html',
                         controller: 'MarketPlaceController',
                         controllerAs: 'ctrl'
@@ -54,7 +54,12 @@ define(['angularAMD', 'angularRoute', 'configService', 'uiBootstrap', 'uiBootstr
                         controller: 'MarketPlaceDetailsController',
                         controllerAs: 'ctrl'
 
-                    })) 
+                    }))
+                    .when('/MarketPlaceReports/:id',angularAMD.route({
+                        templateUrl:'ngViews/MarketPlaceReports.html',
+                        controller: 'MarketPlaceReportController',
+                        controllerAs:'ctrl'
+                    }))
                     .otherwise({
                         redirectTo: '/'
                     });

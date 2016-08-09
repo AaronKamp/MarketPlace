@@ -30,6 +30,7 @@ require.config({
         searchCatalogueController: 'ngControllers/SearchController',
         MarketPlaceController: 'ngControllers/MarketPlaceController',
         MarketPlaceDetailsController: 'ngControllers/MarketPlaceDetailsController',
+        MarketPlaceReportController: 'ngControllers/MarketPlaceReportController'
     },
     shim: {
         'angular': { deps: ['jquery'], exports: 'angular' },

@@ -35,12 +35,16 @@ define(['angularAMD', ], function (angularAMD) {
             var url = baseUrl + "GetSlideShowImages/" + tab;
             return url;
         },
-        
-            formUrlForGetDetails = function (id) {
+        formUrlForGetDetails = function (id) {
 
-                var url = baseUrl + "GetDetails/" + id  ;
-                return url;
-            };
+            var url = baseUrl + "GetDetails/" + id  ;
+            return url;
+        },
+        formUrlForSubscriptionStatus = function (id) {
+
+            var url = baseUrl + "IsSubscribed/" + id;
+            return url;
+        };
         
         this.getMarketPlaceList = function (tab,searchKey,categoryname) {
             var deferred = $q.defer();
@@ -79,6 +83,17 @@ define(['angularAMD', ], function (angularAMD) {
         this.getSlideShowImages = function (tab) {
             var deferred = $q.defer();
             $http.get(formUrlForGetImages(tab))
+               .success(function (data) {
+                   deferred.resolve(data.data);
+               }).error(function (msg, code) {
+                   deferred.reject(msg);
+               });
+            return deferred.promise;
+        };
+
+        this.getServiceSubscriptionStatus = function (id) {
+            var deferred = $q.defer();
+            $http.get(formUrlForSubscriptionStatus(id))
                .success(function (data) {
                    deferred.resolve(data.data);
                }).error(function (msg, code) {
@@ -136,5 +151,7 @@ define(['angularAMD', ], function (angularAMD) {
                 deferred.reject(msg);
             });
         };
+
+
     }]);
 });

@@ -1,15 +1,17 @@
 ﻿"use strict";
-define(['angularAMD', 'marketPlaceService', 'searchCatalogueController', 'categorySwiper', 'isLoaded'], function (angularAMD) {
+define(['angularAMD', 'marketPlaceService', 'searchCatalogueController', 'categorySwiper', 'isLoaded', 'configService'], function (angularAMD) {
 
     angularAMD.controller('MarketPlaceController', ['$scope', '$rootScope', 'marketPlaceService', '$location', '$routeParams', '$uibModal', function ($scope, $rootScope, marketPlaceService, $location, $routeParams, $uibModal, $uibModalInstance) {
 
         var path = $location.$$path;
+       
         if (path != undefined && path.indexOf("UserAuth") > -1) {
             localStorage.setItem("user_data", $routeParams.userData);
-        }
-        if (path != undefined && path.indexOf("UserAuth") > -1) {
             localStorage.setItem("jwt_token", $routeParams.jwtToken);
+            localStorage.setItem("base_uri", $routeParams.apiBaseUri);
         }
+       
+
 
         var self = this;
         $scope.activeTab = 0;

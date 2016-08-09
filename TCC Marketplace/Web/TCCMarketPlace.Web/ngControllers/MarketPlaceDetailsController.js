@@ -1,7 +1,7 @@
 ﻿"use strict";
 define(['angularAMD', 'marketPlaceService'], function (angularAMD) {
 
-    angularAMD.controller('MarketPlaceDetailsController', ['$scope', '$animate', 'marketPlaceService', '$location', '$routeParams', '$sce','$window', 'notificationService', function ($scope, $animate, marketPlaceService, $location, $routeParams, $sce, $window ,notificationService) {
+    angularAMD.controller('MarketPlaceDetailsController', ['$scope', '$animate', 'marketPlaceService', '$location', '$routeParams', '$window', 'notificationService', function ($scope, $animate, marketPlaceService, $location, $routeParams, $window ,notificationService) {
 
         var self = this;
         self.Id = $routeParams.id;
@@ -10,7 +10,7 @@ define(['angularAMD', 'marketPlaceService'], function (angularAMD) {
         self.categoryName = $routeParams.categoryName;
 
         self.service;
-        self.ReportUrl = { src: "" };
+       
         self.purchaseUrl = "";
         var serviceType = self.type == "1" ? "Add on" : "Offer";
         self.enableText = "Enable " + serviceType;
@@ -25,15 +25,9 @@ define(['angularAMD', 'marketPlaceService'], function (angularAMD) {
                         
                   if (self.service.price > 0 ) {
                       self.purchaseUrl = "/CreatePurchaseTransaction?productid=" + self.service.productId + "&serviceid=" + self.service.serviceId + "&thermostatid=" + self.service.thermostatId;
-                      
                   }
 
-                  if ($routeParams.reportUrl != null && $routeParams.reportUrl != '' ) {
-                      self.service.reportUrl = encodeURIComponent( $routeParams.reportUrl);
-                      marketPlaceService.SaveReportUrl(self.service);
-                      self.ViewReports();
-                  }
-           
+                 
               }).finally(function () {
                   $scope.isLoaded = false;
               });
@@ -64,7 +58,6 @@ define(['angularAMD', 'marketPlaceService'], function (angularAMD) {
 
         self.navigate = function (path) {
 
-
             if (self.type != undefined) {
                 path = path + '/' + self.type;
             }
@@ -77,19 +70,7 @@ define(['angularAMD', 'marketPlaceService'], function (angularAMD) {
 
             $location.path(path);
         };
-
-        self.ViewReports = function () {
-            if (self.service.reportUrl == "" || self.service.reportUrl == null) {
-                $window.location.href = decodeURIComponent(self.service.signUpUrl) + '&returnUrl=' + encodeURIComponent($window.location.href);
-
-            }
-            else {
-                $scope.isLoaded = true;
-                self.ReportUrl.src = $sce.trustAsResourceUrl(decodeURIComponent(self.service.reportUrl));
-                $scope.isLoaded = false;
-            }
-        };
-
+       
         self.EnableOrDisableService = function () {
             $scope.isLoaded = true;
             marketPlaceService.EnableOrDisableService(self.service)
@@ -100,6 +81,7 @@ define(['angularAMD', 'marketPlaceService'], function (angularAMD) {
                 } else {
                     notificationService.notify(data.errorMessage, { type: 'danger',autoClose: false });
                 }
+
             }, function (err) {
                 //error callback                    
                 notificationService.notify(err, { autoClose: false, type: "danger" });
@@ -131,7 +113,6 @@ define(['angularAMD', 'marketPlaceService'], function (angularAMD) {
             });
         };
 
-
         self.SubscribeToService = function () {
             if (self.purchaseUrl.length > 0) {
                 return false;
@@ -141,7 +122,15 @@ define(['angularAMD', 'marketPlaceService'], function (angularAMD) {
             .then(function (data) {
                 if (!data.hasError) {
                     self.service.isBought = true;
-                    notificationService.notify(serviceType + " subscribed successfully", { type: 'success', timeout: 1000 }).then(function () {
+                    if (data.data == "Service already subscribed")
+                        notificationService.notify(data.data, { type: 'success', timeout: 1000 }).then(function () {
+                            $location.path("MarketPlaceReports/" + self.service.serviceId);
+                            $scope.$apply();
+                        });
+                    else
+                        notificationService.notify(serviceType + " subscribed successfully", { type: 'success', timeout: 1000 }).then(function () {
+                            $location.path("MarketPlaceReports/" + self.service.serviceId);
+                            $scope.$apply();
                     });
 
                 } else {
@@ -154,6 +143,33 @@ define(['angularAMD', 'marketPlaceService'], function (angularAMD) {
                 // called no matter success or failure
                 $scope.isLoaded = false;
             });
+        };
+
+        self.PurchaseService = function () {
+            if (self.purchaseUrl.length == 0) {
+                return false;
+            }
+            $scope.isLoaded = true;
+            marketPlaceService.getServiceSubscriptionStatus(self.service.serviceId)
+            .then(function (data) {
+                if (!data.hasError) {
+                    self.service.isBought = data;
+                    if (!self.service.isBought) {
+                        $window.location.href = self.purchaseUrl;
+                    }
+                    else {
+                        notificationService.notify(serviceType + " already subscribed", { type: 'success', timeout: 1000 }).then(function () {
+                        });
+                    }
+                }
+            }, function (err) {
+                //error callback                    
+                notificationService.notify(err, { autoClose: false, type: "danger" });
+            }).finally(function () {
+                // called no matter success or failure
+                $scope.isLoaded = false;
+            });
+
         };
 
 
