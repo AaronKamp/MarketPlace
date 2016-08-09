@@ -41,23 +41,16 @@
     "YLM.ApiUrl": {
       "value": "https://test.api.infoconnect.com/hw_mktpl/v1/"
     },
-    "EN.ApiUrl": {
-      "value": "https://thepulseapi.earthnetworks.com/oauth20/"
-    },
-    "EN.PartnerName": {
-      "value": "EarthNetworkPartnerName"
-    },
+
     "TCC.ApiUrl": {
-      "value": "https://qtccna.honeywell.com/TrueHomeQA/"
+      "value": "https://qtccna.honeywell.com/TrueHomeStage/"
     },
     "TCC.AppId": {
       "value": "53cd5e17-0def-468d-9ede-c60f808ddb1b"
     },
-    "EN.Consumer_Key": {
-      "value": "YetToReceive"
-    },
-    "Cache.Environment": {
+    "Application.Environment": {
       "value": "QA"
     }
+
   }
 }

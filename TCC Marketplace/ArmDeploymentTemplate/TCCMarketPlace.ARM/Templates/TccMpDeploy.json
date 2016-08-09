@@ -206,12 +206,6 @@
     "YLM.Api_Key": {
       "type": "securestring"
     },
-    "EN.ApiUrl": {
-      "type": "string"
-    },
-    "EN.PartnerName": {
-      "type": "string"
-    },
     "TCC.ApiUrl": {
       "type": "string"
     },
@@ -221,13 +215,7 @@
     "TCC.Secret_Key": {
       "type": "securestring"
     },
-    "EN.Consumer_Key": {
-      "type": "string"
-    },
-    "EN.Secret_Key": {
-      "type": "securestring"
-    },
-    "Cache.Environment": {
+    "Application.Environment": {
       "type": "string",
       "allowedValues": [
         "DEV",
@@ -391,7 +379,8 @@
             "SiteUserName": "[list(resourceId('Microsoft.Web/sites/config', variables('mpAdminWebAppName'), 'publishingcredentials'), '2014-06-01').properties.PublishingUserName]",
             "SiteUserPwd": "[list(resourceId('Microsoft.Web/sites/config', variables('mpAdminWebAppName'), 'publishingcredentials'), '2014-06-01').properties.PublishingPassword]",
             "SiteName": "[variables('mpAdminWebAppName')]",
-            "userPageSize": "10"
+            "userPageSize": "10",
+            "Application.Environment": "[parameters('Application.Environment')]"
           }
         }
       ]
@@ -493,14 +482,10 @@
             "MarketPlaceDetailsUrl": "[concat('https://',variables('mpMobileWebUIName'),'.azurewebsites.net/#/MarketPlaceDetails/')]",
             "YLM.ApiUrl": "[parameters('YLM.ApiUrl')]", //"https://test.api.infoconnect.com/hw_mktpl/v1/",
             "YLM.Api_Key": "[parameters('YLM.Api_Key')]", //  "GEe5xWXeMn4wTAaijBfpXCVGsy1qWhHM",
-            "EN.ApiUrl": "[parameters('EN.ApiUrl')]", //          "https://thepulseapi.earthnetworks.com/",
-            "EN.PartnerName": "[parameters('EN.PartnerName')]", //            "EarthNetworkPartnerName",
             "TCC.ApiUrl": "[parameters('TCC.ApiUrl')]",
             "TCC.AppId": "[parameters('TCC.AppId')]",
             "TCC.Secret_Key": "[parameters('TCC.Secret_Key')]",
-            "EN.Consumer_Key": "[parameters('EN.Consumer_Key')]",
-            "EN.Secret_Key": "[parameters('EN.Secret_Key')]",
-            "Cache.Environment": "[parameters('Cache.Environment')]"
+            "Application.Environment": "[parameters('Application.Environment')]"
           }
         }
       ]

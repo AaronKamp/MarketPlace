@@ -11,7 +11,7 @@ Param(
     [string] $StorageContainerName = 'tccmarketplace-stageartifacts',
     [string] $TemplateFile = '..\Templates\TccMpDeploy.json',
     [string] $TemplateParametersFile = '..\Templates\TccMpDeploy.parameters.json',
-    [string] $ArtifactStagingDirectory = '..\bin\Debug\staging',
+    [string] $ArtifactStagingDirectory = '..\bin\Debug\Artifacts',
     [string] $AzCopyPath = '..\Tools\AzCopy.exe',
     [string] $DSCSourceFolder = '..\DSC'
 )
@@ -20,7 +20,9 @@ Import-Module Azure -ErrorAction SilentlyContinue
 
 try {
     [Microsoft.Azure.Common.Authentication.AzureSession]::ClientFactory.AddUserAgent("VSAzureTools-$UI$($host.name)".replace(" ","_"), "2.8")
-} catch { }
+} catch {
+     Login-AzureRmAccount
+ }
 
 Set-StrictMode -Version 3
 
@@ -96,7 +98,7 @@ if ($UploadArtifacts) {
    
 
 
-    $StorageAccountKey = (Get-AzureRmStorageAccountKey -ResourceGroupName $StorageAccountResourceGroupName -Name $StorageAccountName)[0].Value 
+    $StorageAccountKey = (Get-AzureRmStorageAccountKey -ResourceGroupName $StorageAccountResourceGroupName -Name $StorageAccountName)[0].Value
        
     $StorageAccountContext = (Get-AzureRmStorageAccount -ResourceGroupName $StorageAccountResourceGroupName -Name $StorageAccountName).Context
    

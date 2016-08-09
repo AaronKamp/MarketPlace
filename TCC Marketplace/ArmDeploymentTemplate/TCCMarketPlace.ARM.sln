@@ -19,4 +19,13 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://61.12.76.170:7777/tfs/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = TCCMarketPlace.ARM\\TCCMarketPlace.ARM.deployproj
+		SccProjectName1 = TCCMarketPlace.ARM
+		SccLocalPath1 = TCCMarketPlace.ARM
+	EndGlobalSection
 EndGlobal
