@@ -33,7 +33,7 @@ define(['angularAMD'], function (angularAMD) {
                             },
                             320: {
                                 slidesPerView: 3,
-                                spaceBetween: 25
+                                spaceBetween: 5
                             }
                         }
                     });

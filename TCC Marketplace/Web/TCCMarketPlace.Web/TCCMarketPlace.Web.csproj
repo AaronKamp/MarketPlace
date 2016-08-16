@@ -75,30 +75,32 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="Images\002.png" />
-    <Content Include="Images\003.png" />
-    <Content Include="Images\004.jpg" />
-    <Content Include="Images\005.jpg" />
-    <Content Include="Images\a02.png" />
-    <Content Include="Images\add_title.png" />
+    <Content Include="Images\add-icon.png" />
+    <Content Include="Images\add-icon2x.png" />
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\arrow.png" />
+    <Content Include="Images\arrow2x.png" />
     <Content Include="Images\backButton.png" />
-    <Content Include="Images\btn-done.png" />
-    <Content Include="Images\header_bg.png" />
-    <Content Include="Images\header_bg1.png" />
-    <Content Include="Images\lens.png" />
-    <Content Include="Images\loading.gif" />
-    <Content Include="Images\offer_thumb.png" />
-    <Content Include="Images\searchIcon.png" />
-    <Content Include="Images\slider_bg.png" />
-    <Content Include="Images\TCCBANNER1.png" />
-    <Content Include="Images\TCCBANNER2.jpg" />
-    <Content Include="Images\TCCBANNER3.jpg" />
-    <Content Include="Images\TCC_Weatherbug_banner.png" />
-    <Content Include="Images\tick.png" />
-    <Content Include="Images\tick_corner.png" />
-    <Content Include="Images\weather_icon.png" />
+    <Content Include="Images\backButton2x.png" />
+    <Content Include="Images\category-left-fade.png" />
+    <Content Include="Images\category-left-fade2x.png" />
+    <Content Include="Images\category-right-fade.png" />
+    <Content Include="Images\category-right-fade2x.png" />
+    <Content Include="Images\check.png" />
+    <Content Include="Images\check2x.png" />
+    <Content Include="Images\circle-2x.png" />
+    <Content Include="Images\circle-selected.png" />
+    <Content Include="Images\circle-selected2x.png" />
+    <Content Include="Images\circle.png" />
+    <Content Include="Images\corner-check.png" />
+    <Content Include="Images\corner-check2x.png" />
+    <Content Include="Images\marketplace-icon.png" />
+    <Content Include="Images\marketplace-icon2x.png" />
+    <Content Include="Images\segmented-controls.png" />
+    <Content Include="Images\segmented-controls2x.png" />
+    <Content Include="Images\tab-bg.png" />
+    <Content Include="Images\title-bar.png" />
+    <Content Include="Images\title-bar2x.png" />
     <Content Include="Login\BlankPage.html" />
     <Content Include="Minified\js\global.js" />
     <Content Include="ngControllers\MarketPlaceController.js" />
@@ -135,8 +137,11 @@
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Scripts\swiper\jquery.touchSwipe.min.js" />
+    <Content Include="Scripts\swiper\swiper.js" />
     <Content Include="Scripts\swiper\swiper.min.js" />
     <Content Include="Scripts\version.json" />
+    <None Include="Properties\PublishProfiles\test.pubxml" />
+    <Content Include="Scripts\swiper\swiper.min.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -949,9 +954,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\PublishProfiles\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

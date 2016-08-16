@@ -1,6 +1,8 @@
 ﻿<div class="main-wrapper">
     <div class="top_header">
-        <a ng-if="buttonVisiblity();" ng-click=ctrl.navigate('/Catalogue')><img src="/Images/backButton.png" class="back-btn-image" align="left"></a> Details
+        <a ng-if="buttonVisiblity();" ng-click=ctrl.navigate('/Catalogue')>
+        <img src="/Images/backButton.png" class="back-btn-image" align="left"></a>
+        <div>DETAILS</div> 
     </div>
     <div id="ajaxSpinner" ng-show="isLoaded"></div>
     <div id="wrapper">
@@ -11,9 +13,10 @@
                     <div class="txt-desc">
                         <h2>{{ctrl.service.title}}</h2>
                         <p>{{ctrl.service.description}}</p>
+                        <p><!--{{ctrl.service.shortDescription}}--></p>
+                        <!--<p>{{ctrl.service.longDescription}}</p>-->
                     </div>
                     <div class="clear-cols"></div>
-                    
                 </div>
                 <div class="rht_settings">
                     <ul>

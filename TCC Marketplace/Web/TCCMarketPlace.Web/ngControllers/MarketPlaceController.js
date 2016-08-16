@@ -4,13 +4,13 @@ define(['angularAMD', 'marketPlaceService', 'searchCatalogueController', 'catego
     angularAMD.controller('MarketPlaceController', ['$scope', '$rootScope', 'marketPlaceService', '$location', '$routeParams', '$uibModal', function ($scope, $rootScope, marketPlaceService, $location, $routeParams, $uibModal, $uibModalInstance) {
 
         var path = $location.$$path;
-       
+
         if (path != undefined && path.indexOf("UserAuth") > -1) {
             localStorage.setItem("user_data", $routeParams.userData);
             localStorage.setItem("jwt_token", $routeParams.jwtToken);
             localStorage.setItem("base_uri", $routeParams.apiBaseUri);
         }
-       
+
 
 
         var self = this;
@@ -20,9 +20,10 @@ define(['angularAMD', 'marketPlaceService', 'searchCatalogueController', 'catego
         ];
         self.addons = [];
         self.offers = [];
-        var category1 = { id: '1', name: 'All' };
+        var category1 = { id: '1', name: 'All Add-ons' };
+        var category1Offer = { id: '1', name: 'All Offers' }
         var category2 = { id: '2', name: 'Newly Added' };
-        var category3 = { id: '3', name: 'My Add-Ons' };
+        var category3 = { id: '3', name: 'My Add-ons' };
         var category3Offer = { id: '3', name: 'My Offers' };
         self.categoryList = [];
         var selectedCategory = 0;
@@ -128,6 +129,7 @@ define(['angularAMD', 'marketPlaceService', 'searchCatalogueController', 'catego
         },
 
         getCategories = function (tab) {
+            self.categoryList = [];
             //$scope.isLoaded = true;
 
             //****************** Umcomment this if categories are fetched using API********
@@ -149,15 +151,12 @@ define(['angularAMD', 'marketPlaceService', 'searchCatalogueController', 'catego
             //*****************************************************
 
             //****************** For the timebeing there are only 3 categories********
-
             if (tab == 1) {
-                self.categoryList.unshift(category3);
+                self.categoryList.unshift(category1, category2, category3);
             }
             if (tab == 2) {
-                self.categoryList.unshift(category3Offer);
+                self.categoryList.unshift(category1Offer, category2, category3Offer);
             }
-            self.categoryList.unshift(category2);
-            self.categoryList.unshift(category1);
 
             //****************************************************
         },

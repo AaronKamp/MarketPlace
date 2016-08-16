@@ -416,7 +416,7 @@ a[ng-click] {
     position: fixed;
     width: 100%;
     z-index: 1;
-    background: #000 url(../Images/slider_bg.png) repeat-y center;
+    background: #000 repeat-y center;
     height: 115px;
 }
 
@@ -427,18 +427,23 @@ a[ng-click] {
     top: 0;
     left: 0;
     z-index: 1000;
-    background: url(../Images/header_bg1.png) repeat-x;
+    background: url(../Images/title-bar.png) repeat-x;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
     font-size: 22px;
     color: #fff;
     text-align: center;
-    padding: 7px 15px 8px 15px;
+    padding: 7px 0px 8px 0px;
     box-shadow: 0 -3px 5px 5px #999;
 }
 
     .top_header img {
         margin-left: 15px;
+    }
+
+    .top_header div {
+        margin: auto;
+        width: 25%;
     }
 
 .lnsearch {
@@ -481,9 +486,9 @@ a[ng-click] {
 
 .nav-tab-set .nav-tabs {
     width: 100%;
-    padding: 20px 35% 10px 35%;
+    padding: 20px 32% 10px;
     border-radius: 0px;
-    background: #000 url(../Images/slider_bg.png) repeat-y center;
+    background: #000 repeat-y center;
     border: none;
     position: fixed;
     top: 43px;
@@ -533,7 +538,7 @@ a[ng-click] {
 }
 
 .nav-tab-set .nav-tabs > li.active > a, .nav-tab-set .nav-tabs > li.active > a:focus, .nav-tab-set .nav-tabs > li.active > a:hover {
-    background: #fff;
+    background: #fff url(../Images/segmented-controls.png);
     color: #000;
     border-radius: 0px;
 }
@@ -544,15 +549,16 @@ a[ng-click] {
 
 .category {
     width: 40%;
-    margin: 5px auto 10px;
+    margin: 4px auto 10px;
     z-index: 1000;
 }
 
 .category-list {
-    background: #000 url(../Images/slider_bg.png) repeat-y center;
-    height: 36px;
-    position: fixed;
-    top: 112px;
+    background: #000 repeat-y center;
+    height: 50px;
+    padding-top: 20px;
+    /*position: fixed;
+    top: 112px;*/
     left: 0;
     z-index: 999;
     width: 100%;
@@ -582,20 +588,21 @@ a[ng-click] {
     align-items: center;
 }
 
-.swiper-slide a {
-    color: #ccc;
-    text-decoration: none;
-    font-size: 16px;
-}
+    .swiper-slide a {
+        color: #ccc;
+        text-decoration: none;
+        font-size: 16px;
+    }
 
-.swiper-slide a:focus, .swiper-slide a:hover {
-    text-decoration: none !important;
-    color: #ccc !important;
-}
+        .swiper-slide a:focus, .swiper-slide a:hover {
+            text-decoration: none !important;
+            color: #ccc !important;
+        }
 
 div.swiper-slide.selectedCategory a {
     text-decoration: none !important;
     color: #337ab7 !important;
+    font-weight: bold;
 }
 
 
@@ -624,11 +631,10 @@ div.swiper-slide.selectedCategory a {
 }
 
 .carousel-div {
-    height: 300px;
+    height: 280px;
     padding-left: 27.5%;
     padding-right: 27.5%;
-    background: #000 url(../Images/slider_bg.png) repeat-y center;
-    margin-top: 146px;
+    background: #000 repeat-y center;
 }
 
     .carousel-div img {
@@ -637,6 +643,7 @@ div.swiper-slide.selectedCategory a {
 .carousel-indicators li {
     width: 14px !important;
     height: 14px !important;
+    margin: 0 5px;
 }
 
 .carousel-indicators {
@@ -649,7 +656,7 @@ div.swiper-slide.selectedCategory a {
     .carousel-indicators .active {
         width: 14px !important;
         height: 14px !important;
-        margin: 1px !important;
+        margin: 0 5px;
         background-color: none !important;
     }
 
@@ -674,26 +681,26 @@ div.swiper-slide.selectedCategory a {
         font-size: 16px;
         margin: 10px 0 0 0 !important;
         font-weight: bold !important;
-        color: #333 !important;
+        color: #000 !important;
     }
 
     .offers p {
         margin-bottom: 0 !important;
         margin-top: 5px !important;
         font-size: 12px;
-        color: #333 !important;
+        color: #6F757D !important;
         margin-right: 13%;
     }
 
     .offers ul li .actionbox {
         position: absolute;
         height: 100%;
-        right: -6px;
+        right: 0px;
         width: 12%;
     }
 
     .offers .add_title {
-        background: url(../Images/add_title.png) no-repeat center 53%;
+        background: url(../Images/add-icon.png) no-repeat center 53%;
     }
 
 .actionbox span {
@@ -701,9 +708,10 @@ div.swiper-slide.selectedCategory a {
 }
 
     .actionbox span.tick {
-        background: url(../Images/tick_corner.png) no-repeat right top;
-        width: 48px;
-        height: 48px;
+        background: url(../Images/corner-check.png) no-repeat right top;
+        width: 60px;
+        height: 60px;
+        float: right;
     }
 
     .actionbox span.arrow {
@@ -711,6 +719,8 @@ div.swiper-slide.selectedCategory a {
         width: 35px;
         height: 35px;
         background-size: 33%;
+        float: right;
+        margin-right: 10px;
     }
 
 
@@ -751,18 +761,18 @@ div.swiper-slide.selectedCategory a {
 
 .add-ons-details {
     overflow: auto;
-    margin-top: 40px;
-    padding: 0 0 0 25px;
+    margin-top: 45px;
+    padding: 0 0 0 10px;
 }
 
     .add-ons-details .lft_desc {
         width: 75%;
         float: left;
         overflow: auto;
-        padding-top: 25px;
+        padding-top: 10px;
     }
 
-     
+
 
 .lft_desc .img-pic {
     width: 18%;
@@ -771,38 +781,40 @@ div.swiper-slide.selectedCategory a {
 
     .lft_desc .img-pic img {
         width: 85%;
+        height:auto;
+        margin-bottom:10px;
     }
 
 .lft_desc .txt-desc {
     width: 82%;
-    float: right;
+    float: left;
     padding-right: 5%;
     font-family: Arial, Helvetica, sans-serif !important;
 }
 
 .txt-desc h2 {
-    font-size: 24px;
+    font-size: 16px !important;
     font-weight: bold;
     margin-bottom: 8px !important;
-    margin-top: 5px !important;
+    margin-top: 0px !important;
 }
 
 h2.tick {
     display: inline-block;
     padding-right: 25px;
-    background: url(../Images/tick.png) no-repeat right center;
+    background: url(../Images/check.png) no-repeat right center;
 }
 
 .txt-desc p {
     color: #666;
-    font-size: 16px !important;
+    font-size: 12px !important;
 }
 
 
 .add-ons-details .rht_settings {
     width: 23%;
     float: right;
-    padding-top:5px;
+    padding-top: 5px;
     border-left: 1px solid #999;
 }
 
@@ -818,7 +830,7 @@ h2.tick {
     }
 
         .rht_settings ul li a {
-            color: #666;
+            color: #1E2733;
             text-decoration: none;
             padding: 10px 10px 10px 20px;
             display: block;
@@ -863,6 +875,7 @@ h2.tick {
         height: 30px !important;
     }
 
+
 .search-modal {
     position: fixed;
     top: -22px !important;
@@ -876,7 +889,7 @@ h2.tick {
         border: 1px solid #ccc !important;
     }
 
-.search-btn {
+/*.search-btn {
     position: absolute;
     top: -1px;
     right: 0px;
@@ -886,7 +899,7 @@ h2.tick {
     width: 32px;
     border-radius: 6px;
     border: 1px solid #ccc;
-}
+}*/
 /* ============ Search-Modal : End ===================*/
 
 @media (max-width: 1280px) {
@@ -902,37 +915,38 @@ h2.tick {
     }
 
     .category-list {
-        position: fixed;
-        top: 110px;
+        /*position: fixed;
+        top: 110px;*/
         left: 0;
     }
 
-    .carousel-div {
-        margin-top: 146px;
-    }
 
     .nav > li > a {
         padding: 5px 16px !important;
     }
 
     .top_header img {
-        margin-left: 0px;
+        margin-left: 10px;
+    }
+
+    .top_header div {
+        margin: auto;
+        width: 25%;
     }
 
     .lft_desc .img-pic img {
+        width: 80%;
+        height: auto;
+    }
+
+    .add-ons-details .vw-reports {
         width: 85%;
-        height: 144px;
+        float: left;
     }
 
-    .add-ons-details .vw-reports{
-        width:85%;
-        float:left;
+    .add-ons-details .rht_settings {
+        padding-top: 5px;
     }
-
-    .add-ons-details .rht_settings{
-        padding-top:5px;
-    }
-
 }
 
 @media (min-width: 801px) and (max-width: 1024px) {
@@ -947,7 +961,7 @@ h2.tick {
 
         .offers ul li .actionbox {
             position: absolute;
-            right: -5px;
+            right: 0px;
         }
 
 
@@ -962,6 +976,10 @@ h2.tick {
         height: 40px;
     }
 
+    .add-ons-details .lft_desc {
+        padding-top: 15px;
+    }
+
     .offers p {
         margin: 0 20% 10px 5px;
     }
@@ -971,8 +989,8 @@ h2.tick {
     }
 
     .category-list {
-        position: fixed;
-        top: 110px;
+        /*position: fixed;
+        top: 110px;*/
         left: 0;
     }
 
@@ -982,7 +1000,7 @@ h2.tick {
 
     .carousel-div {
         padding-left: 20%;
-        margin-top: 146px;
+        margin: auto;
     }
 
     .nav > li > a {
@@ -991,25 +1009,37 @@ h2.tick {
 
     .top_header img {
         margin-left: 0px;
+        width: 75px;
+    }
+
+    .top_header div {
+        margin: auto;
+        width: 25%;
     }
 
     .lft_desc .img-pic img {
+        width: 70%;
+        height: auto;
+    }
+
+    .add-ons-details .lft_desc {
+        padding-top: 15px;
+    }
+
+    .add-ons-details .rht_settings {
+        padding-top: 5px;
+    }
+
+    .add-ons-details .vw-reports {
         width: 85%;
-        height: 115px;
+        float: left;
     }
 
-    .add-ons-details .rht_settings{
-        padding-top:5px;
-    }
-
-    .add-ons-details .vw-reports{
-        width:85%;
-        float:left;
-    }
     .top_header {
         font-size: 21px;
-        padding: 7px 70px 8px 15px;
+        padding: 7px 0px 8px 15px;
     }
+
 
     .MT-offer {
         margin-top: 0px !important;
@@ -1053,13 +1083,13 @@ h2.tick {
     }
 
     .category-list {
-        position: fixed;
-        top: 110px;
+        /*position: fixed;
+        top: 110px;*/
         left: 0;
     }
 
     .carousel-div {
-        margin-top: 146px;
+        margin: auto;
         padding-left: 12%;
     }
 
@@ -1068,25 +1098,35 @@ h2.tick {
     }
 
     .top_header img {
-        margin-left: 0px;
+        margin-left: 10px;
+    }
+
+    .top_header div {
+        margin: auto;
+        width: 25%;
     }
 
     .lft_desc .img-pic img {
         width: 85%;
-        height: 88.5px;
+        height: auto;
     }
 
-    .add-ons-details .vw-reports{
-        width:85%;
-        float:left;
+    .add-ons-details .vw-reports {
+        width: 85%;
+        float: left;
     }
 
-    .add-ons-details .rht_settings{
-        padding-top:5px;
+    .add-ons-details .rht_settings {
+        padding-top: 5px;
     }
 
     .top_header img {
-        margin-left: 0px;
+        margin-left: 10px;
+    }
+
+    .top_header div {
+        margin: auto;
+        width: 25%;
     }
 }
 
@@ -1130,6 +1170,7 @@ h2.tick {
 
     .carousel-div {
         padding-left: 10%;
+        padding-top: 25px;
     }
 
     .nav > li > a {
@@ -1137,24 +1178,29 @@ h2.tick {
     }
 
     .top_header img {
-        margin-left: 0px;
+        margin-left: 10px;
+    }
+
+    .top_header div {
+        margin: auto;
+        width: 25%;
     }
 
     .lft_desc .img-pic img {
         width: 85%;
-        height: 85px;
+        height: auto;
     }
 
-    .add-ons-details .vw-reports{
-        width:100%;
+    .add-ons-details .vw-reports {
+        width: 100%;
     }
 
-    .add-ons-details .rht_settings{
-        padding-top:5px;
+    .add-ons-details .rht_settings {
+        padding-top: 5px;
     }
 
     .top_header {
-        padding: 7px 70px 8px 15px;
+        padding: 7px 0px 8px 15px;
     }
 
     .MT-offer {
@@ -1175,20 +1221,30 @@ h2.tick {
         padding: 6px 12px !important;
     }
 
+    .nav-tab-set .nav-tabs {
+        padding: 20px 20% 10px;
+    }
+
     .top_header img {
-        margin-left: 0px;
+        margin-left: 10px;
+    }
+
+    .top_header div {
+        margin: auto;
+        width: 25%;
     }
 
     .lft_desc .img-pic img {
         width: 85%;
-        height: 132px;
+        height: auto;
         margin-bottom: 20px;
     }
 
 
     .top_header {
-        padding: 7px 70px 8px 15px;
+        padding: 7px 0px 8px 15px;
     }
+
 
     .offers ul li {
         width: 50%;
@@ -1215,7 +1271,7 @@ h2.tick {
     .add-ons-details .lft_desc {
         width: auto;
         float: none;
-        padding-left: 20px;
+        padding-left: 10px;
     }
 
     .lft_desc .img-pic {
@@ -1226,17 +1282,17 @@ h2.tick {
         width: 70%;
     }
 
-    
-    .add-ons-details .vw-reports{
-        width:100%;
+
+    .add-ons-details .vw-reports {
+        width: 100%;
     }
 
     .txt-desc h2 {
-        font-size: 24px;
+        font-size: 14px;
     }
 
     .txt-desc p {
-        font-size: 16px;
+        font-size: 10px;
         margin-bottom: 20px;
     }
 
@@ -1247,15 +1303,16 @@ h2.tick {
         border-top: 1px solid #999;
     }
 
-    .add-ons-details .vw-reports{
-        width:100%;
+    .add-ons-details .vw-reports {
+        width: 100%;
     }
+
     .add-ons-details {
         padding: 0;
     }
 
     .rht_settings ul li {
-        font-size: 20px;
+        font-size: 18px;
     }
 
         .rht_settings ul li a span {
@@ -1268,8 +1325,8 @@ h2.tick {
     }
 
     .category-list {
-        position: fixed;
-        top: 112px;
+        /*position: fixed;
+        top: 112px;*/
     }
 
     .category {
@@ -1277,7 +1334,7 @@ h2.tick {
         height: 35px;
         font-size: 16px;
         margin: 0px !important;
-        padding: 2px 5% 14px 2%;
+        padding: 2px 4% 14px;
     }
 
     .image-done-btn {
@@ -1287,8 +1344,7 @@ h2.tick {
 
     .carousel-div {
         padding-left: 1.5%;
-        margin-top: 146px;
-        height: 280px;
+        height: 300px;
     }
 
         .carousel-div img {
@@ -1325,7 +1381,7 @@ h2.tick {
 
     .nav-tab-set .nav-tabs {
         width: 100%;
-        padding: 15px 25px 10px 25px;
+        padding: 15px 15% 10px;
     }
 
     .nav > li > a {
@@ -1333,21 +1389,27 @@ h2.tick {
     }
 
     .top_header img {
-        margin-left: 0px;
+        margin-left: 10px;
+    }
+
+    .top_header div {
+        margin: auto;
+        width: 25%;
     }
 
     .lft_desc .img-pic img {
         width: 85%;
-        height: 88px;
+        height: auto;
     }
-    
-    .add-ons-details .vw-reports{
-        width:100%;
+
+    .add-ons-details .vw-reports {
+        width: 100%;
     }
 
     .top_header {
-        padding: 7px 70px 8px 15px;
+        padding: 7px 0px 8px 0px;
     }
+
 
     .offers ul li {
         width: 100%;
@@ -1360,7 +1422,7 @@ h2.tick {
 
     .offers p {
         margin: 0 20% 10px 0 !important;
-        font-size: 16px;
+        font-size: 12px;
     }
 
     .offers.MT-offer ul li {
@@ -1377,14 +1439,15 @@ h2.tick {
     }
 
     .actionbox span.tick {
-        width: 49px;
-        height: 50px;
+        background: url(../Images/corner-check.png) no-repeat right top;
+        width: 60px;
+        height: 60px;
     }
 
     .add-ons-details .lft_desc {
         width: auto;
         float: none;
-        padding-left: 20px;
+        padding-left: 10px;
     }
 
     .lft_desc .img-pic {
@@ -1396,11 +1459,11 @@ h2.tick {
     }
 
     .txt-desc h2 {
-        font-size: 24px;
+        font-size: 14px;
     }
 
     .txt-desc p {
-        font-size: 16px;
+        font-size: 10px;
         margin-bottom: 20px;
     }
 
@@ -1416,16 +1479,17 @@ h2.tick {
     }
 
     .rht_settings ul li {
-        font-size: 22px;
+        font-size: 18px;
     }
 
         .rht_settings ul li a span {
             margin-right: 3%;
         }
 
-    .add-ons-details .vw-reports{
-        width:100%;
+    .add-ons-details .vw-reports {
+        width: 100%;
     }
+
     .entry-content img {
         width: 77% !important;
         height: auto !important;
@@ -1437,8 +1501,8 @@ h2.tick {
     }
 
     .category-list {
-        position: fixed;
-        top: 106px;
+        /*position: fixed;
+        top: 106px;*/
     }
 
     .category {
@@ -1446,7 +1510,7 @@ h2.tick {
         height: 35px;
         font-size: 16px;
         margin: 0px !important;
-        padding: 2px 5% 14px 2%;
+        padding: 2px 4% 14px;
     }
 
     .image-done-btn {
@@ -1456,13 +1520,13 @@ h2.tick {
 
     .carousel-div .carousel {
         width: 100%;
+        margin-top: 5px;
     }
 
     .carousel-div {
         padding-left: 0px !important;
         padding-right: 0px !important;
-        margin-top: 140px;
-        height: 230px;
+        height: 250px;
     }
 
         .carousel-div img {
@@ -1502,7 +1566,7 @@ h2.tick {
 
     .nav-tab-set .nav-tabs {
         width: 100%;
-        padding: 15px 15px 10px 15px;
+        padding: 15px 15% 10px;
     }
 
     .nav > li > a {
@@ -1510,18 +1574,23 @@ h2.tick {
     }
 
     .top_header img {
-        margin-left: 0px;
+        margin-left: 10px;
+    }
+
+    .top_header div {
+        margin: auto;
+        width: 25%;
     }
 
     .lft_desc .img-pic img {
         width: 85%;
-        height: 83px;
+        height: auto;
     }
 
 
 
     .top_header {
-        padding: 7px 70px 8px 15px;
+        padding: 7px 0px 8px 0px;
     }
 
     .offers ul li {
@@ -1535,7 +1604,7 @@ h2.tick {
 
     .offers p {
         margin: 0 20% 10px 0 !important;
-        font-size: 16px;
+        font-size: 12px;
     }
 
     .offers.MT-offer ul li {
@@ -1548,8 +1617,8 @@ h2.tick {
     }
 
     .category-list {
-        position: fixed;
-        top: 108px;
+        /*position: fixed;
+        top: 108px;*/
     }
 
     .category {
@@ -1557,23 +1626,24 @@ h2.tick {
         height: 35px;
         font-size: 16px;
         margin: 0px !important;
-        padding: 2px 5% 14px 2%;
+        padding: 2px 4% 14px;
     }
 
     .actionbox span.tick {
-        width: 49px;
-        height: 50px;
+        background: url(../Images/corner-check.png) no-repeat right top;
+        width: 30px;
+        height: 30px;
     }
 
     .add-ons-details .lft_desc {
         width: auto;
         float: none;
-        padding-left: 20px;
+        padding-left: 10px;
     }
 
-    
-    .add-ons-details .vw-reports{
-        width:100%;
+
+    .add-ons-details .vw-reports {
+        width: 100%;
     }
 
     .lft_desc .img-pic {
@@ -1585,11 +1655,11 @@ h2.tick {
     }
 
     .txt-desc h2 {
-        font-size: 24px;
+        font-size: 16px;
     }
 
     .txt-desc p {
-        font-size: 16px;
+        font-size: 10px;
         margin-bottom: 20px;
     }
 
@@ -1605,14 +1675,15 @@ h2.tick {
     }
 
     .rht_settings ul li {
-        font-size: 22px;
+        font-size: 18px;
     }
 
         .rht_settings ul li a span {
             margin-right: 3%;
         }
-    .add-ons-details .vw-reports{
-        width:100%;
+
+    .add-ons-details .vw-reports {
+        width: 100%;
     }
 
     .entry-content img {
@@ -1632,8 +1703,7 @@ h2.tick {
     .carousel-div {
         padding-left: 0px !important;
         padding-right: 0px !important;
-        margin-top: 142px;
-        height: 210px;
+        height: 225px;
     }
 
         .carousel-div img {
@@ -1669,7 +1739,7 @@ h2.tick {
 
     .nav-tab-set .nav-tabs {
         width: 100%;
-        padding: 15px 5px 10px 5px;
+        padding: 15px 15% 10px;
     }
 
     .nav > li > a {
@@ -1677,12 +1747,17 @@ h2.tick {
     }
 
     .top_header img {
-        margin-left: 0px;
+        margin-left: 10px;
+    }
+
+    .top_header div {
+        margin: auto;
+        width: 25%;
     }
 
     .lft_desc .img-pic img {
         width: 85%;
-        height: 75px;
+        height: auto;
     }
 
     .offers ul li {
@@ -1697,7 +1772,7 @@ h2.tick {
 
     .offers p {
         margin: 0 20% 10px 0 !important;
-        font-size: 16px;
+        font-size: 12px;
     }
 
     .offers.MT-offer ul li {
@@ -1710,8 +1785,8 @@ h2.tick {
     }
 
     .category-list {
-        position: fixed;
-        top: 106px;
+        /*position: fixed;
+        top: 106px;*/
     }
 
     .category {
@@ -1719,7 +1794,7 @@ h2.tick {
         height: 32px;
         font-size: 16px;
         margin: 0px !important;
-        padding: 2px 5% 14px 0% !important;
+        padding: 2px 4% 14px;
     }
 
     .searchWrapper {
@@ -1728,19 +1803,20 @@ h2.tick {
 
 
     .actionbox span.tick {
-        width: 49px;
-        height: 50px;
+        background: url(../Images/corner-check.png) no-repeat right top;
+        width: 30px;
+        height: 30px;
     }
 
     .add-ons-details .lft_desc {
         width: auto;
         float: none;
-        padding-left: 20px;
+        padding-left: 10px;
     }
 
-    
-    .add-ons-details .vw-reports{
-        width:100%;
+
+    .add-ons-details .vw-reports {
+        width: 100%;
     }
 
     .lft_desc .img-pic {
@@ -1752,11 +1828,11 @@ h2.tick {
     }
 
     .txt-desc h2 {
-        font-size: 24px;
+        font-size: 16px;
     }
 
     .txt-desc p {
-        font-size: 16px;
+        font-size: 10px;
         margin-bottom: 20px;
     }
 
@@ -1772,15 +1848,15 @@ h2.tick {
     }
 
     .rht_settings ul li {
-        font-size: 22px;
+        font-size: 18px;
     }
 
         .rht_settings ul li a span {
             margin-right: 3%;
         }
 
-    .add-ons-details .vw-reports{
-        width:100%;
+    .add-ons-details .vw-reports {
+        width: 100%;
     }
 
     .entry-content img {
@@ -1795,8 +1871,7 @@ h2.tick {
     .carousel-div {
         padding-left: 0px !important;
         padding-right: 0px !important;
-        margin-top: 136px;
-        height: 210px;
+        height: 240px;
     }
 
         .carousel-div img {
@@ -1809,7 +1884,7 @@ h2.tick {
     }
 
     .top_header {
-        padding: 7px 70px 8px 15px;
+        padding: 7px 0px 8px 0px;
     }
 
     .image-done-btn {
@@ -1836,7 +1911,7 @@ h2.tick {
 
     .nav-tab-set .nav-tabs {
         width: 100%;
-        padding: 15px 10px 10px 10px;
+        padding: 15px 15% 10px;
     }
 
     .nav > li > a {
@@ -1844,12 +1919,17 @@ h2.tick {
     }
 
     .top_header img {
-        margin-left: 0px;
+        margin-left: 10px;
+    }
+
+    .top_header div {
+        margin: auto;
+        width: 25%;
     }
 
     .lft_desc .img-pic img {
         width: 85%;
-        height: 72px;
+        height: auto;
     }
 
     .back-btn-image {
@@ -1867,7 +1947,7 @@ h2.tick {
 
     .offers p {
         margin: 0 20% 10px 0 !important;
-        font-size: 16px;
+        font-size: 12px;
     }
 
     .offers.MT-offer ul li {
@@ -1880,8 +1960,8 @@ h2.tick {
     }
 
     .category-list {
-        position: fixed;
-        top: 104px;
+        /*position: fixed;
+        top: 104px;*/
     }
 
     .category {
@@ -1889,20 +1969,20 @@ h2.tick {
         height: 32px;
         font-size: 16px;
         margin: 0px !important;
-        padding: 2px 5% 14px 2%;
+        padding: 2px 4% 14px;
     }
 
     .searchWrapper {
         width: 135px;
     }
 
-    
-    .add-ons-details .vw-reports{
-        width:100%;
+
+    .add-ons-details .vw-reports {
+        width: 100%;
     }
 
     .top_header {
-        padding: 7px 70px 8px 15px;
+        padding: 7px 0px 8px 0px;
     }
 
     .image-done-btn {
@@ -1911,14 +1991,15 @@ h2.tick {
     }
 
     .actionbox span.tick {
-        width: 49px;
-        height: 50px;
+        background: url(../Images/corner-check.png) no-repeat right top;
+        width: 30px;
+        height: 30px;
     }
 
     .add-ons-details .lft_desc {
         width: auto;
         float: none;
-        padding-left: 20px;
+        padding-left: 10px;
     }
 
     .lft_desc .img-pic {
@@ -1930,11 +2011,11 @@ h2.tick {
     }
 
     .txt-desc h2 {
-        font-size: 24px;
+        font-size: 16px;
     }
 
     .txt-desc p {
-        font-size: 16px;
+        font-size: 10px;
         margin-bottom: 20px;
     }
 
@@ -1950,15 +2031,15 @@ h2.tick {
     }
 
     .rht_settings ul li {
-        font-size: 22px;
+        font-size: 18px;
     }
 
         .rht_settings ul li a span {
             margin-right: 3%;
         }
 
-    .add-ons-details .vw-reports{
-        width:100%;
+    .add-ons-details .vw-reports {
+        width: 100%;
     }
 
     .entry-content img {
@@ -1977,8 +2058,7 @@ h2.tick {
     .carousel-div {
         padding-left: 0px !important;
         padding-right: 0px !important;
-        margin-top: 135px;
-        height: 185px;
+        height: 200px;
     }
 
         .carousel-div img {
@@ -2010,7 +2090,7 @@ h2.tick {
 
     .nav-tab-set .nav-tabs {
         width: 100%;
-        padding: 15px 2% 10px 3%;
+        padding: 15px 15% 10px;
     }
 
         .nav-tab-set .nav-tabs > li {
@@ -2022,11 +2102,16 @@ h2.tick {
     }
 
     .top_header {
-        padding: 7px 70px 8px 15px;
+        padding: 7px 0px 8px 0px;
     }
 
         .top_header img {
-            margin-left: 0px;
+            margin-left: 10px;
+        }
+
+        .top_header div {
+            margin: auto;
+            width: 25%;
         }
 
     .offers ul li {
@@ -2040,7 +2125,7 @@ h2.tick {
 
     .offers p {
         margin: 0 20% 10px 0 !important;
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .offers.MT-offer ul li {
@@ -2055,18 +2140,24 @@ h2.tick {
     .category {
         height: 32px;
         margin-right: 5% !important;
-        padding: 2px 0% 14px 5%;
-        width: auto;
+        padding: 2px 4% 14px;
+        width: 100%;
     }
 
     .swiper-slide:first-child {
         width: 60px !important;
         margin-right: 15px !important;
+        margin-left: 25px !important;
+    }
+
+
+    .swiper-slide a {
+        font-size: 14px !important;
     }
 
     .category-list {
-        position: fixed;
-        top: 106px;
+        /*position: fixed;
+        top: 106px;*/
     }
 
     .searchWrapper {
@@ -2074,14 +2165,15 @@ h2.tick {
     }
 
     .actionbox span.tick {
-        width: 49px;
-        height: 50px;
+        background: url(../Images/corner-check.png) no-repeat right top;
+        width: 30px;
+        height: 30px;
     }
 
     .add-ons-details .lft_desc {
         width: auto;
         float: none;
-        padding-left: 20px;
+        padding-left: 10px;
     }
 
 
@@ -2098,17 +2190,18 @@ h2.tick {
         width: 70%;
     }
 
-    
-    .add-ons-details .vw-reports{
-        width:100%;
+
+    .add-ons-details .vw-reports {
+        width: 100%;
     }
 
     .txt-desc h2 {
-        font-size: 24px;
+        font-size: 16px;
+        color: #000;
     }
 
     .txt-desc p {
-        font-size: 16px;
+        font-size: 10px;
         margin-bottom: 20px;
     }
 
@@ -2118,23 +2211,24 @@ h2.tick {
         border-left: 0;
         border-top: 1px solid #999;
     }
-   
+
 
     .add-ons-details {
         padding: 0;
     }
 
     .rht_settings ul li {
-        font-size: 22px;
+        font-size: 18px;
     }
 
         .rht_settings ul li a span {
             margin-right: 3%;
         }
 
-    .add-ons-details .vw-reports{
-        width:100%;
+    .add-ons-details .vw-reports {
+        width: 100%;
     }
+
     .entry-content img {
         width: 67% !important;
         height: auto !important;
@@ -2148,8 +2242,7 @@ h2.tick {
     .carousel-div {
         padding-left: 0px !important;
         padding-right: 0px !important;
-        margin-top: 140px;
-        height: 210px;
+        height: 225px;
     }
 
         .carousel-div img {
@@ -2162,7 +2255,7 @@ h2.tick {
     }
 
     .top_header {
-        padding: 7px 70px 8px 15px;
+        padding: 7px 0px 8px 0px;
     }
 
     .image-done-btn {
