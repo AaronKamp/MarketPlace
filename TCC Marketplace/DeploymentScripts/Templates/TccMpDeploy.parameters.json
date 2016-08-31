@@ -41,15 +41,38 @@
     "YLM.ApiUrl": {
       "value": "https://test.api.infoconnect.com/hw_mktpl/v1/"
     },
-
-    "TCC.ApiUrl": {
-      "value": "https://qtccna.honeywell.com/TrueHomeStage/"
+    "TCC.AuthApiUrl": {
+      "value": "https://qtccna.honeywell.com/TrueHomeStage/Auth/Oauth/Token"
+    },
+    "TCC.IdentityApiUrl": {
+      "value": "https://qtccna.honeywell.com/TrueHomeStage/WebApi/api/identity"
     },
     "TCC.AppId": {
       "value": "53cd5e17-0def-468d-9ede-c60f808ddb1b"
     },
+    "SqlConnectionMaxRetry": {
+      "value": 5
+    },
+    "SqlConnectionMaxDelay": {
+      "value": 12
+    },
+    "Cache.RetryCount": {
+      "value": 3
+    },
+    "Cache.ConnectTimeout": {
+      "value": 2000
+    },
+    "Cache.Duration": {
+      "value": 20
+    },
+    "Cache.Mode": {
+      "value": "Distributed"
+    },
+    "Cache.Client": {
+      "value": "MarketPlace"
+    },
     "Application.Environment": {
-      "value": "STAGE"
+      "value": "TEST"
     }
 
   }

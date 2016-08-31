@@ -131,7 +131,7 @@ if ($UploadArtifacts) {
         New-AzureStorageContainer -Name $StorageContainerName -Context $StorageContext -Verbose | Out-Null
     }
     Write-Host "Storage container creation - Completed "
-
+   
     # Use AzCopy to copy files from the local storage drop path to the storage account container
     & $AzCopyPath """$ArtifactStagingDirectory""", $ArtifactsLocation, "/DestKey:$StorageAccountKey", "/S", "/Y", "/Z:$env:LocalAppData\Microsoft\Azure\AzCopy\$ResourceGroupName"
     if ($LASTEXITCODE -ne 0) { return }
