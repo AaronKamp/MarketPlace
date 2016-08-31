@@ -1,18 +1,20 @@
-﻿using System;
-using System.Web.Http;
+﻿using System.Web.Http;
 
 namespace TCCMarketPlace.Apis
 {
+    /// <summary>
+    /// Global.asax
+    /// </summary>
     public class WebApiApplication : System.Web.HttpApplication
     {
+        /// <summary>
+        /// Application_Start event. This is fired on application start and initiates application configuration
+        /// </summary>
         protected void Application_Start()
         {
-            //AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             GlobalConfiguration.Configure(FilterConfig.Register);
-            //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            //RouteConfig.RegisterRoutes(RouteTable.Routes);
-            
+            SwaggerConfig.Register();
         }
 
     }

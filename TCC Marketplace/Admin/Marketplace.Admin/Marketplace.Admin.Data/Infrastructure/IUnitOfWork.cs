@@ -2,6 +2,9 @@
 {
     public interface IUnitOfWork
     {
+        /// <summary>
+        /// Save Db Changes.
+        /// </summary>
         void Commit();
     }
 }

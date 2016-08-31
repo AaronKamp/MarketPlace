@@ -5,8 +5,15 @@ using System.Linq;
 
 namespace Marketplace.Admin.Data
 {
+    /// <summary>
+    /// Handles seed data on completion of Database model creation by code first.
+    /// </summary>
     public class MarketPlaceAdminDbContextInitialiser : CreateDatabaseIfNotExists<MarketplaceAdminDb>
     {
+        /// <summary>
+        /// Handles seed data. Reads SQL scripts from file and execute on DB.
+        /// </summary>
+        /// <param name="context"> MarketplaceAdminDb </param>
         protected override void Seed(MarketplaceAdminDb context)
         {
             var appDirectory = AppDomain.CurrentDomain.BaseDirectory;

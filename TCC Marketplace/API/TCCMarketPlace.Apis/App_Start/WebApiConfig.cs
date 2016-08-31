@@ -6,14 +6,19 @@ using System.Web.Http.Cors;
 
 namespace TCCMarketPlace.Apis
 {
+    /// <summary>
+    /// Web api configuration 
+    /// </summary>
     public static class WebApiConfig
     {
+        /// <summary>
+        /// Register Web API configuration.
+        /// </summary>
         public static void Register(HttpConfiguration config)
         {
-            //changing the formatter to camelcasing to support existing clients
+            //changing the formatter to camel casing
             var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
             jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
 
             // Web API configuration and services

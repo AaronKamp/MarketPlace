@@ -52,6 +52,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -70,6 +71,7 @@
     <Compile Include="Infrastructure\IUnitOfWork.cs" />
     <Compile Include="Infrastructure\RepositoryBase.cs" />
     <Compile Include="Infrastructure\UnitOfWork.cs" />
+    <Compile Include="MarketplaceAdminConfiguration.cs" />
     <Compile Include="MarketplaceAdminDb.cs" />
     <Compile Include="MarketPlaceAdminDbContextInitialiser.cs" />
     <Compile Include="Migrations\201607291340015_InitialCreate.cs" />
@@ -113,6 +115,21 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="PostDeploymentScripts\Script.CreateViewServicesView.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PostDeploymentScripts\Script.LocationMasterData_1.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PostDeploymentScripts\Script.LocationMasterData_2.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PostDeploymentScripts\Script.LocationMasterData_5.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PostDeploymentScripts\Script.LocationMasterData_4.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PostDeploymentScripts\Script.LocationMasterData_3.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="PostDeploymentScripts\Script._AlterTables.sql">

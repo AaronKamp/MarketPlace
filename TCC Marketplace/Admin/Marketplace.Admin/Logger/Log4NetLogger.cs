@@ -7,16 +7,27 @@ using log4net;
 
 namespace Logger
 {
+    /// <summary>
+    /// Exception logging handler.
+    /// </summary>
     internal class Log4NetLogger : ILogger
     {
         protected readonly ILog Logger;
 
+        /// <summary>
+        /// Constructor. 
+        /// </summary>
         public Log4NetLogger()
         { 
             log4net.Config.XmlConfigurator.Configure();
             Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);        
         }
 
+        /// <summary>
+        /// Log the exception.
+        /// </summary>
+        /// <param name="message"> Exception message. </param>
+        /// <param name="logLevel"> Exception level. </param>
         public void Log(string message, LogLevelEnum logLevel)
         {
             switch(logLevel)
@@ -29,6 +40,12 @@ namespace Logger
             }
         }
 
+        /// <summary>
+        /// Log the Exception
+        /// </summary>
+        /// <param name="message"> Exception message</param>
+        /// <param name="ex"> Exception ex.</param>
+        /// <param name="logLevel"> Exception level. </param>
         public void Log(string message, Exception ex, LogLevelEnum logLevel)
         {
             switch (logLevel)

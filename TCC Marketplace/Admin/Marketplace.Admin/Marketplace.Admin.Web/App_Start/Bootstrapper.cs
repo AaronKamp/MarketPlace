@@ -13,13 +13,22 @@ using Microsoft.Owin.Security;
 
 namespace Marketplace.Admin.App_Start
 {
+    /// <summary>
+    /// Application starts in bootstrapper.
+    /// </summary>
     public static class Bootstrapper
     {
+        /// <summary>
+        /// Run SetAutofacContainer on application start.
+        /// </summary>
         public static void Run()
         {
             SetAutofacContainer();
         }
 
+        /// <summary>
+        /// Autofac container to handle dependency resolving.
+        /// </summary>
         private static void SetAutofacContainer()
         {
             var builder = new ContainerBuilder();

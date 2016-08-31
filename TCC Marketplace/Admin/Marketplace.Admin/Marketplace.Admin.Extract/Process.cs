@@ -16,6 +16,9 @@ using Marketplace.Admin.Data.Infrastructure;
 
 namespace Marketplace.Admin.Extract
 {
+    /// <summary>
+    /// The process class.
+    /// </summary>
     public class Process
     {
         private readonly SettingsRepository _settingsRepository;
@@ -23,10 +26,17 @@ namespace Marketplace.Admin.Extract
         readonly DataSet DataSet = new DataSet();
         private string RootPath = AppDomain.CurrentDomain.BaseDirectory + "CSV_Extracts";
 
+        /// <summary>
+        /// Constructor. Initialize _settingsRepository.
+        /// </summary>
         public Process()
         {
             _settingsRepository = new SettingsRepository(new DbFactory());
         }
+
+        /// <summary>
+        /// Uploads files to FTP and Sends email.
+        /// </summary>
         public void UploadFiles()
         {
             var xml = XDocument.Load(@"Queries.xml");
@@ -45,8 +55,11 @@ namespace Marketplace.Admin.Extract
             
             SendEmail(message, settings);
         }
-        
 
+        /// <summary>
+        /// Get settings from database.
+        /// </summary>
+        /// <returns> Decrypted configuration settings.</returns>
         private Model.ConfigurationSettings GetSettings()
         {
             var settings = _settingsRepository.GetAll().FirstOrDefault();
@@ -56,24 +69,13 @@ namespace Marketplace.Admin.Extract
             return settings;
         }
 
-        private DataTable GetSettingTable()
-        {
-            string connectionString = ConfigurationManager.ConnectionStrings["MarketplaceAdminDb"].ConnectionString;
-            DataSet ds = new DataSet();
-
-            using (var connection = new SqlConnection(connectionString))
-            {
-                string sqlQuery = "SELECT top 1 FtpHostAddress,FtpPort,FtpUser,SshPrivateKey,IsSshPasswordProtected,SshPrivateKeyPassword,FtpRemotePath,FromEmail,FromEmailPassword,ToEmails,SmtpClient,SmtpPort FROM [dbo].[ConfigurationSettings]";
-                SqlCommand sqlCommand = new SqlCommand(sqlQuery, connection);
-                SqlDataAdapter sqlAdapter = new SqlDataAdapter(sqlCommand);
-                sqlAdapter.Fill(ds);
-            }
-            return ds.Tables[0];
-        }
-
+        /// <summary>
+        /// Sends email notification.
+        /// </summary>
+        /// <param name="messageBody"> content to be added to the body of the email. </param>
+        /// <param name="settings"> SMTP client settings and email password. </param>
         private void SendEmail(string messageBody, Model.ConfigurationSettings settings)
         {
-
             string recepientList = settings.ToEmails;
             MailAddress toEmail = new MailAddress(recepientList.Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries)[0]);
             MailAddress fromEmail = new MailAddress(settings.FromEmail,"TCC Marketplace FTP Update");                  
@@ -100,6 +102,11 @@ namespace Marketplace.Admin.Extract
             }
         }
 
+        /// <summary>
+        /// Upload files to FTP.
+        /// </summary>
+        /// <param name="settings"> FTP client settings.</param>
+        /// <returns> Uploaded File names. </returns>
         private string UploadToFTP(Model.ConfigurationSettings settings)
         {
             try
@@ -154,6 +161,10 @@ namespace Marketplace.Admin.Extract
             }
         }
         
+        /// <summary>
+        /// Deletes old files and Build new files from the data table.
+        /// </summary>
+
         private void BuildDelimittedFiles()
         {
             if (Directory.Exists(RootPath) == false)
@@ -173,17 +184,19 @@ namespace Marketplace.Admin.Extract
             foreach (DataTable datatable in DataSet.Tables)
             {
 
-                var filePath = RootPath + "\\" + datatable.TableName.Replace("YYYYMMDD",DateTime.Now.ToString("yyyyMMdd"));
+                var filePath = RootPath + "\\" + datatable.TableName.Replace("YYYYMMDD",DateTime.UtcNow.ToString("yyyyMMdd"));
                 datatable.WriteToCsvFile(filePath, Delimiter);
             }
         }
-        //  Data Source = (localdb)\MSSQLLocalDB;Initial Catalog = Marketplace.Admin; Integrated Security = True; Connect Timeout = 30; Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
-        // Data Source=mktplcsql.database.windows.net;Initial Catalog=mktplcqa;Integrated Security=False;User ID=tccmktplc@mktplcsql;Password=TheNumber8ty0ne;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
+
+        /// <summary>
+        /// Execute query to get data into a data table. Adds this data table to a dataset.
+        /// </summary>
+        /// <param name="query"> Query read from Queries xml. </param>
         private void ProcessQuery(Query query)
         {
             string marketplaceAdminConString = ConfigurationManager.ConnectionStrings["MarketplaceAdminDb"].ConnectionString;
             
-            //using (var con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Integrated Security=true;initial catalog=Marketplace.Admin"))
             using (var con = new SqlConnection(marketplaceAdminConString))
             {
                 var da = new SqlDataAdapter(query.Sql, con);
@@ -193,6 +206,12 @@ namespace Marketplace.Admin.Extract
             }
         }
 
+        /// <summary>
+        /// Deserialize the input XML string to object type T.
+        /// </summary>
+        /// <typeparam name="T"> Object type.</typeparam>
+        /// <param name="xml">XML to deserialize. </param>
+        /// <returns> Deserialized object. </returns>
         private T DeserializeObject<T>(string xml)
         {
             var serializer = new XmlSerializer(typeof(T));

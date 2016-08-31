@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Marketplace.Admin.Core.Exceptions
 {
+    /// <summary>
+    /// User name already exist exception.
+    /// </summary>
     public class UserNameAlreadyExistsException : Exception
     {
         public UserNameAlreadyExistsException(string message)

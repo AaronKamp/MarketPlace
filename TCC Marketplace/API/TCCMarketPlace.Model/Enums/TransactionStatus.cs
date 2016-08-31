@@ -1,9 +1,12 @@
 ﻿
 namespace TCCMarketPlace.Model
 {
+    /// <summary>
+    /// Transaction Status
+    /// </summary>
     public enum TransactionStatus
     {
-        Initialised = 1,
+        Initialized = 1,
         Success = 2,
         Failed = 3
     }

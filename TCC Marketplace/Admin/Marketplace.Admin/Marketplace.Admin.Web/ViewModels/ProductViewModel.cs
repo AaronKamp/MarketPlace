@@ -2,6 +2,9 @@
 
 namespace Marketplace.Admin.ViewModels
 {
+    /// <summary>
+    /// Product View Model.
+    /// </summary>
     public class ProductViewModel
     {
         public int CategoryId { get; set; }

@@ -1,11 +1,15 @@
 ﻿namespace TCCMarketPlace.Model
 {
+    /// <summary>
+    /// Service details business model.
+    /// </summary>
     public class Service
     {
         public int ServiceId { get; set; }
         public int ServiceTypeId { get; set; }
         public string Title { get; set; }
-        public string Description { get; set; }
+        public string ShortDescription { get; set; }
+        public string LongDescription { get; set; }
         public string ImageUrl { get; set; }
         public bool IsBought { get; set; }
         public bool IsEnabled { get; set; }

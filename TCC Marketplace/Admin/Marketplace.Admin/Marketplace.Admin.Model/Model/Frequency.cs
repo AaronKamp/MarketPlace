@@ -4,8 +4,10 @@ namespace Marketplace.Admin.Model
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
+    /// <summary>
+    /// Frequency setting model for extract job.
+    /// </summary>
     [Table("Frequency")]
     public partial class Frequency
     {

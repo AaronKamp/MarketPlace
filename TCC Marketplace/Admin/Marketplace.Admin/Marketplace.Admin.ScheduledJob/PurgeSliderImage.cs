@@ -11,15 +11,26 @@ using Marketplace.Admin.Model;
 
 namespace Marketplace.Admin.ScheduledJob
 {
+    /// <summary>
+    /// Handles unused slider image deletion. 
+    /// </summary>
     public class PurgeSliderImage
     {
         private const string sliderImageDirectory = "images/slider";
         private readonly ImageQueueRepository imageQueueRepository;
 
+        /// <summary>
+        /// Constructor. Initializes imageQueueRepository.
+        /// </summary>
         public PurgeSliderImage()
         {
             imageQueueRepository = new ImageQueueRepository(new DbFactory());
         }
+
+        /// <summary>
+        /// Select unused slider images and delete the blob.
+        /// </summary>
+        /// <param name="log"> Exception log. </param>
         public void PurgeImage(TextWriter log)
         {
             var blobUrlList = GetBlobUrlList();
@@ -38,29 +49,45 @@ namespace Marketplace.Admin.ScheduledJob
                 }
                 catch (Exception ex)
                 {
-                    log.WriteLine("Deletion failed for image {0} at {1} with exception {2}", blockBlob.Name, DateTime.Now.ToString(), ex.Message);
+                    log.WriteLine("Deletion failed for image {0} at {1} with exception {2}", blockBlob.Name, DateTime.UtcNow.ToString(), ex.Message);
                 }
             }
-
             UpdateDeletedFlag(deletedBlobList);
         }
 
+        /// <summary>
+        /// Gets the list of image URL eligible for deletion.
+        /// </summary>
+        /// <returns> List of ImagesURL. </returns>
         private List<string> GetBlobUrlList()
         {
             var imageList = GetQueuedImagesList();
             var blobUrlList = imageList.Select(p => p.ImageUrl).ToList();
             return blobUrlList;
         }
-         
+        
+        /// <summary>
+        /// Gets List of queued images from database.
+        /// </summary>
+        /// <returns> List of ImageQueue. </returns>
         private List<ImageQueue> GetQueuedImagesList()
         {
-            return imageQueueRepository.GetAll().Where(p => (!p.IsDeleted && (DateTime.Now - p.ActualDeletedDate).TotalDays >= 14)).ToList();
+            return imageQueueRepository.GetAll().Where(p => (!p.IsDeleted && (DateTime.UtcNow - p.ActualDeletedDate).TotalDays >= 14)).ToList();
         }
+
+        /// <summary>
+        /// Updates deleted flag to true after deletion. 
+        /// </summary>
+        /// <param name="deletedBlobList"> </param>
         private void UpdateDeletedFlag(List<string> deletedBlobList)
         {
             imageQueueRepository.UpdateDeletedFlag(deletedBlobList);
         }
 
+        /// <summary>
+        /// Connects to and returns CloudBlockContainer.
+        /// </summary>
+        /// <returns> CloudBlobContainer. </returns>
         private static CloudBlobContainer GetCloudBlockContainer()
         {
             var storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["StorageConnection"].ConnectionString);

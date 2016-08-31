@@ -71,7 +71,7 @@ namespace Extensions
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="defaultDateTime">The default date time.</param>
-        /// <returns>Parsed value as datatime</returns>
+        /// <returns>Parsed value as datetime</returns>
         public static DateTime AsDateTime(this object item, DateTime defaultDateTime = default(DateTime))
         {
             if (item == null || string.IsNullOrEmpty(item.ToString()))
@@ -86,7 +86,7 @@ namespace Extensions
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="defaultBool">if set to <c>true</c> [default bool].</param>
-        /// <returns>Parsed value as boolean</returns>
+        /// <returns>Parsed value as Boolean</returns>
         public static bool AsBool(this object item, bool defaultBool = default(bool))
         {
             return item == null ? defaultBool : new List<string>() { "yes", "y", "true" }.Contains(item.ToString().ToLower());
@@ -116,7 +116,7 @@ namespace Extensions
         /// Transform object into Guid data type.
         /// </summary>
         /// <param name="item">The item.</param>
-        /// <returns>Transforms the item to guid value</returns>
+        /// <returns>Transforms the item to Guid value</returns>
         public static Guid AsGuid(this object item)
         {
             try { return new Guid(item.ToString()); }

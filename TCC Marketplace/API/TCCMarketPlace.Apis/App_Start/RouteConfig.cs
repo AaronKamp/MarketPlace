@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace TCCMarketPlace.Apis
 {
+    /// <summary>
+    /// Route configuration.
+    /// </summary>
     public class RouteConfig
     {
+        /// <summary>
+        /// Register default routes.
+        /// </summary>
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");

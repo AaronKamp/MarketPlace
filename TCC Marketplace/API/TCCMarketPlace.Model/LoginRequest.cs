@@ -1,5 +1,8 @@
 ﻿namespace TCCMarketPlace.Model
 {
+    /// <summary>
+    /// Login Request Model.
+    /// </summary>
     public class LoginRequest 
     {
         public int UserId { get; set; }

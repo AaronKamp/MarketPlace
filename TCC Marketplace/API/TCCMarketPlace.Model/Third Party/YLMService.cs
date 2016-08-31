@@ -1,5 +1,8 @@
 ﻿namespace TCCMarketPlace.Model
 {
+    /// <summary>
+    /// YLM Service deserialization model.
+    /// </summary>
     public class YLMService
     {
         public int Service_Id { get; set; }

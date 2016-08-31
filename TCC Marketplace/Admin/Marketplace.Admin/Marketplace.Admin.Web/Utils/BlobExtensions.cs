@@ -3,8 +3,14 @@ using Microsoft.WindowsAzure.StorageClient;
 
 namespace Marketplace.Admin.Utils
 {
+    /// <summary>
+    /// handles Blob Extension methods.
+    /// </summary>
     public static class BlobExtensions
     {
+        /// <summary>
+        /// Checks if the blob exist.
+        /// </summary>
         public static bool Exists(this CloudBlockBlob blob)
         {
             try

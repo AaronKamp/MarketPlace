@@ -4,8 +4,10 @@ namespace Marketplace.Admin.Model
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
+    /// <summary>
+    /// Country model for location.
+    /// </summary>
     [Table("Country")]
     public partial class Country
     {

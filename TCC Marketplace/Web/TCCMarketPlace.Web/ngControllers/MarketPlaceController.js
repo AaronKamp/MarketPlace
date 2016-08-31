@@ -6,7 +6,7 @@ define(['angularAMD', 'marketPlaceService', 'searchCatalogueController', 'catego
         var path = $location.$$path;
 
         if (path != undefined && path.indexOf("UserAuth") > -1) {
-            localStorage.setItem("user_data", $routeParams.userData);
+           
             localStorage.setItem("jwt_token", $routeParams.jwtToken);
             localStorage.setItem("base_uri", $routeParams.apiBaseUri);
         }
@@ -35,6 +35,7 @@ define(['angularAMD', 'marketPlaceService', 'searchCatalogueController', 'catego
         $scope.searchBtnVisiblity = true;
         $scope.categoryName = 'All';
         $scope.isLoaded = false;
+
         if ($routeParams.type != undefined) {
             $scope.selectedTab = $routeParams.type;
             $scope.activeTab = $scope.selectedTab - 1;
@@ -58,7 +59,6 @@ define(['angularAMD', 'marketPlaceService', 'searchCatalogueController', 'catego
 
             if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPod/i)) {
                 return 'iOS';
-
             }
             else if (userAgent.match(/Android/i)) {
 
@@ -70,10 +70,14 @@ define(['angularAMD', 'marketPlaceService', 'searchCatalogueController', 'catego
         };
 
         $scope.buttonVisiblity = function () {
+            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            $scope.isIpad = false;
 
-            if (getMobileOperatingSystem() == 'Android') {
-                return false;
-            } return true;
+            if (userAgent.match(/iPad/i)) {
+                $scope.isIpad = true;
+                return true;
+            }
+            return false;
 
         };
 

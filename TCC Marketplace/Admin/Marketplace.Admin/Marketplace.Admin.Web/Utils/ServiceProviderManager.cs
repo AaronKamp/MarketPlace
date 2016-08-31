@@ -11,9 +11,17 @@ using Marketplace.Admin.Core;
 
 namespace Marketplace.Admin.Utils
 {
+    /// <summary>
+    /// Handles Service provider functionalities as there is no DB context now.
+    /// </summary>
     public static class ServiceProviderManager
     {
         private const string xmlDirectory = "xml";
+
+        /// <summary>
+        /// Gets the Cloud Block Blob
+        /// </summary>
+        /// <returns>CloudBlockBlob</returns>
         public static CloudBlockBlob GetCloudBlockBlob()
         {
             var storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["StorageConnection"].ConnectionString);
@@ -32,11 +40,19 @@ namespace Marketplace.Admin.Utils
             return blobStorage.GetBlockBlobReference(uniqueBlobName);
         }
 
+        /// <summary>
+        /// Gets the list of active Service providers.
+        /// </summary>
+        /// <returns> List of active service providers.</returns>
         public static IEnumerable<ServiceProviderViewModel> GetActiveServiceProviderList()
         {
             return GetServiceProviderList().Where(p=>p.IsActive);
         }
 
+        /// <summary>
+        /// Gets the list of all service providers.
+        /// </summary>
+        /// <returns>List of all service providers. </returns>
         public static IEnumerable<ServiceProviderViewModel> GetServiceProviderList()
         {
             var blob = GetCloudBlockBlob();
@@ -62,7 +78,12 @@ namespace Marketplace.Admin.Utils
                                         }).ToList();
             return detailsList;
         }
-      
+
+        /// <summary>
+        /// Gets the service provider xml from the blob.
+        /// </summary>
+        /// <param name="blob">CloudBlockBlob </param>
+        /// <returns> XDocument </returns>
         public static XDocument GetServiceProviderXml(CloudBlockBlob blob)
         {
             if (!blob.Exists())
@@ -74,6 +95,10 @@ namespace Marketplace.Admin.Utils
             return xDoc;
         }
 
+        /// <summary>
+        /// Creates cloud block blob if not exists.
+        /// </summary>
+        /// <param name="blob"> CloudBlockBlob</param>
         private static void CreateCloudBlob(CloudBlockBlob blob)
         {
             var document = new XDocument();
@@ -82,6 +107,11 @@ namespace Marketplace.Admin.Utils
             blob.UploadText(document.ToString());
         }
 
+        /// <summary>
+        /// Gets the sign-up URL for the service provider by Id.
+        /// </summary>
+        /// <param name="id"> Service Provider id.</param>
+        /// <returns> sign-up URL</returns>
         internal static string GetSignUpUrl(int id)
         {
             var blob = GetCloudBlockBlob();

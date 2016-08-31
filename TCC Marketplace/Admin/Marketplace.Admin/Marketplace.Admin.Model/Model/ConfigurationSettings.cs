@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace Marketplace.Admin.Model
 {
+    /// <summary>
+    /// Configuration settings model.
+    /// </summary>
     [Table("ConfigurationSettings")]
     public partial class ConfigurationSettings
     {

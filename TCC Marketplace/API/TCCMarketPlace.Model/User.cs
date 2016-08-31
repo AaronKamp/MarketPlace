@@ -1,5 +1,8 @@
 ﻿namespace TCCMarketPlace.Model
 {
+    /// <summary>
+    /// TCC Marketplace user model.
+    /// </summary>
     public class User 
     {
         public int UserId { get; set; }

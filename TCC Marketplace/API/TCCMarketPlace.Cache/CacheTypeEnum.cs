@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TCCMarketPlace.Cache
+﻿namespace TCCMarketPlace.Cache
 {
+    /// <summary>
+    /// To chose between Redis cache and InMemory cache.
+    /// </summary>
     internal enum CacheTypeEnum
     {
         InProcess,

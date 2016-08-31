@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Marketplace.Admin.Core.Exceptions
 {
+    /// <summary>
+    /// Email already exists custom exception.
+    /// </summary>
     public class EMailAlreadyExistsException : Exception
     {
         public EMailAlreadyExistsException(string message)

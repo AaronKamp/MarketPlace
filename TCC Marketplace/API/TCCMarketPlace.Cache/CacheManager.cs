@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace TCCMarketPlace.Cache
 {
+    /// <summary>
+    /// Cache manager
+    /// </summary>
     public class CacheManager
     {        
         private static ICache instance = null;
@@ -32,7 +32,9 @@ namespace TCCMarketPlace.Cache
                 return instance;
             }
         }
-
+        /// <summary>
+        /// Returns new Redis or InMemoryCache instance 
+        /// </summary>
         private static ICache GetCacheInstance()
         {
             string cache = ConfigurationManager.AppSettings[CacheConstants.MODE] as string;

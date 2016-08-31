@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Marketplace.Admin.ViewModels
 {
+    /// <summary>
+    /// FTP details ViewModel.
+    /// </summary>
     public class FtpDetailsViewModel :IValidatableObject
     {
         [Required]

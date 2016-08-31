@@ -1,11 +1,13 @@
 namespace Marketplace.Admin.Data
 {
-    using System;
     using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Linq;
     using Marketplace.Admin.Model;
 
+    /// <summary>
+    /// MarketplaceAdmin Database context class for Entity framework.
+    /// </summary>
+    [DbConfigurationType(typeof(MarketplaceAdminConfiguration))]
     public partial class MarketplaceAdminDb : DbContext
     {
         public MarketplaceAdminDb()
@@ -40,6 +42,10 @@ namespace Marketplace.Admin.Data
         public virtual DbSet<ConfigurationSettings> ConfigurationSettings { get; set; }
         public virtual DbSet<ImageQueue> ScheduledItems { get; set;}
 
+        /// <summary>
+        /// Builds domain models as data tables using code first.
+        /// </summary>
+        /// <param name="modelBuilder">DbModelBuilder</param>
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AspNetRole>()

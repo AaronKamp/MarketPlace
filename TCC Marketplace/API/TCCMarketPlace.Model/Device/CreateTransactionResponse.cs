@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TCCMarketPlace.Model
+﻿namespace TCCMarketPlace.Model
 {
+    /// <summary>
+    /// Response to create transaction request. 
+    /// </summary>
     public class CreateTransactionResponse
     {
+        //Message contains Transaction Id.
         public string Message { get; set; }
     }
 }

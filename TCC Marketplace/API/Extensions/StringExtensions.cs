@@ -5,23 +5,39 @@ using System.Text.RegularExpressions;
 
 namespace Extensions
 {
+    /// <summary>
+    /// Custom string extension methods.
+    /// </summary>
     public static class StringExtensions
     {
+        /// <summary>
+        /// Checks if a string is Base64 encoded.
+        /// </summary>
+        /// <param name="input"> String</param>
+        /// <returns>True if string is base64. Otherwise false.</returns>
         public static bool IsBase64String(this string input)
         {
             input = input.Trim();
             return (input.Length % 4 == 0) 
                 && Regex.IsMatch(input, @"^[a-zA-Z0-9\+/]*={0,3}$", RegexOptions.None);
         }
-
-        public static string ToBase64String(this String input)
+        /// <summary>
+        /// Convert a string to base64.
+        /// </summary>
+        /// <param name="input"> String </param>
+        /// <returns> Base64 encoded string.</returns>
+        public static string ToBase64String(this string input)
         {
             var toEncodeAsBytes = Encoding.ASCII.GetBytes(input);
             var returnValue = System.Convert.ToBase64String(toEncodeAsBytes);
             return returnValue;
         }
-
-        public static string FromBase64String(this String input)
+        /// <summary>
+        /// Get the decoded string from Base64 encoded version.
+        /// </summary>
+        /// <param name="input"> String.</param>
+        /// <returns> Original string.</returns>
+        public static string FromBase64String(this string input)
         {
             input = input.Replace("=", "");
             int len = input.Length % 4;
@@ -31,21 +47,11 @@ namespace Extensions
             var returnValue = Encoding.ASCII.GetString(encodedDataAsBytes);
             return returnValue;
         }
-
+              
         /// <summary>
-        /// Concatenates SQL and ORDER BY clauses into a single string
+        /// Deserialize a JSON object into the corresponding object.
         /// </summary>
-        /// <param name="sql">The SQL.</param>
-        /// <param name="sortExpression">The sort expression.</param>
-        /// <returns>Concatenated string</returns>
-        public static string OrderBy(this string sql, string sortExpression)
-        {
-            if (string.IsNullOrEmpty(sortExpression))
-                return sql;
-
-            return sql + " ORDER BY " + sortExpression;
-        }
-
+        /// <returns> C# object of type T. </returns>
         public static T JsonDeserializeObject<T>(this string val)
         {
             JsonSerializerSettings settings = ExtensionUtils.GetSerializerSettings();

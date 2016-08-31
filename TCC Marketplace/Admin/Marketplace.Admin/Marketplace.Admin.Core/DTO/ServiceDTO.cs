@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Marketplace.Admin.Core.DTO
 {
+    /// <summary>
+    /// Service data transfer object.
+    /// </summary>
     public class ServiceDTO
     {
         private List<int> _locations;

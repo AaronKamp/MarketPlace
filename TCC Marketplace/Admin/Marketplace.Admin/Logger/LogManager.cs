@@ -2,6 +2,9 @@
 
 namespace Logger
 {
+    /// <summary>
+    /// Exception log handler.
+    /// </summary>
     public class LogManager
     {
         private static ILogger instance = null;
@@ -28,6 +31,10 @@ namespace Logger
             }
         }
 
+        /// <summary>
+        /// Gets logger instance.
+        /// </summary>
+        /// <returns> Logger instance.</returns>
         private static ILogger GetLoggerInstance()
         {
             string provider = ConfigurationManager.AppSettings[LogConstants.PROVIDER] as string;

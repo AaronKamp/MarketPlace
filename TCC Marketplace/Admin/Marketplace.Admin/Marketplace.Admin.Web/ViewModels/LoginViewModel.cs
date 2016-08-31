@@ -2,6 +2,9 @@
 
 namespace Marketplace.Admin.ViewModels
 {
+    /// <summary>
+    /// Login View Model.
+    /// </summary>
     public class LoginViewModel
     {
         [Required]

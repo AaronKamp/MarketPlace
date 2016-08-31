@@ -3,6 +3,9 @@ using Microsoft.AspNet.Identity;
 
 namespace Marketplace.Admin.Identity
 {
+    /// <summary>
+    /// User identity model.
+    /// </summary>
     public class IdentityUser : IUser<int>
     {
         public IdentityUser()

@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using Marketplace.Admin.Models;
 
 namespace Marketplace.Admin.ViewModels
 {
+    /// <summary>
+    /// Service ViewModel.
+    /// </summary>
     public class ServiceViewModel : IValidatableObject
     {
         public int Id { get; set; }

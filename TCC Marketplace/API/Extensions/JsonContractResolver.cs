@@ -9,8 +9,14 @@ using System.Threading.Tasks;
 
 namespace Extensions
 {
+    /// <summary>
+    /// Handles the contract creation for object type IDictionary
+    /// </summary>
     public class JsonContractResolver : DefaultContractResolver
     {
+        /// <summary>
+        /// If objectType is of type IDictionary, JsonArrayContract is returned, else returns JsonContract.
+        /// </summary>
         protected override JsonContract CreateContract(Type objectType)
         {
             if (objectType.GetInterfaces().Any(i => i == typeof(IDictionary) ||

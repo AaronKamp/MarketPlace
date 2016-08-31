@@ -5,10 +5,17 @@ using Logger;
 
 namespace Marketplace.Admin.Filters
 {
+    /// <summary>
+    /// Custom exception Handler
+    /// </summary>
     public class CustomExceptionFilterAttribute : HandleErrorAttribute, IExceptionFilter
     {
         private const string ExceptionSeperator = "*************************************************************************************************";
 
+        /// <summary>
+        /// On exception the control is transferred here.
+        /// </summary>
+        /// <param name="filterContext"></param>
         void IExceptionFilter.OnException(ExceptionContext filterContext)
         {
             if (filterContext != null && filterContext.Exception != null)
@@ -22,12 +29,20 @@ namespace Marketplace.Admin.Filters
             }
         }
 
+        /// <summary>
+        /// Compose detailed exception log.
+        /// </summary>
+        /// <param name="controller"> Controller where exception is thrown </param>
+        /// <param name="action"> Action on which exception is thrown.</param>
+        /// <param name="exception"> The Exception.</param>
+        /// <param name="exceptionIdentifier"> Guid.</param>
+        /// <returns></returns>
         public static string ComposeExceptionLog(string controller, string action, Exception exception, Guid exceptionIdentifier)
         {
             var sbErrorLog = new StringBuilder();
 
             sbErrorLog.AppendLine(ExceptionSeperator);
-            sbErrorLog.AppendLine(DateTime.Now + " : " + exceptionIdentifier);
+            sbErrorLog.AppendLine(DateTime.UtcNow + " : " + exceptionIdentifier);
             sbErrorLog.Append("Error occurred for request - ").Append(controller).Append("/").AppendLine(action);
             sbErrorLog.AppendLine("Exception - " + exception.Message);
             sbErrorLog.AppendLine(ExceptionSeperator);

@@ -4,60 +4,81 @@ using System.Configuration;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Web.Security;
-using JWT;
 using TCCMarketPlace.Apis.Models;
 using TCCMarketPlace.Business;
 using TCCMarketPlace.Model;
 
 namespace TCCMarketPlace.Apis.Controllers
 {
+    /// <summary>
+    /// All web request from the TCC MarketPlace mobile application is served through MarketPlaceController.
+    /// All request contains JWT token in the headers which is resolved by the AuthHandler for authentication. 
+    /// </summary>
     [Authorize]
     [RoutePrefix("api/MarketPlace")]
     public class MarketPlaceController : BaseController
     {
+        /// <summary>
+        /// Returns list of all available services.
+        /// </summary>
+        /// <param name="typeId">Used to indicate if Add-ons or Offers need to be returned.</param>
+        /// <returns> List of available Add-ons or offers according to typeId</returns>
         [Route("GetMarketPlaceList/{typeId}")]
-        public async Task<ApiResponse<MarketPlaceDetails>> GetMarketPlaceList(int typeId, [FromUri] FilterRequest request)
+        public async Task<ApiResponse<MarketPlaceServiceList>> GetMarketPlaceList(int typeId)
         {
-            ApiResponse<MarketPlaceDetails> response = new ApiResponse<MarketPlaceDetails>();
+            ApiResponse<MarketPlaceServiceList> response = new ApiResponse<MarketPlaceServiceList>();
 
             using (var marketPlace = BusinessFacade.GetMarketPlaceInstance())
             {
-                var result = await marketPlace.GetMarketPlaceList(CurrentUser, typeId, request.SearchKey);
+                var result = await marketPlace.GetMarketPlaceList(CurrentUser, typeId);
                 response.Data = result;
             }
             return response;
         }
-
+        /// <summary>
+        /// Returns the list of the latest services available.
+        /// </summary>
+        /// <param name="typeId"> Used to indicate if Add-ons or Offers need to be returned.</param>
+        /// <returns>List of newest Add-ons or offers according to typeId.</returns>
         [Route("GetNewlyAddedServices/{typeId}")]
-        public async Task<ApiResponse<MarketPlaceDetails>> GetNewlyAddedServices(int typeId, [FromUri] FilterRequest request)
+        public async Task<ApiResponse<MarketPlaceServiceList>> GetNewlyAddedServices(int typeId)
         {
-            ApiResponse<MarketPlaceDetails> response = new ApiResponse<MarketPlaceDetails>();
+            ApiResponse<MarketPlaceServiceList> response = new ApiResponse<MarketPlaceServiceList>();
 
             using (var marketPlace = BusinessFacade.GetMarketPlaceInstance())
             {
-                response.Data = await marketPlace.GetNewlyAddedServices(CurrentUser, typeId, request.SearchKey);
+                response.Data = await marketPlace.GetNewlyAddedServices(CurrentUser, typeId);
             }
 
             return response;
         }
-
+        /// <summary>
+        /// Returns the list of all services subscribed by the user.
+        /// </summary>
+        /// <param name="typeId">Used to indicate if Add-ons or Offers need to be returned.</param>
+        /// <returns> List of subscribed services according to typeId.</returns>
         [Route("GetMyServices/{typeId}")]
-        public async Task<ApiResponse<MarketPlaceDetails>> GetMyServices(int typeId, [FromUri] FilterRequest request)
+        public async Task<ApiResponse<MarketPlaceServiceList>> GetMyServices(int typeId)
         {
-            ApiResponse<MarketPlaceDetails> response = new ApiResponse<MarketPlaceDetails>();
+            ApiResponse<MarketPlaceServiceList> response = new ApiResponse<MarketPlaceServiceList>();
 
             using (var marketPlace = BusinessFacade.GetMarketPlaceInstance())
             {
-                response.Data = await marketPlace.GetMyServices(CurrentUser, typeId, request.SearchKey);
+                response.Data = await marketPlace.GetMyServices(CurrentUser, typeId);
             }
 
             return response;
         }
-
+        /// <summary>
+        /// Returns the list of available categories for the selected service type. 
+        /// </summary>
+        /// <param name="typeId"> Used to indicate if categories of Add-ons or Offers need to be returned. </param>
+        /// <returns> List of available categories.</returns>
         [Route("GetCategories/{typeId}")]
         public ApiResponse<List<Category>> GetCategories(int typeId)
         {
+            // To be implemented in second phase with dynamic category options.
+           
             ApiResponse<List<Category>> response = new ApiResponse<List<Category>>();
 
             using (var marketPlace = BusinessFacade.GetMarketPlaceInstance())
@@ -68,7 +89,11 @@ namespace TCCMarketPlace.Apis.Controllers
             return response;
         }
 
-
+        /// <summary>
+        /// Serves the list of URLs for slider images under the selected service type.
+        /// </summary>
+        /// <param name="typeId"> Used to indicate service type to filter SlideShowImage URLs.</param>
+        /// <returns>List of Slider Image URLs.</returns>
         [Route("GetSlideShowImages/{typeId}")]
         public async Task<ApiResponse<object>> GetSlideShowImages(int typeId)
         {
@@ -82,6 +107,11 @@ namespace TCCMarketPlace.Apis.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Serves the details of selected service.
+        /// </summary>
+        /// <param name="serviceId"> Used to identify the selected service. </param>
+        /// <returns> Details of the selected service. </returns>
         [Route("GetDetails/{serviceId}")]
         public async Task<ApiResponse<Service>> GetDetails(int serviceId)
         {
@@ -94,6 +124,11 @@ namespace TCCMarketPlace.Apis.Controllers
 
             return response;
         }
+        /// <summary>
+        /// Checks if the requested service is already subscribed.
+        /// </summary>
+        /// <param name="serviceId"> Used to identify the selected service. </param>
+        /// <returns> True if service is already subscribed. Otherwise false.  </returns>
 
         [Route("IsSubscribed/{serviceId}")]
         public async Task<ApiResponse<bool>> GetServiceSubscriptionStatus(int serviceId)
@@ -105,7 +140,11 @@ namespace TCCMarketPlace.Apis.Controllers
             }
             return response;
         }
-
+        /// <summary>
+        /// Toggles the service enabled status for each user.
+        /// </summary>
+        /// <param name="service" cref="Service"></param>
+        /// <returns>Updated Service details</returns>
         [Route("EnableOrDisableService")]
         [HttpPost]
         public async Task<ApiResponse<Service>> EnableOrDisableService([FromBody] Service service)
@@ -117,7 +156,11 @@ namespace TCCMarketPlace.Apis.Controllers
             }
             return response;
         }
-
+        /// <summary>
+        /// Unsubscribes a service for the user.
+        /// </summary>
+        /// <param name="service" cref="Service"></param>
+        /// <returns>Success information as string.</returns>
         [Route("RemoveService")]
         [HttpPost]
         public async Task<ApiResponse<string>> RemoveAddOn([FromBody] Service service)
@@ -129,7 +172,11 @@ namespace TCCMarketPlace.Apis.Controllers
             }
             return response;
         }
-
+        /// <summary>
+        /// Saves the report URL generated by service provider on enrolment.
+        /// </summary>
+        /// <param name="service" cref="Service"></param>
+        /// <returns> Success or failure information as string. </returns>
         [Route("SaveReportUrl")]
         [HttpPost]
         public async Task<ApiResponse<string>> SaveReportUrl([FromBody] Service service)
@@ -141,7 +188,11 @@ namespace TCCMarketPlace.Apis.Controllers
             }
             return response;
         }
-
+        /// <summary>
+        /// Activates the requested service for the user.
+        /// </summary>
+        /// <param name="service" cref="Service"></param>
+        /// <returns> Success or failure information as string. </returns>
         [Route("SubscribeToService")]
         [HttpPost]
         public async Task<ApiResponse<string>> SubscribeToService([FromBody] Service service)
@@ -153,7 +204,11 @@ namespace TCCMarketPlace.Apis.Controllers
             }
             return response;
         }
-
+        /// <summary>
+        ///  Authenticates user details sent from TCC native app.
+        /// </summary>
+        /// <param name="login" cref="LoginRequest"></param>
+        /// <returns>Marketplace application landing page URL with the auth token. </returns>
         [AllowAnonymous]
         [Route("Login")]
         [HttpPost] 
@@ -163,26 +218,25 @@ namespace TCCMarketPlace.Apis.Controllers
             // add code for user authentication
             ApiResponse<LoginResponse> response = new ApiResponse<LoginResponse>();
 
+            //Authenticate login credentials against TCC server
             var isAuthenticated = await AuthenticateUser(login);
+
             if (isAuthenticated)
             {
                 string hostedurl = ConfigurationManager.AppSettings["MarketPlaceUrl"];
 
-
-                if (HttpContext.Current.Request.Url.Scheme == "https" && hostedurl.Contains("https") == false)
+                if (hostedurl.Contains("https") == false)
                 {
                     hostedurl = hostedurl.Replace("http", "https");
                 }
-                else if (HttpContext.Current.Request.Url.Scheme == "http" && hostedurl.Contains("https"))
-                {
-                    hostedurl =  hostedurl.Replace("https", "http");
-                }
-
-                var token = CreateToken(login);
+              
+                //Generate new JWT token for the logged in user with claims
+                var token = new JwToken.TokenGenerator().GenerateToken(login);
 
                 var apiBaseUri = HttpUtility.UrlEncode(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + "/api");
 
-                var landingPageUrl = $"{hostedurl}#/UserAuth/{GetJSonUser(login)}/{token}/{apiBaseUri}";
+                //landing page URL for native app to navigate to on Web-View
+                var landingPageUrl = $"{hostedurl}#/UserAuth/{token}/{apiBaseUri}";
                 
                 var responseData = new LoginResponse
                 {
@@ -200,32 +254,11 @@ namespace TCCMarketPlace.Apis.Controllers
             return Ok(response);
         }
 
-        private string CreateToken(LoginRequest login)
-        {
-            var unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            var expiry = Math.Round((DateTime.UtcNow.AddHours(2) - unixEpoch).TotalSeconds);
-            var issuedAt = Math.Round((DateTime.UtcNow - unixEpoch).TotalSeconds);
-            var notBefore = Math.Round((DateTime.UtcNow.AddMonths(6) - unixEpoch).TotalSeconds);
-
-
-            var payload = new Dictionary<string, object>
-            {
-                {"email", login.UserName},
-                {"userId", login.UserId},
-                {"role", "TCC_User"  },
-                {"sub", login.UserId},
-                {"nbf", notBefore},
-                {"iat", issuedAt},
-                {"exp", expiry}
-            };
-
-            var apikey = ConfigurationManager.AppSettings.Get("jwtSecretKey");
-
-            var token = JsonWebToken.Encode(payload, apikey, JwtHashAlgorithm.HS256);
-
-            return token;
-        }
-
+        /// <summary>
+        /// Authenticate login credentials against TCC server
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
         private async Task<bool> AuthenticateUser(LoginRequest login)
         {
             using (var tccAuthentication = BusinessFacade.GetAuthenticationInstance())
@@ -236,6 +269,11 @@ namespace TCCMarketPlace.Apis.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates a transaction to represent a purchase initiated in the Marketplace application.
+        /// </summary>
+        /// <param name="request" cref="CreateTransactionRequest"></param>
+        /// <returns>Transaction Id and the market place details page URL.</returns>
         [Route("CreateTransaction")]
         [HttpPost]
         public async Task<IHttpActionResult> CreateInAppPurchaseTransaction([FromBody] CreateTransactionRequest request)
@@ -270,7 +308,12 @@ namespace TCCMarketPlace.Apis.Controllers
 
             return Ok(response);
         }
-
+        /// <summary>
+        /// Updates the status of transaction to success or failure and
+        /// subscribes the service on transaction success.
+        /// </summary>
+        /// <param name="request" cref="UpdateTransactionRequest"></param>
+        /// <returns></returns>
         [Route("UpdateTransactionStatus")]
         [HttpPost]
         public async Task<IHttpActionResult> UpdateInAppPurchaseTransaction([FromBody] UpdateTransactionRequest request)
@@ -287,6 +330,11 @@ namespace TCCMarketPlace.Apis.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Gets the details of latest transaction initiated by the user.
+        /// </summary>
+        /// <param name="request" cref="CreateTransactionRequest"></param>
+        /// <returns>Transaction details. </returns>
         [Route("GetTransactionDetails")]
         [HttpPost]
         public async Task<IHttpActionResult> GetTransactionDetails([FromBody] CreateTransactionRequest request)

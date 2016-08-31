@@ -2,6 +2,9 @@
 
 namespace Marketplace.Admin.ViewModels
 {
+    /// <summary>
+    /// Location View Model.
+    /// </summary>
     public class LocationViewModel
     {
         public int CountryId { get; set; }

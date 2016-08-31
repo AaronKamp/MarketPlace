@@ -4,11 +4,17 @@ using Marketplace.Admin.Models;
 
 namespace Marketplace.Admin.ViewModels
 {
+    /// <summary>
+    /// UserGrid PaginationModel.
+    /// </summary>
     public class UserGridPaginationModel :PaginationViewModel
     {
         public List<UserGridViewModel> Users { get; set; }
     }
 
+    /// <summary>
+    /// User Grid ViewModel.
+    /// </summary>
     public class UserGridViewModel
     {
         public int RowNo { get; set; }

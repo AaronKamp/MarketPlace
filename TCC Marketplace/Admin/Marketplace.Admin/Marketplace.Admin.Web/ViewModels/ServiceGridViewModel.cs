@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Marketplace.Admin.Models;
 
 namespace Marketplace.Admin.ViewModels
 {
+    /// <summary>
+    /// Service Grid Pagination Model.
+    /// </summary>
     public class ServiceGridPaginationModel : PaginationViewModel
     {
         public List<ServiceGridViewModel> Services { get; set; }
      
     }
 
+    /// <summary>
+    /// ServiceGrid View Model.
+    /// </summary>
     public class ServiceGridViewModel
     {
         public int RowNo { get; set; }

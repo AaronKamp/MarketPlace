@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Marketplace.Admin.ViewModels
 {
+    /// <summary>
+    /// Service Provider ViewModel.
+    /// </summary>
     public class ServiceProviderViewModel : IValidatableObject
     {
         [Required]

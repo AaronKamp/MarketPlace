@@ -1,9 +1,8 @@
-﻿
-
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace TCCMarketPlace.Model
 {
+    //YLM image slider deserialization model.
     public class SlideShowImage
     {
         [JsonProperty("SERVICE_ID")]

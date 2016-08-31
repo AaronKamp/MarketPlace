@@ -1,23 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Azure.WebJobs;
+﻿using Microsoft.Azure.WebJobs;
 
 namespace Marketplace.Admin.ExtractJob
 {
-    // To learn more about Microsoft Azure WebJobs SDK, please see http://go.microsoft.com/fwlink/?LinkID=320976
+    /// <summary>
+    /// Entry class in a Web job.
+    /// </summary>
     class Program
     {
-        // Please set the following connection strings in app.config for this WebJob to run:
-        // AzureWebJobsDashboard and AzureWebJobsStorage
+        /// <summary>
+        /// The main function. Job host is created here and the required method in Functions class is called.
+        /// </summary>
+        /// <remarks>
+        /// Please set the following connection strings in app.config for this WebJob to run:
+        /// AzureWebJobsDashboard and AzureWebJobsStorage
+        /// </remarks>
         static void Main()
         {
             var host = new JobHost();
-            // The following code will invoke a function called ManualTrigger and 
+
+            // The following code will invoke a function called UploadFilesToFTP and 
             // pass in data (value in this case) to the function
-           // host.Call(typeof(Functions).GetMethod("ManualTrigger"), new { value = 20 });
             host.Call(typeof(Functions).GetMethod("UploadFilesToFTP"));
         }
     }

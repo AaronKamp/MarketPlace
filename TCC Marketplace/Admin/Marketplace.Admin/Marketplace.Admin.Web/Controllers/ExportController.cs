@@ -1,27 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
 using Marketplace.Admin.Business;
 
 namespace Marketplace.Admin.Controllers
 {
+    /// <summary>
+    /// Controls export job operations.
+    /// </summary>
     [Authorize]
     public class ExportController : Controller
     {
         private readonly IExportManager _exportManager;
 
+        /// <summary>
+        /// Parameterized constructor to work with dependency injection
+        /// </summary>
+        /// <param name="exportManager"></param>
         public ExportController(IExportManager exportManager)
         {
             _exportManager = exportManager;
         }
 
-        // GET: Export
+        /// <summary>
+        /// Gets the index page.
+        /// GET: Export
+        /// </summary>
+        /// <returns>The export job page.</returns>
         public ActionResult Index()
         {
             int exportFrequencyId = 0;
@@ -36,22 +44,29 @@ namespace Marketplace.Admin.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Action to update frequency .
+        /// </summary>
+        /// <param name="frequencyId"></param>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult UpdateFrequency(byte frequencyId)
         {
             try
             {
+                //if job schedule is successfully updated in Azure, update database 
                 if (UpdateWebJobSchedule(frequencyId))
                 {
                     var exportFrequency = _exportManager.GetExtractFrequency();
 
+                    //if new record, create new entry
                     if (exportFrequency == null)
                     {
                         exportFrequency = new Model.ExtractFrequency
                         {
                             FrequencyId = frequencyId,
-                            CreatedDate = DateTime.Now,
-                            UpdatedDate = DateTime.Now,
+                            CreatedDate = DateTime.UtcNow,
+                            UpdatedDate = DateTime.UtcNow,
                             UpdatedUser = User.Identity.Name
                         };
 
@@ -59,8 +74,9 @@ namespace Marketplace.Admin.Controllers
                     }
                     else
                     {
+                        //update existing frequency
                         exportFrequency.FrequencyId = frequencyId;
-                        exportFrequency.UpdatedDate = DateTime.Now;
+                        exportFrequency.UpdatedDate = DateTime.UtcNow;
                         exportFrequency.UpdatedUser = User.Identity.Name;
                         _exportManager.UpdateExportFrequency(exportFrequency);
                     }
@@ -86,8 +102,9 @@ namespace Marketplace.Admin.Controllers
                     return Json(json, JsonRequestBehavior.AllowGet);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
+                //log exception
                 var json = new
                 {
                     success = false,
@@ -97,13 +114,17 @@ namespace Marketplace.Admin.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates web job schedule using Azure Web-job rest API.
+        /// </summary>
+        /// <param name="frequencyId"> Selected schedule frequency Id.</param>
+        /// <returns>Boolean</returns>
         private bool UpdateWebJobSchedule(byte frequencyId)
         {
             try
             {
                 var webJobSettingsApi = string.Format(ConfigurationManager.AppSettings["WebJobApi"],
                                                            ConfigurationManager.AppSettings["SiteName"],
-                                                           // Environment.ExpandEnvironmentVariables("%WEBSITE_SITE_NAME%"),
                                                            ConfigurationManager.AppSettings["ExtractJob"],
                                                            "settings");
 
@@ -114,8 +135,12 @@ namespace Marketplace.Admin.Controllers
                 using (var httpClient = new HttpClient())
                 {
                     HttpContent contentPost = new StringContent(schedule, Encoding.UTF8, "application/json");
+
+                    //set the basic Authorization header for http request
                     SetBasicAuthHeader(httpClient);
+
                     var response = httpClient.PutAsync(webJobSettingsApi, contentPost);
+
                     var responseContent = response.Result.Content.ReadAsStringAsync();
 
                     if (response.Result.StatusCode == HttpStatusCode.OK)
@@ -134,6 +159,11 @@ namespace Marketplace.Admin.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Kick off the extract job on Azure using Azure rest API
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult RunExtract()
         {
@@ -144,7 +174,6 @@ namespace Marketplace.Admin.Controllers
 
                 var webJobRunApi = string.Format(ConfigurationManager.AppSettings["WebJobApi"],
                                                        ConfigurationManager.AppSettings["SiteName"],
-                                                       // Environment.ExpandEnvironmentVariables("%WEBSITE_SITE_NAME%"),
                                                        ConfigurationManager.AppSettings["ExtractJob"],
                                                        "run"
                                                 );
@@ -152,8 +181,12 @@ namespace Marketplace.Admin.Controllers
                 using (var httpClient = new HttpClient())
                 {
                     HttpContent contentPost = new StringContent(string.Empty, Encoding.UTF8, "application/json");
+                    
+                    //set the basic Authorization header for http request
                     SetBasicAuthHeader(httpClient);
+
                     var response = httpClient.PostAsync(webJobRunApi, contentPost);
+
                     var responseContent = response.Result.Content.ReadAsStringAsync();
 
                     if (response.Result.StatusCode == HttpStatusCode.Accepted)
@@ -176,7 +209,7 @@ namespace Marketplace.Admin.Controllers
                 };
                 return Json(json, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Log exception
                 var json = new
@@ -189,6 +222,10 @@ namespace Marketplace.Admin.Controllers
             }
         }
 
+        /// <summary>
+        /// Sets basic authorization header.
+        /// </summary>
+        /// <param name="client"></param>
         private void SetBasicAuthHeader(HttpClient client)
         {
             string authInfo = ConfigurationManager.AppSettings["SiteUserName"] + ":" + ConfigurationManager.AppSettings["SiteUserPwd"];

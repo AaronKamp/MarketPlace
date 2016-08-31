@@ -396,6 +396,10 @@ img.emoji {
     overflow-x: hidden !important;
 }
 
+.ipad-landscape-specific {
+    width:25% !important;
+}
+
 .notify {
     display: inline-block;
 }
@@ -627,7 +631,7 @@ div.swiper-slide.selectedCategory a {
 
 
 .carousel-div .carousel {
-    width: 620px;
+   width: 620px;
 }
 
 .carousel-div {
@@ -675,10 +679,11 @@ div.swiper-slide.selectedCategory a {
         border-bottom: 1px solid #ccc;
         border-right: 1px solid #ccc;
         position: relative;
+        height:124px;
     }
 
     .offers h2 {
-        font-size: 16px;
+        font-size: 15px;
         margin: 10px 0 0 0 !important;
         font-weight: bold !important;
         color: #000 !important;
@@ -725,7 +730,7 @@ div.swiper-slide.selectedCategory a {
 
 
 .offers .img_thumb {
-    width: 23%;
+    width: 27%;
     float: left;
     margin: 10px 0px;
     padding-left: 10px;
@@ -733,8 +738,8 @@ div.swiper-slide.selectedCategory a {
 }
 
     .offers .img_thumb img {
-        max-width: 103px;
-        height: 103px;
+        max-width: 100px;
+        height: auto;
     }
 
 .offers .offer_content {
@@ -901,6 +906,13 @@ h2.tick {
     border: 1px solid #ccc;
 }*/
 /* ============ Search-Modal : End ===================*/
+@media-ipad-landscape {
+
+    .top_header div{
+        width:25%;
+    }
+}
+
 
 @media (max-width: 1280px) {
 
@@ -908,10 +920,12 @@ h2.tick {
     .offers ul li .actionbox {
         width: 12.5%;
     }
-
+    .nav-tab-set .nav-tabs{
+        padding : 20px 36% 10px;
+    }
     .offers .img_thumb img {
-        max-width: 98px;
-        height: 98px;
+        max-width: 93px;
+        height: auto;
     }
 
     .category-list {
@@ -933,9 +947,11 @@ h2.tick {
         margin: auto;
         width: 25%;
     }
-
+    .lft_desc .img-pic{
+        width:14%;
+    }
     .lft_desc .img-pic img {
-        width: 80%;
+        width: 87%;
         height: auto;
     }
 
@@ -943,16 +959,20 @@ h2.tick {
         width: 85%;
         float: left;
     }
-
+     .carousel-div .carousel{
+        width:auto;
+    }
     .add-ons-details .rht_settings {
         padding-top: 5px;
     }
 }
 
+
 @media (min-width: 801px) and (max-width: 1024px) {
 
     .offers ul li {
         width: 33.2%;
+        height:110px;
     }
 
         .offers ul li .actionbox {
@@ -967,7 +987,7 @@ h2.tick {
 
     .offers .img_thumb img {
         max-width: 78px;
-        height: 78px;
+        height: auto;
     }
 
     .actionbox span.tick {
@@ -985,7 +1005,7 @@ h2.tick {
     }
 
     .offers h2 {
-        margin: 10px 0 0 5px;
+        margin: 10px 0 0 5px !important;
     }
 
     .category-list {
@@ -999,10 +1019,13 @@ h2.tick {
     }
 
     .carousel-div {
-        padding-left: 20%;
+        padding: 0 15%;
         margin: auto;
     }
 
+    .carousel-div .carousel{
+        width:auto;
+    }
     .nav > li > a {
         padding: 5px 16px !important;
     }
@@ -1016,9 +1039,12 @@ h2.tick {
         margin: auto;
         width: 25%;
     }
+    .lft_desc .img-pic {
+        width:14%;
+    }
 
     .lft_desc .img-pic img {
-        width: 70%;
+        width: 90%;
         height: auto;
     }
 
@@ -1045,6 +1071,19 @@ h2.tick {
         margin-top: 0px !important;
     }
 }
+/*Nexus 7*/
+@media screen and (min-device-width : 901px) and (max-device-width :970px) {
+    .offers h2 {
+        font-size:14px;
+    }
+
+    .offers ul li{
+        height:125px;
+    }
+
+
+}
+
 
 @media (min-width: 769px) and (max-width: 800px) {
     .notify {
@@ -1075,7 +1114,7 @@ h2.tick {
 
     .offers .img_thumb img {
         max-width: 61px;
-        height: 61px;
+        height: auto;
     }
 
     .category {
@@ -1147,7 +1186,7 @@ h2.tick {
 
     .offers .img_thumb img {
         max-width: 58px;
-        height: 58px;
+        height: auto;
     }
 
     .actionbox span.tick {
@@ -1321,7 +1360,7 @@ h2.tick {
 
     .offers .img_thumb img {
         max-width: 73px;
-        height: 73px;
+        height: auto;
     }
 
     .category-list {
@@ -1366,6 +1405,7 @@ h2.tick {
             width: 200px !important;
         }
 }
+
 
 @media (min-width: 415px) and (max-width: 480px) {
 
@@ -1497,7 +1537,7 @@ h2.tick {
 
     .offers .img_thumb img {
         max-width: 108px;
-        height: 108px;
+        height: auto;
     }
 
     .category-list {
@@ -1543,8 +1583,7 @@ h2.tick {
     }
 }
 
-@media (min-width: 376px) and (max-width: 414px) {
-
+@media (min-width: 376px) and (max-width: 414px)  {
 
     .search-modal {
         position: fixed;
@@ -1595,6 +1634,7 @@ h2.tick {
 
     .offers ul li {
         width: 100%;
+        height:116px;
     }
 
         .offers ul li .actionbox {
@@ -1603,8 +1643,12 @@ h2.tick {
         }
 
     .offers p {
-        margin: 0 20% 10px 0 !important;
+        margin: 0 20% 10px 10px !important;
         font-size: 12px;
+    }
+
+    .offers h2{
+        margin: 10px 0 0 10px !important;
     }
 
     .offers.MT-offer ul li {
@@ -1613,7 +1657,7 @@ h2.tick {
 
     .offers .img_thumb img {
         max-width: 95px;
-        height: 95px;
+        height: auto;
     }
 
     .category-list {
@@ -1762,6 +1806,7 @@ h2.tick {
 
     .offers ul li {
         width: 100%;
+        height:105px;
     }
 
         .offers ul li .actionbox {
@@ -1781,7 +1826,7 @@ h2.tick {
 
     .offers .img_thumb img {
         max-width: 84px;
-        height: 84px;
+        height: auto;
     }
 
     .category-list {
@@ -1956,7 +2001,7 @@ h2.tick {
 
     .offers .img_thumb img {
         max-width: 82px;
-        height: 82px;
+        height: auto;
     }
 
     .category-list {
@@ -2116,6 +2161,7 @@ h2.tick {
 
     .offers ul li {
         width: 100%;
+        height:105px;
     }
 
         .offers ul li .actionbox {
@@ -2134,7 +2180,7 @@ h2.tick {
 
     .offers .img_thumb img {
         max-width: 72px;
-        height: 72px;
+        height: auto;
     }
 
     .category {
@@ -2182,8 +2228,8 @@ h2.tick {
     }
 
         .lft_desc .img-pic img {
-            height: 63px;
             max-width: 63px;
+            height: auto;
         }
 
     .lft_desc .txt-desc {
@@ -2264,6 +2310,9 @@ h2.tick {
     }
 }
 
+@media only screen and (max-width: 320px) {
+
+}
 @media only screen and (max-width: 375x) {
     .search-modal {
         position: fixed;

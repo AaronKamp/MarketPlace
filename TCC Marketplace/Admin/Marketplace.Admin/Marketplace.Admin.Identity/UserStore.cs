@@ -9,17 +9,31 @@ using Marketplace.Admin.Model;
 
 namespace Marketplace.Admin.Identity
 {
+    /// <summary>
+    /// Extends the UserStore provided with Microsoft.AspNet.Identity
+    /// This is extended to override the default primary key type(GUID) with INT
+    /// </summary>
     public class UserStore : IUserLoginStore<IdentityUser, int>, IUserClaimStore<IdentityUser, int>, IUserRoleStore<IdentityUser, int>, IUserPasswordStore<IdentityUser, int>, IUserSecurityStampStore<IdentityUser, int>
     {
         private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
 
+        /// <summary>
+        /// Parameterized constructor to work with dependency injection
+        /// </summary>
+        /// <param name="userRepository"></param>
+        /// <param name="roleRepository"></param>
         public UserStore(IUserRepository userRepository, IRoleRepository roleRepository)
         {
             _userRepository = userRepository;
             _roleRepository = roleRepository;
         }
 
+        /// <summary>
+        /// Creates a new IdentityUser
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public Task CreateUser(IdentityUser user)
         {
             if (user == null)
@@ -33,6 +47,12 @@ namespace Marketplace.Admin.Identity
         }
 
         #region IUserStore<IdentityUser, Guid> Members
+
+        /// <summary>
+        ///  Insert a new user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public Task CreateAsync(IdentityUser user)
         {
             if (user == null)
@@ -44,6 +64,11 @@ namespace Marketplace.Admin.Identity
             return _userRepository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Delete a user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public Task DeleteAsync(IdentityUser user)
         {
             if (user == null)
@@ -55,12 +80,22 @@ namespace Marketplace.Admin.Identity
             return _userRepository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Finds a user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public Task<IdentityUser> FindByIdAsync(int userId)
         {
             var user = _userRepository.FindById(userId);
             return Task.FromResult(GetIdentityUser(user));
         }
 
+        /// <summary>
+        /// Find a user by name
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
         public Task<IdentityUser> FindByNameAsync(string userName)
         {
             var user = _userRepository.FindByUserName(userName);
@@ -68,6 +103,11 @@ namespace Marketplace.Admin.Identity
 
         }
 
+        /// <summary>
+        ///   Update a user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public Task UpdateAsync(IdentityUser user)
         {
             if (user == null)
@@ -94,6 +134,13 @@ namespace Marketplace.Admin.Identity
         #endregion
 
         #region IUserClaimStore<IdentityUser, Guid> Members
+
+        /// <summary>
+        /// Add a new user claim
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="claim"></param>
+        /// <returns></returns>
         public Task AddClaimAsync(IdentityUser user, Claim claim)
         {
             if (user == null)
@@ -117,6 +164,11 @@ namespace Marketplace.Admin.Identity
             return _userRepository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Returns the claims for the user with the issuer set
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public Task<IList<Claim>> GetClaimsAsync(IdentityUser user)
         {
             if (user == null)
@@ -129,6 +181,12 @@ namespace Marketplace.Admin.Identity
             return Task.FromResult<IList<Claim>>(u.AspNetUserClaims.Select(x => new Claim(x.ClaimType, x.ClaimValue)).ToList());
         }
 
+        /// <summary>
+        ///  Remove a user claim
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="claim"></param>
+        /// <returns></returns>
         public Task RemoveClaimAsync(IdentityUser user, Claim claim)
         {
             if (user == null)
@@ -149,6 +207,12 @@ namespace Marketplace.Admin.Identity
         #endregion
 
         #region IUserLoginStore<IdentityUser, Guid> Members
+        /// <summary>
+        /// Adds a user login with the specified provider and key
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="login"></param>
+        /// <returns></returns>
         public Task AddLoginAsync(IdentityUser user, UserLoginInfo login)
         {
             if (user == null)
@@ -172,22 +236,22 @@ namespace Marketplace.Admin.Identity
             return _userRepository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Returns the user associated with this login
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns>IdentityUser</returns>
         public Task<IdentityUser> FindAsync(UserLoginInfo login)
         {
-            throw new NotImplementedException();
-            /*
-            if (login == null)
-                throw new ArgumentNullException("login");
-
-            var identityUser = default(IdentityUser);
-
-            var l = userRepository.ExternalLoginRepository.GetByProviderAndKey(login.LoginProvider, login.ProviderKey);
-            if (l != null)
-                identityUser = getIdentityUser(l.User);
-
-            return Task.FromResult<IdentityUser>(identityUser);*/
+            // This is now handled by UserManager
+            throw new NotImplementedException();          
         }
 
+        /// <summary>
+        /// Returns the linked accounts for this user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>UserLoginInfo</returns>
         public Task<IList<UserLoginInfo>> GetLoginsAsync(IdentityUser user)
         {
             if (user == null)
@@ -200,6 +264,11 @@ namespace Marketplace.Admin.Identity
             return Task.FromResult<IList<UserLoginInfo>>(u.AspNetUserLogins.Select(x => new UserLoginInfo(x.LoginProvider, x.ProviderKey)).ToList());
         }
 
+        /// <summary>
+        /// Removes the user login with the specified combination if it exists
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="login"></param>
         public Task RemoveLoginAsync(IdentityUser user, UserLoginInfo login)
         {
             if (user == null)
@@ -220,6 +289,11 @@ namespace Marketplace.Admin.Identity
         #endregion
 
         #region IUserRoleStore<IdentityUser, Guid> Members
+        /// <summary>
+        /// Adds a user to a role
+        /// </summary>
+        /// <param name="user">IdentityUser</param>
+        /// <param name="roleName"></param>
         public Task AddToRoleAsync(IdentityUser user, string roleName)
         {
             if (user == null)
@@ -240,6 +314,11 @@ namespace Marketplace.Admin.Identity
             return _userRepository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Returns the roles for this user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public Task<IList<string>> GetRolesAsync(IdentityUser user)
         {
             if (user == null)
@@ -252,6 +331,12 @@ namespace Marketplace.Admin.Identity
             return Task.FromResult<IList<string>>(u.AspNetRoles.Select(x => x.Name).ToList());
         }
 
+        /// <summary>
+        /// Returns true if a user is in the role
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="roleName"></param>
+        /// <returns></returns>
         public Task<bool> IsInRoleAsync(IdentityUser user, string roleName)
         {
             if (user == null)
@@ -266,6 +351,12 @@ namespace Marketplace.Admin.Identity
             return Task.FromResult(u.AspNetRoles.Any(x => x.Name == roleName));
         }
 
+        /// <summary>
+        /// Removes the role for the user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="roleName"></param>
+        /// <returns></returns>
         public Task RemoveFromRoleAsync(IdentityUser user, string roleName)
         {
             if (user == null)
@@ -286,6 +377,11 @@ namespace Marketplace.Admin.Identity
         #endregion
 
         #region IUserPasswordStore<IdentityUser, Guid> Members
+        /// <summary>
+        /// Get the user password hash
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public Task<string> GetPasswordHashAsync(IdentityUser user)
         {
             if (user == null)
@@ -293,6 +389,11 @@ namespace Marketplace.Admin.Identity
             return Task.FromResult(user.PasswordHash);
         }
 
+        /// <summary>
+        /// Returns true if a user has a password set
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public Task<bool> HasPasswordAsync(IdentityUser user)
         {
             if (user == null)
@@ -300,6 +401,12 @@ namespace Marketplace.Admin.Identity
             return Task.FromResult(!string.IsNullOrWhiteSpace(user.PasswordHash));
         }
 
+        /// <summary>
+        ///  Set the user password hash
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="passwordHash"></param>
+        /// <returns></returns>
         public Task SetPasswordHashAsync(IdentityUser user, string passwordHash)
         {
             user.PasswordHash = passwordHash;
@@ -308,6 +415,11 @@ namespace Marketplace.Admin.Identity
         #endregion
 
         #region IUserSecurityStampStore<IdentityUser, Guid> Members
+        /// <summary>
+        /// Get the user security stamp
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public Task<string> GetSecurityStampAsync(IdentityUser user)
         {
             if (user == null)
@@ -315,6 +427,12 @@ namespace Marketplace.Admin.Identity
             return Task.FromResult(user.SecurityStamp);
         }
 
+        /// <summary>
+        /// Set the security stamp for the user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="stamp"></param>
+        /// <returns></returns>
         public Task SetSecurityStampAsync(IdentityUser user, string stamp)
         {
             user.SecurityStamp = stamp;
@@ -323,6 +441,11 @@ namespace Marketplace.Admin.Identity
         #endregion
 
         #region Private Methods
+        /// <summary>
+        /// Creates AspNetUser from IdentityUser
+        /// </summary>
+        /// <param name="identityUser"></param>
+        /// <returns></returns>
         private AspNetUser GetUser(IdentityUser identityUser)
         {
             if (identityUser == null)
@@ -334,6 +457,11 @@ namespace Marketplace.Admin.Identity
             return user;
         }
 
+        /// <summary>
+        /// Maps IdentityUser properties to AspNetUser
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="identityUser"></param>
         private void populateUser(AspNetUser user, IdentityUser identityUser)
         {
             user.Id = identityUser.Id;
@@ -347,6 +475,11 @@ namespace Marketplace.Admin.Identity
             user.SecurityStamp = identityUser.SecurityStamp ?? user.SecurityStamp;
         }
 
+        /// <summary>
+        /// Creates Identity user from AspNetUser 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         private IdentityUser GetIdentityUser(AspNetUser user)
         {
             if (user == null)
@@ -358,6 +491,11 @@ namespace Marketplace.Admin.Identity
             return identityUser;
         }
 
+        /// <summary>
+        /// Maps AspNetUser user properties to Identity User.
+        /// </summary>
+        /// <param name="identityUser"></param>
+        /// <param name="user"></param>
         private void PopulateIdentityUser(IdentityUser identityUser, AspNetUser user)
         {
             identityUser.Id = user.Id;

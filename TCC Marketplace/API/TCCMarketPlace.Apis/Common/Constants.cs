@@ -1,12 +1,18 @@
 ﻿namespace TCCMarketPlace.Apis
 {
+    /// <summary>
+    /// Application Constants
+    /// </summary>
     public static class Constants
     {
-        public const string PasswordChangeSuccess = "Password changed successfully.";
-        public const string LogoutSuccessfully = "Sucessfully logged out.";
-        public const string UserNotFound = "User not found.";
+        /// <summary>
+        /// Success flag
+        /// </summary>
         public const string SUCCESS = "SUCCESS";
+
+        /// <summary>
+        /// Failure flag
+        /// </summary>
         public const string FAIL = "FAIL";
-        public const string TOKEN = "token";        
     }
 }

@@ -1,11 +1,10 @@
 namespace Marketplace.Admin.Model
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
+    /// <summary>
+    /// Application user claim model.
+    /// </summary>
     public partial class AspNetUserClaim
     {
         public int Id { get; set; }

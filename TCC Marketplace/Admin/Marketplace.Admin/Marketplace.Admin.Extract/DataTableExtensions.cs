@@ -1,15 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Marketplace.Admin.Extract
 {
+    /// <summary>
+    /// Extension functions handler for type DataTable.
+    /// </summary>
     public static class DataTableExtensions
     {
+        /// <summary>
+        /// Write to CSV file.
+        /// </summary>
+        /// <param name="dataTable"> Input DataTable. </param>
+        /// <param name="filePath"> File Location. </param>
+        /// <param name="delimiter"> Comma separator for csv file. </param>
         public static void WriteToCsvFile(this DataTable dataTable, string filePath, string delimiter = ",")
         {
 

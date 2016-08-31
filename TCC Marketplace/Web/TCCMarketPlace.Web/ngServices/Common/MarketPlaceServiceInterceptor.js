@@ -7,8 +7,7 @@ define(['angularAMD', 'app'], function (angularAMD, app) {
                 config.headers = config.headers || {};                
                 //$('#ajaxSpinner').height($(document).height());
                 //$('#ajaxSpinner').show();
-
-                config.headers["User-Data"] = localStorage.getItem("user_data");
+               
                 config.headers["Authorization"] = localStorage.getItem("jwt_token");
 
                 return config || $q.when(config);

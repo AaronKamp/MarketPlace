@@ -11,22 +11,38 @@ using Marketplace.Admin.ViewModels;
 
 namespace Marketplace.Admin.Controllers
 {
+    /// <summary>
+    /// Controls user manipulation operations.
+    /// </summary>
     [Authorize]
     public class UserController : Controller
     {
         private readonly IUserManager _userService;
 
+        /// <summary>
+        /// Parameterized constructor to work with dependency injection
+        /// </summary>
+        /// <param name="userService"></param>
         public UserController(IUserManager userService)
         {
             _userService = userService;
         }
-    
-        // GET: Users
+
+        /// <summary>
+        /// Returns user page.
+        /// GET: Users
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             return View();
         }
 
+        /// <summary>
+        /// Returns user list by page no.
+        /// </summary>
+        /// <param name="page"> Page no.</param>
+        /// <returns>UserGridPaginationModel </returns>
         private UserGridPaginationModel GetUserList(int? page)
         {
             var pageSize = Convert.ToInt32(ConfigurationManager.AppSettings["userPageSize"]);
@@ -55,6 +71,11 @@ namespace Marketplace.Admin.Controllers
             return ugpm;
         }
 
+        /// <summary>
+        /// Gets user details by Id.
+        /// </summary>
+        /// <param name="id"> User Id.</param>
+        /// <returns> User details.</returns>
         [HttpGet]
         public JsonResult GetUser(int id)
         {
@@ -71,13 +92,21 @@ namespace Marketplace.Admin.Controllers
             return Json(userViewModel, JsonRequestBehavior.AllowGet);
         }
 
-        //Get:form
+        /// <summary>
+        /// Gets add user form.
+        /// </summary>
+        /// <returns> Us</returns>
         [HttpGet]
         public ActionResult AddNewUser()
         {
             return PartialView("_AddNewUser");
         }
 
+        /// <summary>
+        /// Handles user addition.
+        /// </summary>
+        /// <param name="newUser"> UserViewModel</param>
+        /// <returns> Users list.</returns>
         [HttpPost]
         public JsonResult AddNewUser(UserViewModel newUser)
         {
@@ -88,26 +117,27 @@ namespace Marketplace.Admin.Controllers
 
                 if (newUser.Id == 0)
                 {
-                   
+                    //create new user
                     var user = new IdentityUser {
                         UserName = newUser.UserName,
                         Email = newUser.Email,
                         CreatedUser = User.Identity.Name,
-                        CreatedDate = DateTime.Now,
+                        CreatedDate = DateTime.UtcNow,
                         UpdatedUser = User.Identity.Name,
-                        UpdatedDate = DateTime.Now
+                        UpdatedDate = DateTime.UtcNow
                     };
                     result = _userService.Create(user, newUser.Password);
                 }
 
                 else
                 {
+                    // existing user, update user
                     var user = new IdentityUser {
                         Id = newUser.Id,
                         UserName = newUser.UserName,
                         Email = newUser.Email,
                         UpdatedUser = User.Identity.Name,
-                        UpdatedDate = DateTime.Now
+                        UpdatedDate = DateTime.UtcNow
                     };
                     
                     result = _userService.Update(user, newUser.Password);
@@ -139,6 +169,11 @@ namespace Marketplace.Admin.Controllers
             }
         }
 
+        /// <summary>
+        /// Get users list for the view.
+        /// </summary>
+        /// <param name="page"> Page no.</param>
+        /// <returns> User list JSON</returns>
         public JsonResult GetUsers(int? page)
         {
             var userList = GetUserList(page);

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TCCMarketPlace.Model.TccOAuth
 {
+    /// <summary>
+    /// Login status.
+    /// </summary>
     public class LoginResult
     {
         public int UserId { get; set; }

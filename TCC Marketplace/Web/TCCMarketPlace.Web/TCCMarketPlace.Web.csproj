@@ -70,6 +70,7 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\swiper.css" />
     <Content Include="Content\swiper.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -82,6 +83,7 @@
     <Content Include="Images\arrow2x.png" />
     <Content Include="Images\backButton.png" />
     <Content Include="Images\backButton2x.png" />
+    <Content Include="Images\btn-done.png" />
     <Content Include="Images\category-left-fade.png" />
     <Content Include="Images\category-left-fade2x.png" />
     <Content Include="Images\category-right-fade.png" />

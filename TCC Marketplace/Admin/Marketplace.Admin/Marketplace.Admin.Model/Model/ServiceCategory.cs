@@ -6,6 +6,9 @@ namespace Marketplace.Admin.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
+    /// <summary>
+    /// Service category Model.
+    /// </summary>
     [Table("ServiceCategory")]
     public partial class ServiceCategory
     {

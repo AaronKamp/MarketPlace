@@ -3,23 +3,34 @@ using System.IO;
 using System.Web.Mvc;
 using Marketplace.Admin.Models;
 using Marketplace.Admin.Core;
-using System.Linq;
 using System;
 using Marketplace.Admin.Business;
 using Marketplace.Admin.ViewModels;
 
 namespace Marketplace.Admin.Controllers
 {
+    /// <summary>
+    /// Controls Settings manipulation operations.
+    /// </summary>
     [Authorize]
     public class SettingsController : Controller
     {
         private readonly ISettingsManager _settingsManager;
 
+        /// <summary>
+        /// Parameterized constructor to work with dependency injection
+        /// </summary>
+        /// <param name="settingsManager"></param>
         public SettingsController(ISettingsManager settingsManager)
         {
             _settingsManager = settingsManager;
         }
-        // GET: Settings
+
+        /// <summary>
+        /// Gets the settings view.
+        /// GET: Settings
+        /// </summary>
+        /// <returns>Settings view. </returns>
         public ActionResult Index()
         {
             Model.ConfigurationSettings settings = _settingsManager.GetSettings();
@@ -53,6 +64,12 @@ namespace Marketplace.Admin.Controllers
             else return View(new SettingsViewModel());
         }
 
+        /// <summary>
+        /// Handles the settings update.
+        /// </summary>
+        /// <param name="settings"> SettingsViewModel </param>
+        /// <param name="sshKeyFile"> SSH Key File</param>
+        /// <returns>Settings view</returns>
         [HttpPost]
         public ActionResult Edit(SettingsViewModel settings, HttpPostedFileBase sshKeyFile)
         {
@@ -80,7 +97,7 @@ namespace Marketplace.Admin.Controllers
                     FtpHostAddress = settings.FtpDetails.FtpHostAddress,
                     FtpPort = settings.FtpDetails.FtpPort,
                     FtpUser = settings.FtpDetails.FtpUser,
-                    UpdatedDate = DateTime.Now,
+                    UpdatedDate = DateTime.UtcNow,
                     UpdatedUser = User.Identity.Name,
                     IsSshPasswordProtected = settings.FtpDetails.IsSshPasswordProtected,
                     SshPrivateKeyPassword = settings.FtpDetails.SshPrivateKeyPassword == null ? null : Cryptography.EncryptContent(settings.FtpDetails.SshPrivateKeyPassword),
@@ -99,7 +116,7 @@ namespace Marketplace.Admin.Controllers
                 }
                 else
                 {
-                    confSettings.CreatedDate = DateTime.Now;
+                    confSettings.CreatedDate = DateTime.UtcNow;
                     _settingsManager.Create(confSettings);
                 }
                 _settingsManager.SaveSettings();

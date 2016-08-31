@@ -1,24 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Xml;
 using System.Xml.Linq;
-using System.Configuration;
 using System.Web.Mvc;
-using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.StorageClient;
 using Marketplace.Admin.ViewModels;
 using Marketplace.Admin.Utils;
 using Marketplace.Admin.Core;
 
 namespace Marketplace.Admin.Controllers
 {
-    // To be reworked with DB implementation in the next phase 
+    /// <summary>
+    /// To be reworked with DB implementation in the next phase
+    /// Controls service provider manipulation operations.
+    /// </summary>
     [Authorize]
     public class ServiceProviderController : Controller
     {
-        // GET: ServiceProvider
+
+        /// <summary>
+        /// Gets the service provider page view.
+        /// GET: ServiceProvider.
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             var list = new Dictionary<int, string>();
@@ -28,27 +31,26 @@ namespace Marketplace.Admin.Controllers
             return View(new ServiceProviderViewModel());
         }
 
-
-        //public List<ServiceProviderViewModel> GetList()
-        //{
-        //    var blob = GetCloudBlockBlob();
-        //    var xml = blob.DownloadText();
-        //    var xDoc = XDocument.Parse(xml);
-
-        //}
+        /// <summary>
+        /// Saves new service provider.
+        /// </summary>
+        /// <param name="serviceProviderVM"></param>
+        /// <returns></returns>
         public ActionResult Save(ServiceProviderViewModel serviceProviderVM)
         {
             if (ModelState.IsValid)
             {
-                serviceProviderVM.UpdatedDate = DateTime.Now;
+                serviceProviderVM.UpdatedDate = DateTime.UtcNow;
                 serviceProviderVM.UpdatedUser = User.Identity.Name;
 
+                //if existing provider, update record
                 if (serviceProviderVM.Id > 0)
                 {
                     UpdateServiceProvider(serviceProviderVM);
                 }
                 else
                 {
+                    //if duplicate return view with corresponding message
                     if (IsDuplicate(serviceProviderVM.Name))
                     {
                         this.ModelState.AddModelError("Name", "Provider name "+ serviceProviderVM.Name + " is duplicate");
@@ -56,7 +58,9 @@ namespace Marketplace.Admin.Controllers
                         return View("Index", serviceProviderVM);
                     }
                     else {
-                        serviceProviderVM.CreatedDate = DateTime.Now;
+
+                        // else new record, add to database
+                        serviceProviderVM.CreatedDate = DateTime.UtcNow;
                         AddServiceProvider(serviceProviderVM);
                     }
                 }
@@ -71,15 +75,26 @@ namespace Marketplace.Admin.Controllers
 
         }
 
+        /// <summary>
+        /// Checks if service provider name is duplicate before adding new service provider.
+        /// </summary>
+        /// <param name="serviceProviderName"> Entered Service provider name. </param>
+        /// <returns>True if the name already exists.</returns>
         private bool IsDuplicate(string serviceProviderName)
         {
           return ServiceProviderManager.GetServiceProviderList()
                 .Where(p => p.Name == serviceProviderName).Any();
         }
 
+        /// <summary>
+        /// Returns a partial view with service provider details filled in on selecting the required service provider from the dropdown.
+        /// </summary>
+        /// <param name="id"> Service provider id.</param>
+        /// <returns> Partial View.</returns>
         public PartialViewResult Details(int id)
         {
             var serviceProviderViewModel = new ServiceProviderViewModel();
+
             if (id > 0)
             {
                 serviceProviderViewModel = GetServiceProviderDetailsById(id);
@@ -88,14 +103,20 @@ namespace Marketplace.Admin.Controllers
             return PartialView("_Edit", serviceProviderViewModel);
         }
 
+        /// <summary>
+        /// Gets Service provider details by Id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         private ServiceProviderViewModel GetServiceProviderDetailsById(int id)
         {
-            
             return ServiceProviderManager.GetServiceProviderList().Where(p=>p.Id == id).FirstOrDefault();
         }
 
-
-
+        /// <summary>
+        /// Handles new service provider addition.
+        /// </summary>
+        /// <param name="serviceProviderViewModel"> ServiceProviderViewModel </param>
         private void AddServiceProvider(ServiceProviderViewModel serviceProviderViewModel)
         {
             var blob = ServiceProviderManager.GetCloudBlockBlob();
@@ -121,6 +142,11 @@ namespace Marketplace.Admin.Controllers
             document.Root.Add(provider);
             blob.UploadText(document.ToString());
         }
+
+        /// <summary>
+        /// Handles service provider updating.
+        /// </summary>
+        /// <param name="serviceProviderVM"> ServiceProviderViewModel </param>
         private void UpdateServiceProvider(ServiceProviderViewModel serviceProviderVM)
         {
             var blob = ServiceProviderManager.GetCloudBlockBlob();
@@ -129,7 +155,7 @@ namespace Marketplace.Admin.Controllers
                     .FirstOrDefault(p => Convert.ToInt32(p.Element("Id").Value) == serviceProviderVM.Id);
             if (provider == null)
             {
-                throw new KeyNotFoundException("Unable to find a student matching the key");
+                throw new KeyNotFoundException("Unable to find a record matching the key");
             }
             else
             {
@@ -150,11 +176,20 @@ namespace Marketplace.Admin.Controllers
             blob.UploadText(document.ToString());
         }
 
+        /// <summary>
+        /// Returns service provider drop down list.
+        /// </summary>
+        /// <returns></returns>
         private IEnumerable<SelectListItem> GetServiceProviderNameList()
         {
             return new SelectList(ServiceProviderManager.GetServiceProviderList(), "Id", "Name");
         }
 
+        /// <summary>
+        /// Returns service provider drop down list with one item selected.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         private IEnumerable<SelectListItem> GetServiceProviderNameList(int id)
         {
             return new SelectList(ServiceProviderManager.GetServiceProviderList(), "Id", "Name", id);

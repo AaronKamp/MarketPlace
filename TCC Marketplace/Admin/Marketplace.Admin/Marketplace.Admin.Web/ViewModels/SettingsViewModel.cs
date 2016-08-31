@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using Marketplace.Admin.ViewModels;
+﻿using Marketplace.Admin.ViewModels;
 
 namespace Marketplace.Admin.Models
 {
+    /// <summary>
+    /// Settings ViewModel.
+    /// </summary>
     public class SettingsViewModel
     {
         public SettingsViewModel()

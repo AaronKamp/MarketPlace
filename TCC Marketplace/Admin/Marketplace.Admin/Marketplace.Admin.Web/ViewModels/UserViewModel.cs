@@ -2,9 +2,11 @@
 
 namespace Marketplace.Admin.ViewModels
 {
+    /// <summary>
+    /// User ViewModel.
+    /// </summary>
     public class UserViewModel
     {
-
         public int Id { get; set; }
 
         [Required]

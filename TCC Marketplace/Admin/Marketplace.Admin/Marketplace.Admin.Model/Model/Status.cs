@@ -1,11 +1,12 @@
 namespace Marketplace.Admin.Model
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
+    /// <summary>
+    /// Status model.
+    /// </summary>
     public partial class Status
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

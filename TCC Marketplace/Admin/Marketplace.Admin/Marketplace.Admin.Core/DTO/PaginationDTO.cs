@@ -1,5 +1,8 @@
 ﻿namespace Marketplace.Admin.Core.DTO
 {
+    /// <summary>
+    /// General pagination details object to inherit to any object's pagination model.
+    /// </summary>
     public class PaginationDTO
     {
         public int PageSize { get; set; }

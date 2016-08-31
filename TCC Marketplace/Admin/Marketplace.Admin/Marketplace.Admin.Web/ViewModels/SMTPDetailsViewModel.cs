@@ -2,6 +2,9 @@
 
 namespace Marketplace.Admin.ViewModels
 {
+    /// <summary>
+    /// SMTP Details ViewModel.
+    /// </summary>
     public class SMTPDetailsViewModel
     {
         [Required]
@@ -11,7 +14,7 @@ namespace Marketplace.Admin.ViewModels
 
         [Required]
         [RegularExpression(@"(([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)(\s*,\s*|\s*$))+", 
-            ErrorMessage ="Enter e-mail addresses seperated by commas")]
+            ErrorMessage ="Enter e-mail addresses separated by commas")]
         [Display(Name = "To Email")]
         public string ToEmails { get; set; }
 

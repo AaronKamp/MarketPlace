@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Marketplace.Admin.Data.Infrastructure;
+﻿using Marketplace.Admin.Data.Infrastructure;
 using Marketplace.Admin.Model;
-using System.Data.Entity;
 
 namespace Marketplace.Admin.Data.Repository
 {
+    /// <summary>
+    /// Interface to SettingsRepository.
+    /// </summary>
     public interface ISettingsRepository : IRepository<ConfigurationSettings>
     {
     }
+
+    /// <summary>
+    /// Handles database operations for Settings entity.
+    /// </summary>
     public class SettingsRepository : RepositoryBase<ConfigurationSettings>, ISettingsRepository
     {
         public SettingsRepository(IDbFactory dbFactory)

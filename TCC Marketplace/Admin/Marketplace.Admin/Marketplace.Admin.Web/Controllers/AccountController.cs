@@ -6,26 +6,37 @@ using Marketplace.Admin.Business;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using Marketplace.Admin.Models;
 using Marketplace.Admin.Identity;
 using Marketplace.Admin.ViewModels;
 
 namespace Marketplace.Admin.Controllers
 {
+    /// <summary>
+    /// Controls logins.
+    /// </summary>
     [Authorize]
     public class AccountController : Controller
     {
         private SignInManager<IdentityUser, int> _signInManager;
         private readonly IUserManager _userManager;
 
+        /// <summary>
+        /// Parameterized constructor to work with dependency injection
+        /// </summary>
+        /// <param name="userManager"></param>
+        /// <param name="signInManager"></param>
         public AccountController(IUserManager userManager, SignInManager<IdentityUser, int> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
         }
 
-        //
-        // GET: /Account/Login
+        /// <summary>
+        /// Returns login page.
+        /// GET: /Account/Login
+        /// </summary>
+        /// <param name="returnUrl"> Page to be loaded on login. </param>
+        /// <returns> Login View.</returns>
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -33,8 +44,13 @@ namespace Marketplace.Admin.Controllers
             return View();
         }
 
-        //
-        // POST: /Account/Login
+        /// <summary>
+        /// Handles login.
+        /// POST: /Account/Login
+        /// </summary>
+        /// <param name="model"> LoginViewModel </param>
+        /// <param name="returnUrl">Page to be loaded on login. </param>
+        /// <returns> Return URL View.  </returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -45,9 +61,13 @@ namespace Marketplace.Admin.Controllers
                 return View(model);
             }
 
+            // validate user credentials
             var user = await _userManager.FindAsync(model.UserName, model.Password);
+
+            //if valid user
             if (user != null)
             {
+                //handles login
                 await SignInAsync(user, model.RememberMe);
                 return RedirectToLocal(returnUrl);
             }
@@ -59,6 +79,11 @@ namespace Marketplace.Admin.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Handles Login
+        /// </summary>
+        /// <param name="user">IdentityUser</param>
+        /// <param name="isPersistent"></param>
         private async Task SignInAsync(IdentityUser user, bool isPersistent)
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
@@ -71,10 +96,10 @@ namespace Marketplace.Admin.Controllers
             throw new NotImplementedException();
         }
 
-        //
-        // POST: /Account/LogOff
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
+        /// <summary>
+        /// Handles Sign-out
+        /// /Account/LogOff
+        /// </summary>
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
@@ -96,6 +121,10 @@ namespace Marketplace.Admin.Controllers
         }
 
         #region Helpers
+
+        /// <summary>
+        /// Get Owin context for current request
+        /// </summary>
         private IAuthenticationManager AuthenticationManager
         {
             get
@@ -104,6 +133,10 @@ namespace Marketplace.Admin.Controllers
             }
         }
 
+        /// <summary>
+        /// Handles redirection to URL. 
+        /// </summary>
+        /// <param name="returnUrl"> Return URL.</param>
         private ActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
@@ -113,26 +146,7 @@ namespace Marketplace.Admin.Controllers
             return RedirectToAction("Index", "Services");
         }
 
-        internal class ChallengeResult : HttpUnauthorizedResult
-        {
-            public ChallengeResult(string provider, string redirectUri)
-                : this(provider, redirectUri, null)
-            {
-            }
-
-            public ChallengeResult(string provider, string redirectUri, string userId)
-            {
-                LoginProvider = provider;
-                RedirectUri = redirectUri;
-                UserId = userId;
-            }
-
-            public string LoginProvider { get; set; }
-            public string RedirectUri { get; set; }
-            public string UserId { get; set; }
-
-
-        }
+      
         #endregion
     }
 }

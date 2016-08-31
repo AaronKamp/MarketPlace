@@ -6,6 +6,9 @@ namespace Marketplace.Admin.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
+    /// <summary>
+    /// SCF model for location.
+    /// </summary>
     [Table("SCF")]
     public partial class SCF
     {

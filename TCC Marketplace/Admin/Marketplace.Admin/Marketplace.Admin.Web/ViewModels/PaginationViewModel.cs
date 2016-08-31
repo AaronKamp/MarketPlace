@@ -1,5 +1,8 @@
 ﻿namespace Marketplace.Admin.ViewModels
 {
+    /// <summary>
+    /// Pagination ViewModel.
+    /// </summary>
     public class PaginationViewModel
     {
         public int PageSize { get; set; }

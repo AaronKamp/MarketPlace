@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Marketplace.Admin.Enums
+﻿namespace Marketplace.Admin.Enums
 {
+    /// <summary>
+    /// ImageTypes
+    /// </summary>
     public enum ImageType
     {
         Slider,

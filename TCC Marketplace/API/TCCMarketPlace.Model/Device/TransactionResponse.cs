@@ -2,7 +2,10 @@
 {
     public class TransactionResponse
     {
-        public int TransactionId { get; set; }      
+        //Transaction Id
+        public int TransactionId { get; set; }   
+           
+        //Marketplace Details page URL
         public string DetailsUrl { get; set; }
 
     }

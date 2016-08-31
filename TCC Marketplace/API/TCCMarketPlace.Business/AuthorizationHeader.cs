@@ -1,14 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TCCMarketPlace.Business.Enum;
+﻿using TCCMarketPlace.Business.Enum;
 
 namespace TCCMarketPlace.Business
 {
+    /// <summary>
+    /// AuthorizationHeader Model.
+    /// </summary>
     public class AuthorizationHeader
     {
+        /// <summary>
+        /// Parameterized constructor to initialize Authorization header.
+        /// </summary>
+        /// <param name="authorizationScheme"></param>
+        /// <param name="parameter"></param>
+        /// <param name="contentType"></param>
         public AuthorizationHeader(AuthorizationScheme authorizationScheme, string parameter, string contentType)
         {
             Scheme = authorizationScheme;

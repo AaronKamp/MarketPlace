@@ -6,20 +6,43 @@ using System.Data.Entity;
 
 namespace Marketplace.Admin.Data.Repository
 {
-
+    /// <summary>
+    /// Interface to ServiceRepository.
+    /// </summary>
     public interface IServiceRepository : IRepository<Service>
     {
+        /// <summary>
+        /// Gets list of Services filtered by constraints in the argument list.
+        /// </summary>
         ServicePaginationDTO GetServices(string country, string state, string keywords, string thermostats, string SCFs, string zipCodes, int? page);
+
+        /// <summary>
+        /// Update service activation status.
+        /// </summary>
+        /// <param name="service"> Service</param>
         void UpdateServiceStatus(Service service);
+
+        /// <summary>
+        /// Get service details by Id.
+        /// </summary>
+        /// <param name="id"> Service id.</param>
         Service GetDetailsById(int id);
     }
 
+    /// <summary>
+    /// Handles database operations for Service entity.
+    /// </summary>
     public class ServiceRepository : RepositoryBase<Service>, IServiceRepository
     {
         public ServiceRepository(IDbFactory dbFactory)
             : base(dbFactory)
         { }
 
+        /// <summary>
+        /// Get service details by Id.
+        /// </summary>
+        /// <param name="id"> Service id.</param>
+        /// <returns>Service Entity</returns>
         public Service GetDetailsById(int id)
         {
             var service = DbContext.Services.Where(ser => ser.Id == id)
@@ -29,6 +52,17 @@ namespace Marketplace.Admin.Data.Repository
             return service.FirstOrDefault();
         }
 
+        /// <summary>
+        /// Gets list of Services filtered by following constraints.
+        /// </summary>
+        /// <param name="country"></param>
+        /// <param name="state"></param>
+        /// <param name="keywords"></param>
+        /// <param name="thermostats"></param>
+        /// <param name="SCFs"></param>
+        /// <param name="zipCodes"></param>
+        /// <param name="page"></param>
+        /// <returns>ServicePaginationDTO </returns>
         public ServicePaginationDTO GetServices(string country, string state, string keywords, string thermostats, string SCFs, string zipCodes, int? page)
         {
             var pageNo = page ?? 1;
@@ -67,11 +101,19 @@ namespace Marketplace.Admin.Data.Repository
             return sgvm;
         }
 
+        /// <summary>
+        /// Updates service active status.
+        /// </summary>
+        /// <param name="service"> Service </param>
         public void UpdateServiceStatus(Service service)
         {
             base.Update(service);
         }
 
+        /// <summary>
+        /// Updates service in database.
+        /// </summary>
+        /// <param name="service">Service</param>
         public override void Update(Service service)
         {
             DbContext.Configuration.AutoDetectChangesEnabled = false;
@@ -91,6 +133,10 @@ namespace Marketplace.Admin.Data.Repository
             DbContext.Configuration.AutoDetectChangesEnabled = true;
         }
 
+        /// <summary>
+        /// Adds new service in database.
+        /// </summary>
+        /// <param name="service">Service</param>
         public override void Add(Service service)
         {
             DbContext.Configuration.AutoDetectChangesEnabled = false;

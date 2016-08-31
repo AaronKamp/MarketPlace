@@ -4,8 +4,11 @@ namespace Marketplace.Admin.Model
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
+    /// <summary>
+    /// Service type Model.
+    /// </summary>
+    
     [Table("ServiceType")]
     public partial class ServiceType
     {

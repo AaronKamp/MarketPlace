@@ -37,7 +37,7 @@ define(['angularAMD', 'angularRoute', 'configService', 'uiBootstrap', 'uiBootstr
                         controllerAs: 'ctrl'
 
                     }))
-                    .when('/UserAuth/:userData/:jwtToken/:apiBaseUri*', angularAMD.route({
+                    .when('/UserAuth/:jwtToken/:apiBaseUri*', angularAMD.route({
                         templateUrl: 'ngViews/MarketPlace.html',
                         controller: 'MarketPlaceController',
                         controllerAs: 'ctrl'

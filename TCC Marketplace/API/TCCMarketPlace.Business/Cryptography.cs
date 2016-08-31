@@ -2,14 +2,24 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Configuration;
 
 namespace TCCMarketPlace.Business
 {
+    /// <summary>
+    /// Handles Encryption and decryption.
+    /// </summary>
     public static class Cryptography
     {
         private const string EncryptionKey = "UJWDNCGK2LD324FR723KDSB";
 
         private static readonly byte[] Salt = new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 };
+
+        /// <summary>
+        /// Encrypt text
+        /// </summary>
+        /// <param name="clearText"></param>
+        /// <returns> Ciphered text </returns>
         public static string Encrypt(string clearText)
         {
 
@@ -32,6 +42,11 @@ namespace TCCMarketPlace.Business
             return clearText;
         }
 
+        /// <summary>
+        /// Decrypt Cipher
+        /// </summary>
+        /// <param name="cipherText"></param>
+        /// <returns> Clear text </returns>
         public static string Decrypt(string cipherText)
         {
             var cipherBytes = Convert.FromBase64String(cipherText);

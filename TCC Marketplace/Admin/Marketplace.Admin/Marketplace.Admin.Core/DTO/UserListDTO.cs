@@ -1,5 +1,8 @@
 ﻿namespace Marketplace.Admin.Core.DTO
 {
+    /// <summary>
+    /// Object for user list. 
+    /// </summary>
     public class UserListDTO
     {
         public int UserId { get; set; }
