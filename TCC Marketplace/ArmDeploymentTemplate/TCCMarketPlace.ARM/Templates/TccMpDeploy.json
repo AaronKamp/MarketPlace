@@ -206,7 +206,10 @@
     "YLM.Api_Key": {
       "type": "securestring"
     },
-    "TCC.ApiUrl": {
+    "TCC.AuthApiUrl": {
+      "type": "string"
+    },
+    "TCC.IdentityApiUrl": {
       "type": "string"
     },
     "TCC.AppId": {
@@ -214,6 +217,30 @@
     },
     "TCC.Secret_Key": {
       "type": "securestring"
+    },
+    "jwtSecretKey": {
+      "type": "securestring"
+    },
+    "Cache.RetryCount": {
+      "type": "int"
+    },
+    "Cache.ConnectTimeout": {
+      "type": "int"
+    },
+    "Cache.Duration": {
+      "type": "int"
+    },
+    "Cache.Mode": {
+      "type": "string"
+    },
+    "Cache.Client": {
+      "type": "string"
+    },
+    "SqlConnectionMaxRetry": {
+      "type": "int"
+    },
+    "SqlConnectionMaxDelay": {
+      "type": "int"
     },
     "Application.Environment": {
       "type": "string",
@@ -380,6 +407,8 @@
             "SiteUserPwd": "[list(resourceId('Microsoft.Web/sites/config', variables('mpAdminWebAppName'), 'publishingcredentials'), '2014-06-01').properties.PublishingPassword]",
             "SiteName": "[variables('mpAdminWebAppName')]",
             "userPageSize": "10",
+            "SqlConnectionMaxRetry": "[parameters('SqlConnectionMaxRetry')]",
+            "SqlConnectionMaxDelay": "[parameters('SqlConnectionMaxDelay')]",
             "Application.Environment": "[parameters('Application.Environment')]"
           }
         }
@@ -486,9 +515,16 @@
             "MarketPlaceDetailsUrl": "[concat('https://',variables('mpMobileWebUIName'),'.azurewebsites.net/#/MarketPlaceDetails/')]",
             "YLM.ApiUrl": "[parameters('YLM.ApiUrl')]", //"https://test.api.infoconnect.com/hw_mktpl/v1/",
             "YLM.Api_Key": "[parameters('YLM.Api_Key')]", //  "GEe5xWXeMn4wTAaijBfpXCVGsy1qWhHM",
-            "TCC.ApiUrl": "[parameters('TCC.ApiUrl')]",
+            "TCC.AuthApiUrl": "[parameters('TCC.AuthApiUrl')]",
+            "TCC.IdentityApiUrl": "[parameters('TCC.IdentityApiUrl')]",
             "TCC.AppId": "[parameters('TCC.AppId')]",
             "TCC.Secret_Key": "[parameters('TCC.Secret_Key')]",
+            "jwtSecretKey": "[parameters('jwtSecretKey')]",
+            "Cache.RetryCount": "[parameters('Cache.RetryCount')]",
+            "Cache.ConnectTimeout": "[parameters('Cache.ConnectTimeout')]",
+            "Cache.Duration": "[parameters('Cache.Duration')]",
+            "Cache.Mode": "[parameters('Cache.Mode')]",
+            "Cache.Client": "[parameters('Cache.Client')]",
             "Application.Environment": "[parameters('Application.Environment')]"
           }
         }
