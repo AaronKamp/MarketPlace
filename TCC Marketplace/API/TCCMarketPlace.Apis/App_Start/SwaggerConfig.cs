@@ -34,7 +34,7 @@ namespace TCCMarketPlace.Apis
                         // hold additional metadata for an API. Version and title are required but you can also provide
                         // additional fields by chaining methods off SingleApiVersion.
                         //
-                        c.SingleApiVersion("v1", "TCCMarketPlace.Apis");
+                        c.SingleApiVersion("v1", "TCC MarketPlace API swagger");
 
                         // If your API has multiple versions, use "MultipleApiVersions" instead of "SingleApiVersion".
                         // In this case, you must provide a lambda that tells Swashbuckle which actions should be
@@ -59,12 +59,12 @@ namespace TCCMarketPlace.Apis
                         //c.BasicAuth("basic")
                         //    .Description("Basic HTTP Authentication");
                         //
-						// NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
-                        //c.ApiKey("apiKey")
-                        //    .Description("API Key Authentication")
-                        //    .Name("apiKey")
-                        //    .In("header");
-                        //
+                        // NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
+                        c.ApiKey("Authorization")
+                            .Description("API Key Authentication")
+                            .Name("Authorization")
+                            .In("header");
+
                         //c.OAuth2("oauth2")
                         //    .Description("OAuth2 Implicit Grant")
                         //    .Flow("implicit")
@@ -187,7 +187,7 @@ namespace TCCMarketPlace.Apis
                         // has loaded. The file must be included in your project as an "Embedded Resource", and then the resource's
                         // "Logical Name" is passed to the method as shown above.
                         //
-                        //c.InjectJavaScript(thisAssembly, "Swashbuckle.Dummy.SwaggerExtensions.testScript1.js");
+                        //c.InjectJavaScript(thisAssembly, "TCCMarketPlace.Apis.SwaggerUI.authorization.js");
 
                         // The swagger-ui renders Boolean data types as a dropdown. By default, it provides "true" and "false"
                         // strings as the possible choices. You can use this option to change these to something else,
@@ -210,7 +210,7 @@ namespace TCCMarketPlace.Apis
                         // Specify which HTTP operations will have the 'Try it out!' option. An empty parameter list disables
                         // it for all operations.
                         //
-                        c.SupportedSubmitMethods("GET","HEAD");
+                        c.SupportedSubmitMethods("GET","HEAD","POST");
 
                         // Use the CustomAsset option to provide your own version of assets used in the swagger-ui.
                         // It's typically used to instruct Swashbuckle to return your version instead of the default
@@ -218,7 +218,7 @@ namespace TCCMarketPlace.Apis
                         // in your project as an "Embedded Resource", and then the resource's "Logical Name" is passed to
                         // the method as shown below.
                         //
-                        //c.CustomAsset("index", containingAssembly, "YourWebApiProject.SwaggerExtensions.index.html");
+                        c.CustomAsset("index", thisAssembly, "TCCMarketPlace.Apis.SwaggerUI.index.html");
 
                         // If your API has multiple versions and you've applied the MultipleApiVersions setting
                         // as described above, you can also enable a select box in the swagger-ui, that displays
@@ -241,13 +241,13 @@ namespace TCCMarketPlace.Apis
                         // If your API supports ApiKey, you can override the default values.
                         // "apiKeyIn" can either be "query" or "header"                                                
                         //
-                        c.EnableApiKeySupport("apiKey", "header");
+                        c.EnableApiKeySupport("Authorization", "header");
                     });
         }
 
         private static string GetXmlCommentsPath()
         {
-            return string.Format(@"{0}\bin\TCCMarketPlace.Apis.XML", System.AppDomain.CurrentDomain.BaseDirectory);
+            return string.Format(@"{0}\XML\TCCMarketPlace.Apis.xml", System.AppDomain.CurrentDomain.BaseDirectory);
         }
     }
 }

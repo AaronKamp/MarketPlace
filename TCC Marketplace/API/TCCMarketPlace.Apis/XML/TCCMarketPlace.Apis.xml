@@ -1,0 +1,325 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TCCMarketPlace.Apis</name>
+    </assembly>
+    <members>
+        <member name="T:TCCMarketPlace.Apis.AuthHandler">
+            <summary>
+            Authorization Handler.
+            </summary>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.AuthHandler.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+            <summary>
+            Overrides SendAsync method of DelegatingHandler class to implement custom authorization.
+            </summary>
+            <param name="request"> Incoming http request. </param>
+            <param name="cancellationToken"> </param>
+            <returns>HttpResponseMessage</returns>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.AuthHandler.ValidateToken(System.String,System.String,System.Boolean)">
+            <summary>
+            Validate authorization token and user identity.
+            </summary>
+            <param name="token"> Token string. </param>
+            <param name="secret"> JWT secret key </param>
+            <param name="checkExpiration"> Enable check expiration flag.  </param>
+            <returns> ClaimsPrincipal </returns>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.AuthHandler.FromUnixTime(System.Int64)">
+            <summary>
+            Converts the expiry timestamp to DateTime
+            </summary>
+            <param name="unixTime"></param>
+            <returns>Expiry DateTime</returns>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.AuthHandler.ComposeExceptionLog(System.Net.Http.HttpRequestMessage,System.Exception,System.Guid)">
+            <summary>
+            Compose informative exception log specific to authorization.
+            </summary>
+            <param name="request"></param>
+            <param name="ex"></param>
+            <param name="execptionIdentifier"></param>
+            <returns>Detailed Exception Log</returns>
+        </member>
+        <member name="T:TCCMarketPlace.Apis.FilterConfig">
+            <summary>
+            Filters configuration.
+            </summary>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.FilterConfig.Register(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Register custom filters.
+            </summary>
+        </member>
+        <member name="T:TCCMarketPlace.Apis.RouteConfig">
+            <summary>
+            Route configuration.
+            </summary>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.RouteConfig.RegisterRoutes(System.Web.Routing.RouteCollection)">
+            <summary>
+            Register default routes.
+            </summary>
+        </member>
+        <member name="T:TCCMarketPlace.Apis.SwaggerConfig">
+            <summary>
+            Swagger configuration.
+            </summary>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.SwaggerConfig.Register">
+            <summary>
+            Register swagger configuration.
+            </summary>
+        </member>
+        <member name="T:TCCMarketPlace.Apis.WebApiConfig">
+            <summary>
+            Web api configuration 
+            </summary>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.WebApiConfig.Register(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Register Web API configuration.
+            </summary>
+        </member>
+        <member name="T:TCCMarketPlace.Apis.Constants">
+            <summary>
+            Application Constants
+            </summary>
+        </member>
+        <member name="F:TCCMarketPlace.Apis.Constants.SUCCESS">
+            <summary>
+            Success flag
+            </summary>
+        </member>
+        <member name="F:TCCMarketPlace.Apis.Constants.FAIL">
+            <summary>
+            Failure flag
+            </summary>
+        </member>
+        <member name="T:TCCMarketPlace.Apis.Controllers.BaseController">
+            <summary>
+            Base class for all controllers.
+            </summary>
+        </member>
+        <member name="P:TCCMarketPlace.Apis.Controllers.BaseController.CurrentUser">
+            <summary>
+            User information
+            </summary>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Controllers.BaseController.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Controllers.BaseController.GetUserDetails">
+            <summary>
+            Gets user details.
+            </summary>
+            <exception cref="T:System.Web.Http.HttpResponseException"></exception>
+        </member>
+        <member name="T:TCCMarketPlace.Apis.Controllers.MarketPlaceController">
+            <summary>
+            All web request from the TCC MarketPlace mobile application is served through MarketPlaceController.
+            All request contains JWT token in the headers which is resolved by the AuthHandler for authentication. 
+            </summary>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Controllers.MarketPlaceController.GetMarketPlaceList(System.Int32)">
+            <summary>
+            Returns list of all available services.
+            </summary>
+            <param name="typeId">Used to indicate if Add-ons or Offers need to be returned.</param>
+            <returns> List of available Add-ons or offers according to typeId</returns>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Controllers.MarketPlaceController.GetNewlyAddedServices(System.Int32)">
+            <summary>
+            Returns the list of the latest services available.
+            </summary>
+            <param name="typeId"> Used to indicate if Add-ons or Offers need to be returned.</param>
+            <returns>List of newest Add-ons or offers according to typeId.</returns>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Controllers.MarketPlaceController.GetMyServices(System.Int32)">
+            <summary>
+            Returns the list of all services subscribed by the user.
+            </summary>
+            <param name="typeId">Used to indicate if Add-ons or Offers need to be returned.</param>
+            <returns> List of subscribed services according to typeId.</returns>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Controllers.MarketPlaceController.GetCategories(System.Int32)">
+            <summary>
+            Returns the list of available categories for the selected service type. 
+            </summary>
+            <param name="typeId"> Used to indicate if categories of Add-ons or Offers need to be returned. </param>
+            <returns> List of available categories.</returns>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Controllers.MarketPlaceController.GetSlideShowImages(System.Int32)">
+            <summary>
+            Serves the list of URLs for slider images under the selected service type.
+            </summary>
+            <param name="typeId"> Used to indicate service type to filter SlideShowImage URLs.</param>
+            <returns>List of Slider Image URLs.</returns>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Controllers.MarketPlaceController.GetDetails(System.Int32)">
+            <summary>
+            Serves the details of selected service.
+            </summary>
+            <param name="serviceId"> Used to identify the selected service. </param>
+            <returns> Details of the selected service. </returns>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Controllers.MarketPlaceController.GetServiceSubscriptionStatus(System.Int32)">
+            <summary>
+            Checks if the requested service is already subscribed.
+            </summary>
+            <param name="serviceId"> Used to identify the selected service. </param>
+            <returns> True if service is already subscribed. Otherwise false.  </returns>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Controllers.MarketPlaceController.EnableOrDisableService(TCCMarketPlace.Model.Service)">
+            <summary>
+            Toggles the service enabled status for each user.
+            </summary>
+            <param name="service" cref="T:TCCMarketPlace.Model.Service"></param>
+            <returns>Updated Service details</returns>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Controllers.MarketPlaceController.RemoveAddOn(TCCMarketPlace.Model.Service)">
+            <summary>
+            Unsubscribes a service for the user.
+            </summary>
+            <param name="service" cref="T:TCCMarketPlace.Model.Service"></param>
+            <returns>Success information as string.</returns>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Controllers.MarketPlaceController.SaveReportUrl(TCCMarketPlace.Model.Service)">
+            <summary>
+            Saves the report URL generated by service provider on enrolment.
+            </summary>
+            <param name="service" cref="T:TCCMarketPlace.Model.Service"></param>
+            <returns> Success or failure information as string. </returns>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Controllers.MarketPlaceController.SubscribeToService(TCCMarketPlace.Model.Service)">
+            <summary>
+            Activates the requested service for the user.
+            </summary>
+            <param name="service" cref="T:TCCMarketPlace.Model.Service"></param>
+            <returns> Success or failure information as string. </returns>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Controllers.MarketPlaceController.Login(TCCMarketPlace.Model.LoginRequest)">
+            <summary>
+             Authenticates user details sent from TCC native app.
+            </summary>
+            <param name="login" cref="T:TCCMarketPlace.Model.LoginRequest"></param>
+            <returns>Marketplace application landing page URL with the auth token. </returns>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Controllers.MarketPlaceController.AuthenticateUser(TCCMarketPlace.Model.LoginRequest)">
+            <summary>
+            Authenticate login credentials against TCC server
+            </summary>
+            <param name="login"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Controllers.MarketPlaceController.CreateInAppPurchaseTransaction(TCCMarketPlace.Model.CreateTransactionRequest)">
+            <summary>
+            Creates a transaction to represent a purchase initiated in the Marketplace application.
+            </summary>
+            <param name="request" cref="T:TCCMarketPlace.Model.CreateTransactionRequest"></param>
+            <returns>Transaction Id and the market place details page URL.</returns>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Controllers.MarketPlaceController.UpdateInAppPurchaseTransaction(TCCMarketPlace.Model.UpdateTransactionRequest)">
+            <summary>
+            Updates the status of transaction to success or failure and
+            subscribes the service on transaction success.
+            </summary>
+            <param name="request" cref="T:TCCMarketPlace.Model.UpdateTransactionRequest"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Controllers.MarketPlaceController.GetTransactionDetails(TCCMarketPlace.Model.CreateTransactionRequest)">
+            <summary>
+            Gets the details of latest transaction initiated by the user.
+            </summary>
+            <param name="request" cref="T:TCCMarketPlace.Model.CreateTransactionRequest"></param>
+            <returns>Transaction details. </returns>
+        </member>
+        <member name="T:TCCMarketPlace.Apis.Filters.CustomExceptionFilterAttribute">
+            <summary>
+            All exceptions are routed through CustomExceptionFilterAttribute.
+            </summary>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Filters.CustomExceptionFilterAttribute.OnException(System.Web.Http.Filters.HttpActionExecutedContext)">
+            <summary>
+            All exceptions are routed through this method. This separates BusinessException and SystemExceptions and handles separately.
+            </summary>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Filters.CustomExceptionFilterAttribute.HandleSystemException(System.Web.Http.Filters.HttpActionExecutedContext)">
+            <summary>
+            System exception are logged with a GUID and a response is generated indicating status failure. 
+            </summary>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Filters.CustomExceptionFilterAttribute.HandleBusinessException(System.Web.Http.Filters.HttpActionExecutedContext)">
+            <summary>
+            Business exception are handled and proper error messages are shown to the end user.
+            </summary>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Filters.CustomExceptionFilterAttribute.ComposeExceptionLog(System.Web.Http.Filters.HttpActionExecutedContext,System.Guid)">
+            <summary>
+            Generate informative exception log and return it to the caller.
+            </summary>
+        </member>
+        <member name="T:TCCMarketPlace.Apis.WebApiApplication">
+            <summary>
+            Global.asax
+            </summary>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.WebApiApplication.Application_Start">
+            <summary>
+            Application_Start event. This is fired on application start and initiates application configuration
+            </summary>
+        </member>
+        <member name="T:TCCMarketPlace.Apis.JwToken.TokenGenerator">
+            <summary>
+            JWT token generation handler
+            </summary>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.JwToken.TokenGenerator.GenerateToken(TCCMarketPlace.Model.LoginRequest)">
+            <summary>
+            Generates JWT token from Login details.
+            </summary>
+            <param name="login"></param>
+            <returns></returns>
+        </member>
+        <member name="T:TCCMarketPlace.Apis.Models.ApiResponse`1">
+            <summary>
+            API response model.
+            </summary>
+            <typeparam name="T"> Generic class </typeparam>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Models.ApiResponse`1.#ctor">
+            <summary>
+            Default constructor for ApiResponse
+            </summary>
+        </member>
+        <member name="M:TCCMarketPlace.Apis.Models.ApiResponse`1.#ctor(`0)">
+            <summary>
+            Constructor to initialize data
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="P:TCCMarketPlace.Apis.Models.ApiResponse`1.Data">
+            <summary>
+             Data in the API response
+            </summary>
+        </member>
+        <member name="P:TCCMarketPlace.Apis.Models.ApiResponse`1.IsBusinessValidation">
+            <summary>
+            True if business validation error occurred.
+            </summary>
+        </member>
+        <member name="P:TCCMarketPlace.Apis.Models.ApiResponse`1.ResponseTime">
+            <summary>
+            Response time.
+            </summary>
+        </member>
+        <member name="P:TCCMarketPlace.Apis.Models.ApiResponse`1.Status">
+            <summary>
+            Success or failure.
+            </summary>
+        </member>
+    </members>
+</doc>

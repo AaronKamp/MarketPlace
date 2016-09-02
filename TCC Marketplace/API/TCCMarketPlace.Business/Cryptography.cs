@@ -11,7 +11,7 @@ namespace TCCMarketPlace.Business
     /// </summary>
     public static class Cryptography
     {
-        private const string EncryptionKey = "UJWDNCGK2LD324FR723KDSB";
+        private static string EncryptionKey = ConfigurationManager.AppSettings["EncryptionKey"]; 
 
         private static readonly byte[] Salt = new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 };
 

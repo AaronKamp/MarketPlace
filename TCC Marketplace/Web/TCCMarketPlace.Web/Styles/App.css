@@ -2116,7 +2116,7 @@ h2.tick {
     }
 }
 
-@media only screen and (max-width: 320px) {
+@media (max-width: 320px) {
 
     .notify {
         margin: 0px 15% !important;
@@ -2191,9 +2191,9 @@ h2.tick {
     }
 
     .swiper-slide:first-child {
-        width: 60px !important;
+        width: 70px !important;
         margin-right: 15px !important;
-        margin-left: 25px !important;
+        margin-left: 10px !important;
     }
 
 
@@ -2310,9 +2310,6 @@ h2.tick {
     }
 }
 
-@media only screen and (max-width: 320px) {
-
-}
 @media only screen and (max-width: 375x) {
     .search-modal {
         position: fixed;

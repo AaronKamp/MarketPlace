@@ -2,7 +2,7 @@
 using System.Text;
 using System.Security.Cryptography;
 using System.IO;
-
+using System.Configuration;
 namespace Marketplace.Admin.Core
 {
     /// <summary>
@@ -10,7 +10,8 @@ namespace Marketplace.Admin.Core
     /// </summary>
     public static class Cryptography
     {
-        private const string EncryptionKey = "UJWDNCGK2LD324FR723KDSB";
+        private static string EncryptionKey = ConfigurationManager.AppSettings["EncryptionKey"];
+
         private static byte[] Salt = new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 };
 
         /// <summary>
