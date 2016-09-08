@@ -64,7 +64,9 @@
     <Compile Include="ExceptionHandlers\UnhandledException.cs" />
     <Compile Include="FilterRequest.cs" />
     <Compile Include="InAppPurchaseStatus.cs" />
+    <Compile Include="Logger\LoggerEntity.cs" />
     <Compile Include="Logger\Log4NetLogger.cs" />
+    <Compile Include="Logger\LogHelper.cs" />
     <Compile Include="Logger\LogLevelEnum.cs" />
     <Compile Include="LoginRequest.cs" />
     <Compile Include="LoginResponse.cs" />

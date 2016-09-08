@@ -247,7 +247,7 @@ namespace TCCMarketPlace.Apis
 
         private static string GetXmlCommentsPath()
         {
-            return string.Format(@"{0}\XML\TCCMarketPlace.Apis.xml", System.AppDomain.CurrentDomain.BaseDirectory);
+            return string.Format(@"{0}\bin\TCCMarketPlace.Apis.XML", System.AppDomain.CurrentDomain.BaseDirectory);
         }
     }
 }

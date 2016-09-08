@@ -105,6 +105,18 @@
       <HintPath>..\packages\AzureSDK2.2DLLs.1.0.0\lib\Microsoft.WindowsAzure.StorageClient.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Splunk.Logging.Common, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Splunk.Logging.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Splunk.Logging.SLAB, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Splunk.Logging.SLAB.dll</HintPath>
+    </Reference>
+    <Reference Include="Splunk.Logging.TraceListener, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Splunk.Logging.TraceListener.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -232,7 +244,9 @@
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Enums\ImageType.cs" />
+    <Compile Include="Filters\LogActionFilter.cs" />
     <Compile Include="Filters\CustomExceptionFilterAttribute.cs" />
+    <Compile Include="Filters\LoggerEntity.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -323,6 +337,7 @@
     <Content Include="fonts\MyriadPro-Regular.woff" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <None Include="Properties\PublishProfiles\hmktadmin - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\hmktdemo - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\MarketplaceAdminWeb.pubxml" />
     <None Include="Properties\PublishProfiles\mktplcqa - Web Deploy %282%29.pubxml" />

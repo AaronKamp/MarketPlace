@@ -14,6 +14,7 @@ namespace Marketplace.Admin
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new CustomExceptionFilterAttribute());
+            filters.Add(new LogActionFilter());
         }
     }
 }

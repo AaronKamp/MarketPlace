@@ -187,12 +187,31 @@ namespace TCCMarketPlace.Business
         /// <returns> Service provider details. </returns>
         private ServiceProvider GetServiceProviderDetails(int serviceProviderId)
         {
+            var list = new List<ServiceProvider>();
             //caches the service provider collection.
-            var list = CacheManager.Instance.GetItem<ICollection<ServiceProvider>>("ServiceProviderCollection");
-            if (list == null)
+            try
             {
-                list = ServiceProviderManager.GetServiceProviderList().ToList();
-                CacheManager.Instance.PutItem<ICollection<ServiceProvider>>("ServiceProviderCollection", list, new TimeSpan(0, 5, 0));
+                list = CacheManager.Instance.GetItem<List<ServiceProvider>>("ServiceProviderCollection");
+                if ( list == null || ! list.Any())
+                {
+                    list = ServiceProviderManager.GetServiceProviderList().ToList();
+                    CacheManager.Instance.PutItem<List<ServiceProvider>>("ServiceProviderCollection", list, new TimeSpan(0, 5, 0));
+                }
+            }
+            catch(RedisCacheException ex)
+            {
+                if (!list.Any())
+                {
+                    list = ServiceProviderManager.GetServiceProviderList().ToList();
+                }
+                //Redis cache exception detected and logged as warning. 
+
+                var exceptionIdentifier = Guid.NewGuid();
+                new Log4NetLogger().Log(LogHelper.ComposeExceptionLog(ex.ExceptionMessage,exceptionIdentifier), ex.RedisException, LogLevelEnum.Warning);
+            }
+            catch
+            {
+                throw;
             }
             return list.Where(p => p.Id == serviceProviderId).FirstOrDefault();
         }

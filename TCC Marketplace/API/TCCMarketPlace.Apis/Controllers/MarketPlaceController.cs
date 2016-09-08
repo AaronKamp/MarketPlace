@@ -78,7 +78,7 @@ namespace TCCMarketPlace.Apis.Controllers
         public ApiResponse<List<Category>> GetCategories(int typeId)
         {
             // To be implemented in second phase with dynamic category options.
-           
+
             ApiResponse<List<Category>> response = new ApiResponse<List<Category>>();
 
             using (var marketPlace = BusinessFacade.GetMarketPlaceInstance())
@@ -211,7 +211,7 @@ namespace TCCMarketPlace.Apis.Controllers
         /// <returns>Marketplace application landing page URL with the auth token. </returns>
         [AllowAnonymous]
         [Route("Login")]
-        [HttpPost] 
+        [HttpPost]
         [System.Web.Mvc.RequireHttps]
         public async Task<IHttpActionResult> Login([FromBody] LoginRequest login)
         {
@@ -229,15 +229,20 @@ namespace TCCMarketPlace.Apis.Controllers
                 {
                     hostedurl = hostedurl.Replace("http", "https");
                 }
-              
+
                 //Generate new JWT token for the logged in user with claims
                 var token = new JwToken.TokenGenerator().GenerateToken(login);
 
                 var apiBaseUri = HttpUtility.UrlEncode(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + "/api");
 
+                if (apiBaseUri.Contains("https") == false)
+                {
+                    apiBaseUri = apiBaseUri.Replace("http", "https");
+                }
+
                 //landing page URL for native app to navigate to on Web-View
                 var landingPageUrl = $"{hostedurl}#/UserAuth/{token}/{apiBaseUri}";
-                
+
                 var responseData = new LoginResponse
                 {
                     MarketPlaceUrl = landingPageUrl,

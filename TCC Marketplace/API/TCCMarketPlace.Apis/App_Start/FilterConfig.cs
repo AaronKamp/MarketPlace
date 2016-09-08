@@ -15,6 +15,8 @@ namespace TCCMarketPlace.Apis
         {
             var filters = config.Filters;
             filters.Add(new CustomExceptionFilterAttribute());
+            filters.Add(new LogActionFilter());
+
         }
     }
 }

@@ -8,6 +8,7 @@ using TCCMarketPlace.Business.Interface;
 using TCCMarketPlace.Model;
 using TCCMarketPlace.Model.TccOAuth;
 using TCCMarketPlace.Cache;
+using TCCMarketPlace.Model.Logger;
 
 namespace TCCMarketPlace.Business
 {
@@ -69,13 +70,33 @@ namespace TCCMarketPlace.Business
         /// <returns></returns>
         private async Task<string> GetBearerToken()
         {
-            string tccnaBearerToken = CacheManager.Instance.GetItem<string>("TccnaBearerToken");
-            if(string.IsNullOrWhiteSpace(tccnaBearerToken))
+            string tccnaBearerToken = string.Empty;
+            try {
+                tccnaBearerToken = CacheManager.Instance.GetItem<string>("TccnaBearerToken");
+                if (string.IsNullOrWhiteSpace(tccnaBearerToken))
+                {
+                    tccnaBearerToken = await GenerateBearerToken();
+                    CacheManager.Instance.PutItem<string>("TccnaBearerToken", tccnaBearerToken, true);
+                }
+            }
+            catch (RedisCacheException ex)
             {
-                tccnaBearerToken = await GenerateBearerToken();
-                CacheManager.Instance.PutItem<string>("TccnaBearerToken", tccnaBearerToken, true);
+                if (string.IsNullOrWhiteSpace(tccnaBearerToken))
+                {
+                    tccnaBearerToken = await GenerateBearerToken();
+                }
+
+                //Redis cache exception detected and logged as warning. 
+
+                var exceptionIdentifier = Guid.NewGuid();
+                new Log4NetLogger().Log(LogHelper.ComposeExceptionLog(ex.ExceptionMessage, exceptionIdentifier), ex.RedisException, LogLevelEnum.Warning);
+            }
+            catch
+            {
+                throw;
             }
             return tccnaBearerToken;
+
         }
 
         /// <summary>

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using StackExchange.Redis;
 using System.Configuration;
 using Extensions;
+using TCCMarketPlace.Model.ExceptionHandlers;
 using System.Net;
 
 namespace TCCMarketPlace.Cache
@@ -51,9 +52,16 @@ namespace TCCMarketPlace.Cache
         /// <returns> Caches object. </returns>
         public T GetItem<T>(string key) where T : class
         {
-            key = CacheUtils.GetCacheKey<T>(key);
-            IDatabase database = connection.GetDatabase();
-            return database.StringGet(key).ToString().JsonDeserializeObject<T>();
+            try
+            {
+                key = CacheUtils.GetCacheKey<T>(key);
+                IDatabase database = connection.GetDatabase();
+                return database.StringGet(key).ToString().JsonDeserializeObject<T>();
+            }
+            catch (Exception ex)
+            {
+                throw new RedisCacheException("Redis exception occurred while reading from cache.", ex);
+            }
         }
 
         /// <summary>
@@ -143,14 +151,20 @@ namespace TCCMarketPlace.Cache
         /// </summary>
         private bool PutItem(string key, object value, TimeSpan timespan, bool overwrite)
         {
-            bool retValue = false;
-            IDatabase database = connection.GetDatabase();
-            if (!database.KeyExists(key) || overwrite)
-            {
-                database.StringSet(key, value.JsonSerializeObject(), timespan);
-                retValue = true;
+            try {
+                bool retValue = false;
+                IDatabase database = connection.GetDatabase();
+                if (!database.KeyExists(key) || overwrite)
+                {
+                    database.StringSet(key, value.JsonSerializeObject(), timespan);
+                    retValue = true;
+                }
+                return retValue;
             }
-            return retValue;
+            catch(Exception ex)
+            {
+                throw new RedisCacheException("Redis exception occurred while writing to cache.", ex);
+            }
         }
 
         /// <summary>

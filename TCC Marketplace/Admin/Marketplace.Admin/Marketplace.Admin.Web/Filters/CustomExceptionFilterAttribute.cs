@@ -2,6 +2,8 @@
 using System;
 using System.Text;
 using Logger;
+using Marketplace.Admin.Utils;
+using Marketplace.Admin.Enums;
 
 namespace Marketplace.Admin.Filters
 {
@@ -11,6 +13,7 @@ namespace Marketplace.Admin.Filters
     public class CustomExceptionFilterAttribute : HandleErrorAttribute, IExceptionFilter
     {
         private const string ExceptionSeperator = "*************************************************************************************************";
+
 
         /// <summary>
         /// On exception the control is transferred here.
@@ -26,6 +29,7 @@ namespace Marketplace.Admin.Filters
 
                 LogManager.Instance.Log(ComposeExceptionLog(controller, action, filterContext.Exception, execptionIdentifier),
                                         filterContext.Exception, LogLevelEnum.Error);
+                
             }
         }
 

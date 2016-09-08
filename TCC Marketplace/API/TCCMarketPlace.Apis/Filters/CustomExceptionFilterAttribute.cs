@@ -1,13 +1,17 @@
 ﻿using System.Net;
 using System.Web.Http.Filters;
+using System.Web;
 using System.Net.Http;
 using System;
+using System.Security.Claims;
 using System.Text;
 using Newtonsoft.Json;
 using System.Linq;
 using TCCMarketPlace.Apis.Models;
 using TCCMarketPlace.Model.ExceptionHandlers;
 using TCCMarketPlace.Model.Logger;
+using TCCMarketPlace.Model;
+
 
 namespace TCCMarketPlace.Apis.Filters
 {
@@ -31,13 +35,15 @@ namespace TCCMarketPlace.Apis.Filters
             if (actionExecutedContext.Exception is BusinessException)
             {
                 response = HandleBusinessException(actionExecutedContext);
-            }            
+            }
             else
             {
                 response = HandleSystemException(actionExecutedContext);
+
             }
-            
+
         }
+
         /// <summary>
         /// System exception are logged with a GUID and a response is generated indicating status failure. 
         /// </summary>
@@ -45,15 +51,17 @@ namespace TCCMarketPlace.Apis.Filters
         {
             ApiResponse<bool> response;
             Guid execptionIdentifier = Guid.NewGuid();
-
             //Log exception
             new Log4NetLogger().Log(ComposeExceptionLog(actionExecutedContext, execptionIdentifier), actionExecutedContext.Exception, LogLevelEnum.Error);
+
+            
 
             response = new ApiResponse<bool> { ErrorMessage = string.Format(UnhandledErrorMessage, execptionIdentifier), HasError = true, IsBusinessValidation = false };
             response.Status = Constants.FAIL;
             actionExecutedContext.Response = actionExecutedContext.Request.CreateResponse(HttpStatusCode.OK, response);
             return response;
         }
+
         /// <summary>
         /// Business exception are handled and proper error messages are shown to the end user.
         /// </summary>
@@ -79,6 +87,7 @@ namespace TCCMarketPlace.Apis.Filters
             actionExecutedContext.Response = actionExecutedContext.Request.CreateResponse(HttpStatusCode.OK, response);
             return response;
         }
+
         /// <summary>
         /// Generate informative exception log and return it to the caller.
         /// </summary>
@@ -97,6 +106,6 @@ namespace TCCMarketPlace.Apis.Filters
 
             return sbErrorLog.ToString();
         }
-        
+
     }
 }

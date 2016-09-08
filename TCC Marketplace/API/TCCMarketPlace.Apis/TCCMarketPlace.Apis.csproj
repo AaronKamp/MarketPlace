@@ -34,7 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>XML\TCCMarketPlace.Apis.xml</DocumentationFile>
+    <DocumentationFile>bin\TCCMarketPlace.Apis.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -56,6 +56,18 @@
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Splunk.Logging.Common, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Admin\MarketPlace.Admin\Marketplace.Admin.Web\bin\Splunk.Logging.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Splunk.Logging.SLAB, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Admin\MarketPlace.Admin\Marketplace.Admin.Web\bin\Splunk.Logging.SLAB.dll</HintPath>
+    </Reference>
+    <Reference Include="Splunk.Logging.TraceListener, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Admin\MarketPlace.Admin\Marketplace.Admin.Web\bin\Splunk.Logging.TraceListener.dll</HintPath>
     </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Swashbuckle.Core.5.4.0\lib\net40\Swashbuckle.Core.dll</HintPath>
@@ -158,6 +170,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\MarketPlaceController.cs" />
     <Compile Include="Filters\CustomExceptionFilterAttribute.cs" />
+    <Compile Include="Filters\LogActionFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -167,19 +180,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <EmbeddedResource Include="SwaggerUI\index.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Web.Debug.config">
+    <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <Content Include="XML\TCCMarketPlace.Apis.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="SwaggerUI\index.html" />
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TCCMarketPlace.Business\TCCMarketPlace.Business.csproj">

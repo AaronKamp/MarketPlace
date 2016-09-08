@@ -58,6 +58,7 @@
     <Compile Include="ICache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RedisCache.cs" />
+    <Compile Include="RedisCacheException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
@@ -67,6 +68,10 @@
     <ProjectReference Include="..\Extensions\Extensions.csproj">
       <Project>{ae3aebbd-c8a6-4053-84dd-fbe421579c03}</Project>
       <Name>Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TCCMarketPlace.Model\TCCMarketPlace.Model.csproj">
+      <Project>{f7fa0293-a9c6-4c18-beba-dcd318efd196}</Project>
+      <Name>TCCMarketPlace.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

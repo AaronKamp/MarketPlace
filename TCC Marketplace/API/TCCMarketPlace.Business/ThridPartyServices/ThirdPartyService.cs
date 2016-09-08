@@ -7,6 +7,7 @@ using TCCMarketPlace.Cache;
 using TCCMarketPlace.Business.Interface;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using TCCMarketPlace.Model.Logger;
 
 namespace TCCMarketPlace.Business
 {
@@ -52,8 +53,9 @@ namespace TCCMarketPlace.Business
                     return true;
                 else return false;
             }
-            catch
+            catch (Exception ex)
             {
+                new Log4NetLogger().Log($"Service {service.ServiceId} unenrollment failed for user {user.UserName}, {user.UserId} ", ex,LogLevelEnum.Warning);
                 //if delist from third party enrolment fails return false.
                 return false;
             }
@@ -66,12 +68,31 @@ namespace TCCMarketPlace.Business
         /// <returns> Token. </returns>
         private async Task<string> GetToken(string providerName)
         {
-            var providerToken = CacheManager.Instance.GetItem<string>(providerName);
-            if (string.IsNullOrWhiteSpace(providerToken))
+            string providerToken = string.Empty;
+            try
             {
-                var tokenObject = await GetTokenFromAPI();
-                providerToken = tokenObject.Token;
-                CacheManager.Instance.PutItem<string>(providerName, providerToken, new TimeSpan(0,0,0,tokenObject.ExpiresIn));
+                providerToken = CacheManager.Instance.GetItem<string>(providerName);
+                if (string.IsNullOrWhiteSpace(providerToken))
+                {
+                    var tokenObject = await GetTokenFromAPI();
+                    providerToken = tokenObject.Token;
+                    CacheManager.Instance.PutItem<string>(providerName, providerToken, new TimeSpan(0, 0, 0, tokenObject.ExpiresIn));
+                }
+            }
+            catch (RedisCacheException ex)
+            {
+                //Redis cache exception detected and logged as warning. 
+                var exceptionIdentifier = Guid.NewGuid();
+                new Log4NetLogger().Log(LogHelper.ComposeExceptionLog(ex.ExceptionMessage, exceptionIdentifier), ex.RedisException, LogLevelEnum.Warning);
+                if (string.IsNullOrWhiteSpace(providerToken))
+                {
+                    var tokenObject = await GetTokenFromAPI();
+                    providerToken = tokenObject.Token;
+                }
+            }
+            catch
+            {
+                throw;
             }
             return providerToken;
         }
@@ -84,9 +105,9 @@ namespace TCCMarketPlace.Business
         /// <returns></returns>
         private async Task<string> GetUrlForUnEnroll(User user, Service service)
         {
-            var accessToken = _serviceProvider.GenerateBearerToken? await GetToken(_serviceProvider.Name):string.Empty;
+            var accessToken = _serviceProvider.GenerateBearerToken ? await GetToken(_serviceProvider.Name) : string.Empty;
             StringBuilder strQueryParams = new StringBuilder();
-            strQueryParams.Append(_serviceProvider.UnEnrollUrl +(_serviceProvider.UnEnrollUrl.EndsWith("/") ? "unenrolldevicebyprgid?" : "/unenrolldevicebyprgid?"));
+            strQueryParams.Append(_serviceProvider.UnEnrollUrl + (_serviceProvider.UnEnrollUrl.EndsWith("/") ? "unenrolldevicebyprgid?" : "/unenrolldevicebyprgid?"));
             strQueryParams.Append(string.Format("{0}={1}", HttpUtility.UrlEncode("prgId"), HttpUtility.UrlEncode(service.PartnerPromoCode) + "&"));
             strQueryParams.Append(string.Format("{0}={1}", HttpUtility.UrlEncode("customerId"), HttpUtility.UrlEncode(user.UserId.ToString()) + "&"));
             strQueryParams.Append(string.Format("{0}={1}", HttpUtility.UrlEncode("deviceId"), HttpUtility.UrlEncode(user.MacID.ToString())));
