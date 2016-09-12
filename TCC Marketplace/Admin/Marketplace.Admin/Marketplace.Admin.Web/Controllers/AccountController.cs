@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Marketplace.Admin.Identity;
 using Marketplace.Admin.ViewModels;
+using Marketplace.Admin.Filters;
 
 namespace Marketplace.Admin.Controllers
 {
@@ -54,6 +55,7 @@ namespace Marketplace.Admin.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [SecureDataActionFilter]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)

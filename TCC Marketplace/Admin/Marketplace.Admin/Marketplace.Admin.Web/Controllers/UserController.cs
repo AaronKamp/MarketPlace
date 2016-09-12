@@ -3,11 +3,11 @@ using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using Marketplace.Admin.Identity;
-using Marketplace.Admin.Models;
 using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 using Marketplace.Admin.Business;
 using Marketplace.Admin.ViewModels;
+using Marketplace.Admin.Filters;
 
 namespace Marketplace.Admin.Controllers
 {
@@ -108,6 +108,7 @@ namespace Marketplace.Admin.Controllers
         /// <param name="newUser"> UserViewModel</param>
         /// <returns> Users list.</returns>
         [HttpPost]
+        [SecureDataActionFilter]
         public JsonResult AddNewUser(UserViewModel newUser)
         {
 

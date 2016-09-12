@@ -6,6 +6,7 @@ using Marketplace.Admin.Core;
 using System;
 using Marketplace.Admin.Business;
 using Marketplace.Admin.ViewModels;
+using Marketplace.Admin.Filters;
 
 namespace Marketplace.Admin.Controllers
 {
@@ -71,6 +72,7 @@ namespace Marketplace.Admin.Controllers
         /// <param name="sshKeyFile"> SSH Key File</param>
         /// <returns>Settings view</returns>
         [HttpPost]
+        [SecureDataActionFilter]
         public ActionResult Edit(SettingsViewModel settings, HttpPostedFileBase sshKeyFile)
         {
             string radio = settings.FtpDetails.ReadMode;

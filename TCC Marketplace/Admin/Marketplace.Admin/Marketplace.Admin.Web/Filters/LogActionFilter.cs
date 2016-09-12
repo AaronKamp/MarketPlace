@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Web.Mvc;
+using System.Linq;
 using Marketplace.Admin.Utils;
 using System;
 using Logger;
@@ -15,21 +16,31 @@ namespace Marketplace.Admin.Filters
         /// OnActionExecuting method overridden to register action hit.
         /// </summary>
         /// <param name="actionContext" cref="ActionExecutingContext"></param>
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        public override void OnActionExecuting(ActionExecutingContext actionContext)
         {
+            if (actionContext.ActionDescriptor.GetCustomAttributes(typeof(SecureDataActionFilter),false).Any())
+            {
+                return;
+            }
+
             //Notes Request timestamp in Request Items and actionparameters
-            filterContext.HttpContext.Items[filterContext.ActionDescriptor.ActionName] = Stopwatch.StartNew();
-            filterContext.HttpContext.Items["RequestTimeStamp"] = filterContext.HttpContext.Timestamp.ToUniversalTime();
-            filterContext.HttpContext.Items["ActionParameters"] = filterContext.ActionParameters;
+            actionContext.HttpContext.Items[actionContext.ActionDescriptor.ActionName] = Stopwatch.StartNew();
+            actionContext.HttpContext.Items["RequestTimeStamp"] = actionContext.HttpContext.Timestamp.ToUniversalTime();
+            actionContext.HttpContext.Items["ActionParameters"] = actionContext.ActionParameters;
         }
+
         /// <summary>
         /// OnActionExecuted method overridden to register action response.
         /// </summary>
         /// <param name="actionExecutedContext" cref="ActionExecutedContext"></param>
         public override void OnActionExecuted(ActionExecutedContext actionExecutedContext)
         {
-            //Notes Request timestamp in Request Items and actionparameters
+            if (actionExecutedContext.ActionDescriptor.GetCustomAttributes(typeof(SecureDataActionFilter), false).Any())
+            {
+                return;
+            }
 
+            //Notes Request timestamp in Request Items and actionparameters
             Stopwatch stopWatch = (Stopwatch)actionExecutedContext.HttpContext.Items[actionExecutedContext.ActionDescriptor.ActionName];
             var executionTime = stopWatch.ElapsedMilliseconds;
             Log(actionExecutedContext, executionTime);

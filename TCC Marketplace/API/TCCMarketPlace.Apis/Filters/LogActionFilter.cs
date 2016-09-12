@@ -23,6 +23,10 @@ namespace TCCMarketPlace.Apis.Filters
         /// <param name="actionContext" cref="HttpActionContext"></param>
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
+            if(actionContext.ActionDescriptor.GetCustomAttributes<LoginActionFilter>(false).Any())
+            {
+                return;
+            }
             //Notes Request Timestamp in Request Properties.
             actionContext.Request.Properties["RequestTimeStamp"] = DateTime.UtcNow;
             //Starts a stopwatch in request's Properties.
@@ -35,6 +39,10 @@ namespace TCCMarketPlace.Apis.Filters
         /// <param name="actionExecutedContext" cref="HttpActionExecutedContext"></param>
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
+            if (actionExecutedContext.ActionContext.ActionDescriptor.GetCustomAttributes<LoginActionFilter>(false).Any())
+            {
+                return;
+            }
             //Notes Response timestamp in Request Properties
             actionExecutedContext.Request.Properties["ResponseTimeStamp"] = DateTime.UtcNow;
             Stopwatch stopWatch = (Stopwatch)actionExecutedContext.Request.Properties["StopWatch"];

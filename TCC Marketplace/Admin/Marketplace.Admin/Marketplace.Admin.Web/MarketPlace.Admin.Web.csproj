@@ -247,6 +247,7 @@
     <Compile Include="Filters\LogActionFilter.cs" />
     <Compile Include="Filters\CustomExceptionFilterAttribute.cs" />
     <Compile Include="Filters\LoggerEntity.cs" />
+    <Compile Include="Filters\SecureDataActionFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

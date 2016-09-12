@@ -11,21 +11,18 @@ Param(
     [string] $StorageContainerName = 'tccmarketplace-stageartifacts',
     [string] $TemplateFile = '..\Templates\TccMpDeploy.json',
     [string] $TemplateParametersFile = '..\Templates\TccMpDeploy.parameters.json',
-    [string] $ArtifactStagingDirectory = '..\Artifacts',
+    [string] $ArtifactStagingDirectory = '..\bin\Debug\Artifacts',
     [string] $AzCopyPath = '..\Tools\AzCopy.exe',
     [string] $DSCSourceFolder = '..\DSC'
 )
 
-Import-Module Azure -ErrorAction Stop
-
-Login-AzureRmAccount
+Import-Module Azure -ErrorAction SilentlyContinue
 
 try {
     [Microsoft.Azure.Common.Authentication.AzureSession]::ClientFactory.AddUserAgent("VSAzureTools-$UI$($host.name)".replace(" ","_"), "2.8")
-} catch { 
-
-
-}
+} catch {
+     Login-AzureRmAccount
+ }
 
 Set-StrictMode -Version 3
 
@@ -131,7 +128,7 @@ if ($UploadArtifacts) {
         New-AzureStorageContainer -Name $StorageContainerName -Context $StorageContext -Verbose | Out-Null
     }
     Write-Host "Storage container creation - Completed "
-   
+
     # Use AzCopy to copy files from the local storage drop path to the storage account container
     & $AzCopyPath """$ArtifactStagingDirectory""", $ArtifactsLocation, "/DestKey:$StorageAccountKey", "/S", "/Y", "/Z:$env:LocalAppData\Microsoft\Azure\AzCopy\$ResourceGroupName"
     if ($LASTEXITCODE -ne 0) { return }

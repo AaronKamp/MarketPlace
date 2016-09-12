@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using TCCMarketPlace.Apis.Filters;
 using TCCMarketPlace.Apis.Models;
 using TCCMarketPlace.Business;
 using TCCMarketPlace.Model;
@@ -212,6 +213,7 @@ namespace TCCMarketPlace.Apis.Controllers
         [AllowAnonymous]
         [Route("Login")]
         [HttpPost]
+        [LoginActionFilter]
         [System.Web.Mvc.RequireHttps]
         public async Task<IHttpActionResult> Login([FromBody] LoginRequest login)
         {

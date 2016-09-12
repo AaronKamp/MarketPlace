@@ -206,6 +206,9 @@
     "YLM.Api_Key": {
       "type": "securestring"
     },
+    "EncryptionKey": {
+      "type": "securestring"
+    },
     "TCC.AuthApiUrl": {
       "type": "string"
     },
@@ -403,6 +406,7 @@
           "properties": {
             "WebJobApi": "https://{0}.scm.azurewebsites.net/api/triggeredwebjobs/{1}/{2}",
             "ExtractJob": "MarketplaceAdminExtractJob",
+            "EncryptionKey": "[parameters('EncryptionKey')]",
             "SiteUserName": "[list(resourceId('Microsoft.Web/sites/config', variables('mpAdminWebAppName'), 'publishingcredentials'), '2014-06-01').properties.PublishingUserName]",
             "SiteUserPwd": "[list(resourceId('Microsoft.Web/sites/config', variables('mpAdminWebAppName'), 'publishingcredentials'), '2014-06-01').properties.PublishingPassword]",
             "SiteName": "[variables('mpAdminWebAppName')]",
@@ -515,6 +519,7 @@
             "MarketPlaceDetailsUrl": "[concat('https://',variables('mpMobileWebUIName'),'.azurewebsites.net/#/MarketPlaceDetails/')]",
             "YLM.ApiUrl": "[parameters('YLM.ApiUrl')]", //"https://test.api.infoconnect.com/hw_mktpl/v1/",
             "YLM.Api_Key": "[parameters('YLM.Api_Key')]", //  "GEe5xWXeMn4wTAaijBfpXCVGsy1qWhHM",
+            "EncryptionKey": "[parameters('EncryptionKey')]",
             "TCC.AuthApiUrl": "[parameters('TCC.AuthApiUrl')]",
             "TCC.IdentityApiUrl": "[parameters('TCC.IdentityApiUrl')]",
             "TCC.AppId": "[parameters('TCC.AppId')]",
