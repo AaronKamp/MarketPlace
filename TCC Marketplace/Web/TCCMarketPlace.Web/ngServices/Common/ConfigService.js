@@ -13,8 +13,7 @@ define(['angularAMD'], function (angularAMD) {
                 apiBaseUri = locationHash.substring(locationHash.indexOf("http"));
                 localStorage.setItem("base_uri", apiBaseUri);
             }
-
-            if (apiBaseUri.endsWith("/") === false) {
+            if (apiBaseUri.substring(-1) != "/") {
                 apiBaseUri = apiBaseUri + "/";
             }
 
