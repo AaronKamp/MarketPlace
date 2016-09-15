@@ -11,12 +11,12 @@ Param(
     [string] $StorageContainerName = 'tccmarketplace-stageartifacts',
     [string] $TemplateFile = '..\Templates\TccMpDeploy.json',
     [string] $TemplateParametersFile = '..\Templates\TccMpDeploy.parameters.json',
-    [string] $ArtifactStagingDirectory = '..\bin\Debug\Artifacts',
+    [string] $ArtifactStagingDirectory = '..\Artifacts',
     [string] $AzCopyPath = '..\Tools\AzCopy.exe',
     [string] $DSCSourceFolder = '..\DSC'
 )
 
-Import-Module Azure -ErrorAction SilentlyContinue
+Import-Module Azure -ErrorAction Stop
 
 try {
     [Microsoft.Azure.Common.Authentication.AzureSession]::ClientFactory.AddUserAgent("VSAzureTools-$UI$($host.name)".replace(" ","_"), "2.8")
