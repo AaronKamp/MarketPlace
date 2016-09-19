@@ -29,6 +29,7 @@ namespace Marketplace.Admin.ScheduledJob
             catch(Exception ex)
             {
                 log.WriteLine("Marketplace.Admin.ScheduledJob.RunImageDeletion failed with exception {0} at {1}", ex.Message, DateTime.UtcNow.ToString());
+                System.Diagnostics.Trace.TraceError(ex.ToString());
             }
         }
     }

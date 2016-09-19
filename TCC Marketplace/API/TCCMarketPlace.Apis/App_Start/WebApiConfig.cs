@@ -33,6 +33,8 @@ namespace TCCMarketPlace.Apis
             );
 
             config.MessageHandlers.Add(new AuthHandler());
+
+            config.EnableSystemDiagnosticsTracing();
         }
     }
 }

@@ -29,7 +29,8 @@ namespace Marketplace.Admin.Filters
 
                 LogManager.Instance.Log(ComposeExceptionLog(controller, action, filterContext.Exception, execptionIdentifier),
                                         filterContext.Exception, LogLevelEnum.Error);
-                
+
+                System.Diagnostics.Trace.TraceError(filterContext.Exception.ToString());
             }
         }
 

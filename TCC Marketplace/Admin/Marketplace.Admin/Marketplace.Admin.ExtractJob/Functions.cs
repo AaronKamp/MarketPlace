@@ -30,6 +30,7 @@ namespace Marketplace.Admin.ExtractJob
             catch (Exception ex)
             {
                 log.WriteLine("Marketplace.Admin.Extract.Process.UploadFiles failed with exception {0}", ex.Message);
+                System.Diagnostics.Trace.TraceError(ex.ToString());
             }
         }
     
