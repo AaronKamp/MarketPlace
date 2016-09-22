@@ -2,7 +2,7 @@
 using System;
 using System.Text;
 using Logger;
-using Marketplace.Admin.Utils;
+using Marketplace.Admin.ViewModels;
 using Marketplace.Admin.Enums;
 
 namespace Marketplace.Admin.Filters
@@ -25,12 +25,25 @@ namespace Marketplace.Admin.Filters
             {
                 var controller = filterContext.RouteData.Values["controller"].ToString();
                 var action = filterContext.RouteData.Values["action"].ToString();
-                var execptionIdentifier = Guid.NewGuid();
+                var exceptionIdentifier = Guid.NewGuid();
 
-                LogManager.Instance.Log(ComposeExceptionLog(controller, action, filterContext.Exception, execptionIdentifier),
+                LogManager.Instance.Log(ComposeExceptionLog(controller, action, filterContext.Exception, exceptionIdentifier),
                                         filterContext.Exception, LogLevelEnum.Error);
 
+                //Splunk Logging goes here.
+
                 System.Diagnostics.Trace.TraceError(filterContext.Exception.ToString());
+
+                filterContext.ExceptionHandled = true;
+
+                var model = new CustomHandleErrorModel(exceptionIdentifier);
+
+
+                filterContext.Result = new ViewResult
+                {
+                    ViewName = "~/Views/Shared/Error.cshtml",
+                    ViewData = new ViewDataDictionary(model)
+                };
             }
         }
 
@@ -49,6 +62,18 @@ namespace Marketplace.Admin.Filters
             sbErrorLog.AppendLine(ExceptionSeperator);
             sbErrorLog.AppendLine(DateTime.UtcNow + " : " + exceptionIdentifier);
             sbErrorLog.Append("Error occurred for request - ").Append(controller).Append("/").AppendLine(action);
+            sbErrorLog.AppendLine("Exception - " + exception.Message);
+            sbErrorLog.AppendLine(ExceptionSeperator);
+            return sbErrorLog.ToString();
+        }
+
+        public static string ComposeExceptionLog(Exception exception, Guid exceptionIdentifier)
+        {
+            var sbErrorLog = new StringBuilder();
+
+            sbErrorLog.AppendLine(ExceptionSeperator);
+            sbErrorLog.AppendLine(DateTime.UtcNow + " : " + exceptionIdentifier);
+            sbErrorLog.Append("Unhandled error occured");
             sbErrorLog.AppendLine("Exception - " + exception.Message);
             sbErrorLog.AppendLine(ExceptionSeperator);
             return sbErrorLog.ToString();

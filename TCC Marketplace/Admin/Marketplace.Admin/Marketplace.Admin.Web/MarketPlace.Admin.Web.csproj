@@ -238,6 +238,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ExportController.cs" />
     <Compile Include="Controllers\ServiceProviderController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
@@ -246,11 +247,12 @@
     <Compile Include="Enums\ImageType.cs" />
     <Compile Include="Filters\LogActionFilter.cs" />
     <Compile Include="Filters\CustomExceptionFilterAttribute.cs" />
-    <Compile Include="Filters\LoggerEntity.cs" />
+    <Compile Include="Entites\LoggerEntity.cs" />
     <Compile Include="Filters\SecureDataActionFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\CustomHandleErrorModel.cs" />
     <Compile Include="Utils\BlobExtensions.cs" />
     <Compile Include="Utils\ServiceProviderManager.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
@@ -380,6 +382,10 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\site.js" />
     <Content Include="Scripts\_references.js" />
+    <None Include="ServiceProviderXsd\ServiceProviderSchema.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -410,6 +416,7 @@
     <Content Include="Views\Settings\Index.cshtml" />
     <Content Include="Views\ServiceProvider\Index.cshtml" />
     <Content Include="Views\ServiceProvider\_Edit.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

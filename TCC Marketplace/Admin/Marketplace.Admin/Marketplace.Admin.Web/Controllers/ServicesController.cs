@@ -144,6 +144,9 @@ namespace Marketplace.Admin.Controllers
 
                 _serviceManager.SaveService();
 
+                var message = $"Service {serviceViewModel.Tilte} has been saved successfully!";
+                TempData["ResponseMessage"] = message;
+
                 return RedirectToAction("Index");
             }
 
@@ -429,6 +432,9 @@ namespace Marketplace.Admin.Controllers
                 _serviceManager.UpdateService(serviceDataModel);
 
                 _serviceManager.SaveService();
+
+                var message = $"Service {service.Tilte} has been updated successfully!";
+                TempData["ResponseMessage"] = message;
 
                 return RedirectToAction("Index");
             }

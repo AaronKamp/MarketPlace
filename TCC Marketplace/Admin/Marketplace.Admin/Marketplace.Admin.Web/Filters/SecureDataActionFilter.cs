@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using Logger;
 using Newtonsoft.Json;
+using Marketplace.Admin.Entites;
 
 namespace Marketplace.Admin.Filters
 {

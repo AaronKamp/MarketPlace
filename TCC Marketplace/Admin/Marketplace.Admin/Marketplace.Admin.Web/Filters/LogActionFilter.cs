@@ -7,6 +7,8 @@ using Logger;
 using System.Text;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using Marketplace.Admin.Entites;
+using System.Web;
 
 namespace Marketplace.Admin.Filters
 {
@@ -18,7 +20,7 @@ namespace Marketplace.Admin.Filters
         /// <param name="actionContext" cref="ActionExecutingContext"></param>
         public override void OnActionExecuting(ActionExecutingContext actionContext)
         {
-            if (actionContext.ActionDescriptor.GetCustomAttributes(typeof(SecureDataActionFilter),false).Any())
+            if (actionContext.ActionDescriptor.GetCustomAttributes(typeof(SecureDataActionFilter), false).Any())
             {
                 return;
             }
@@ -83,6 +85,8 @@ namespace Marketplace.Admin.Filters
         {
             const string Seperator = "*************************************************************************************************";
 
+            var excemptedType = new List<Type> { typeof(HttpPostedFileBase), typeof(HttpPostedFileWrapper) };
+
             var sbInfoString = new StringBuilder();
             sbInfoString.AppendLine();
             sbInfoString.AppendLine(Seperator);
@@ -93,7 +97,21 @@ namespace Marketplace.Admin.Filters
             sbInfoString.AppendLine("Controller " + logger.RequestDetails.Controller);
             sbInfoString.AppendLine("Action : " + logger.RequestDetails.Action);
             sbInfoString.AppendLine("URL :" + logger.RequestDetails.URL);
-            sbInfoString.AppendLine("Arguments :" + JsonConvert.SerializeObject(logger.RequestDetails.Arguments));
+
+
+            if (logger.RequestDetails.Arguments.Values.Any(a => (a != null && excemptedType.Contains(a.GetType()))))
+            {
+                var list = logger.RequestDetails.Arguments.Where(a => a.Value != null &&
+                                        !excemptedType.Contains(a.Value.GetType()));
+                sbInfoString.AppendLine("Arguments :" + JsonConvert.SerializeObject(list));
+
+            }
+            else
+            {
+                sbInfoString.AppendLine("Arguments :" + JsonConvert.SerializeObject(logger.RequestDetails.Arguments));
+            }
+
+
             sbInfoString.AppendLine("Request TimeStamp : " + logger.RequestTimeStamp);
             sbInfoString.AppendLine("Response TimeStamp : " + logger.ResponseTimeStamp);
             sbInfoString.AppendLine("Execution Time : " + logger.ExecutionTime + " MilliSeconds.");

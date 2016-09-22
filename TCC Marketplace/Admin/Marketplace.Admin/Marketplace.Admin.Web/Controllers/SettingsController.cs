@@ -112,16 +112,23 @@ namespace Marketplace.Admin.Controllers
                     ToEmails = settings.SmtpDetails.ToEmails
                 };
 
+                string message;
+
                 if (confSettings.Id > 0)
                 {
                     _settingsManager.UpdateSettings(confSettings);
+                    message = $"Settings has been updated successfully!";
                 }
                 else
                 {
                     confSettings.CreatedDate = DateTime.UtcNow;
                     _settingsManager.Create(confSettings);
+                    message = $"Settings has been saved successfully!";
                 }
                 _settingsManager.SaveSettings();
+                                
+                TempData["ResponseMessage"] = message;
+
                 return RedirectToAction("Index");
 
             }

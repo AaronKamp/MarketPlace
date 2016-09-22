@@ -207,7 +207,7 @@
       "type": "securestring"
     },
     "EncryptionKey": {
-      "type": "securestring"
+      "type": "string"
     },
     "TCC.AuthApiUrl": {
       "type": "string"

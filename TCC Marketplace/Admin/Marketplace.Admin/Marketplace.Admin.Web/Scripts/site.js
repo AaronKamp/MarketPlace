@@ -45,12 +45,8 @@ function showResponseMessage(text)
     var responseDiv = $("#response-message-container");
     responseDiv.html(text);
     responseDiv.addClass("alert-success").show();
-    //setTimeout(function () {
-    //    responseDiv.hide();
-    //    responseDiv.empty();
-    //},1500)
-    setTimeout(
-    $("#response-message-container").hide('slow', function () { responseDiv.empty(); }), 1500);
+        
+    $("#response-message-container").fadeOut(5000, function () { responseDiv.empty(); });
 
 
 }

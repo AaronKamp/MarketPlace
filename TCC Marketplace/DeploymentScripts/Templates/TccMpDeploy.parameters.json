@@ -71,6 +71,9 @@
     "Cache.Client": {
       "value": "MarketPlace"
     },
+    "EncryptionKey": {
+      "value": "UJWDNCGK2LD324FR723KDSB"
+    },
     "Application.Environment": {
       "value": "TEST"
     }

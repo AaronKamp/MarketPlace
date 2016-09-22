@@ -131,7 +131,10 @@ html{
 .side-nav ul li.settings a:hover{background:#565050 url(../Content/images/settings.png) no-repeat 20px center/26px;}
 
 .main-wraper{margin-left:16%; padding:0 0 20px 20px;}
-.logo-innerpage{padding:20px 2% 20px 0;}
+.logo-innerpage{
+    padding:20px 2% 20px 0;
+    height:85px;
+}
 .filter-search{
 	margin-top: 30px;
 }
@@ -158,6 +161,8 @@ html{
 @-moz-document url-prefix() {
    .fl-search input[type="submit"]{padding:8px 17px 7px;}
 }
+
+
 
 .select-style {
     border: 1px solid #a8a7a7;
@@ -540,7 +545,11 @@ a{
 #sshKeyFile,#emailPwdField,#sshPwdField{
     display:none;
 }
-
+.response-msg-wrapper{
+    float: left;
+    width: 80%;
+    text-align: center;
+}
 /*
 .checkbox-grid li {
     display: block;

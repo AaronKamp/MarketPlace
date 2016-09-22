@@ -8,6 +8,8 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.StorageClient;
 using Marketplace.Admin.ViewModels;
 using Marketplace.Admin.Core;
+using System.Xml.Schema;
+using System.IO;
 
 namespace Marketplace.Admin.Utils
 {
@@ -105,6 +107,47 @@ namespace Marketplace.Admin.Utils
             document.Add(new XElement("ServiceProviderInfo"));
             blob.Properties.ContentType = "text/xml;charset=utf-8";
             blob.UploadText(document.ToString());
+        }
+        /// <summary>
+        /// Checks if xml is valid against the schema.
+        /// </summary>
+        /// <param name="document"></param>
+        /// <returns></returns>
+        internal static bool IsXmlInvalid(XDocument document)
+        {
+            var schemas = new XmlSchemaSet();
+            schemas.Add("", HttpContext.Current.Server.MapPath(Path.Combine("~/bin/ServiceProviderXsd/", "ServiceProviderSchema.xsd")));
+            var inValid = false;
+            document.Validate(schemas, (sender, e) =>
+            {
+                if (!string.IsNullOrWhiteSpace(e.Message))
+                     inValid = true;
+            },true);
+
+            return inValid;
+        }
+
+        /// <summary>
+        /// Check if service provider element is valid against schema provided.
+        /// </summary>
+        /// <param name="provider"></param>
+        /// <returns></returns>
+        /// <exception cref="XmlSchemaValidationException"></exception>
+        internal static bool IsValidServiceProviderElement(XElement provider)
+        {
+            var schemas = new XmlSchemaSet();
+            schemas.Add("", HttpContext.Current.Server.MapPath(Path.Combine("~/bin/ServiceProviderXsd/", "ServiceProviderSchema.xsd")));
+            var errors = new List<string>();
+            provider.Validate(provider.GetSchemaInfo().SchemaElement,schemas, (sender, e) =>
+            {
+                errors.Add(e.Message);
+            });
+
+            if (errors.Any())
+            {
+                throw new XmlSchemaValidationException(string.Join(Environment.NewLine, errors));
+            }
+            return true;
         }
 
         /// <summary>

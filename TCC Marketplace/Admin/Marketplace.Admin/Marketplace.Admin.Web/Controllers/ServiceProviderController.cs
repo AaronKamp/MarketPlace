@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Marketplace.Admin.ViewModels;
 using Marketplace.Admin.Utils;
 using Marketplace.Admin.Core;
+using System.Xml.Schema;
 
 namespace Marketplace.Admin.Controllers
 {
@@ -47,13 +48,14 @@ namespace Marketplace.Admin.Controllers
                 if (serviceProviderVM.Id > 0)
                 {
                     UpdateServiceProvider(serviceProviderVM);
+                    TempData["ResponseMessage"] = $"Service provider {serviceProviderVM.Name} has been updated successfully!";
                 }
                 else
                 {
-                    //if duplicate return view with corresponding message
+                    //if duplicate, return view with corresponding message
                     if (IsDuplicate(serviceProviderVM.Name))
                     {
-                        this.ModelState.AddModelError("Name", "Provider name "+ serviceProviderVM.Name + " is duplicate");
+                        this.ModelState.AddModelError("Name", "Provider name " + serviceProviderVM.Name + " is duplicate");
                         ViewBag.ProviderList = GetServiceProviderNameList(serviceProviderVM.Id);
                         return View("Index", serviceProviderVM);
                     }
@@ -62,9 +64,10 @@ namespace Marketplace.Admin.Controllers
                         // else new record, add to database
                         serviceProviderVM.CreatedDate = DateTime.UtcNow;
                         AddServiceProvider(serviceProviderVM);
+                        TempData["ResponseMessage"] = $"Service provider {serviceProviderVM.Name} has been saved successfully!";
                     }
                 }
-                TempData["ResponseMessage"] = "Service Provider Successfully added"; 
+                
                 return RedirectToAction("Index");
             }
             else
@@ -110,7 +113,7 @@ namespace Marketplace.Admin.Controllers
         /// <returns></returns>
         private ServiceProviderViewModel GetServiceProviderDetailsById(int id)
         {
-            return ServiceProviderManager.GetServiceProviderList().Where(p=>p.Id == id).FirstOrDefault();
+            return ServiceProviderManager.GetServiceProviderList().Where(p => p.Id == id).FirstOrDefault();
         }
 
         /// <summary>
@@ -121,26 +124,52 @@ namespace Marketplace.Admin.Controllers
         {
             var blob = ServiceProviderManager.GetCloudBlockBlob();
             var document = ServiceProviderManager.GetServiceProviderXml(blob);
-            var Id = document.Descendants("ServiceProvider").Any() ?
+            var id = document.Descendants("ServiceProvider").Any() ?
                 document.Descendants("ServiceProvider").Select(p => Convert.ToInt32(p.Element("Id").Value)).ToList().Max() + 1 : 1;
-            XElement provider = new XElement("ServiceProvider",
-                                        new XElement("Id", Id),
+            document.Root.Add(new XElement("ServiceProvider",
+                                new XElement("Id", id),
                                         new XElement("Name", serviceProviderViewModel.Name),
                                         new XElement("SignUpUrl", serviceProviderViewModel.SignUpUrl),
                                         new XElement("StatusUrl", serviceProviderViewModel.StatusUrl),
                                         new XElement("UnEnrollUrl", serviceProviderViewModel.UnEnrollUrl),
-                                        new XElement("GenerateBearerToken", serviceProviderViewModel.GenerateBearerToken.ToString()),
-                                        new XElement("IsActive", serviceProviderViewModel.IsActive.ToString()),
-                                        new XElement("IsDeleted", serviceProviderViewModel.IsDeleted.ToString()),
+                                new XElement("GenerateBearerToken", serviceProviderViewModel.GenerateBearerToken.ToString().ToLower()),
+                                new XElement("IsActive", serviceProviderViewModel.IsActive.ToString().ToLower()),
+                                new XElement("IsDeleted", serviceProviderViewModel.IsDeleted.ToString().ToLower()),
                                         new XElement("TokenUrl", serviceProviderViewModel.TokenUrl),
-                                        new XElement("AppId", string.IsNullOrWhiteSpace(serviceProviderViewModel.AppId) ? string.Empty: Cryptography.EncryptContent(serviceProviderViewModel.AppId)),
+                                new XElement("AppId", string.IsNullOrWhiteSpace(serviceProviderViewModel.AppId) ? string.Empty : Cryptography.EncryptContent(serviceProviderViewModel.AppId)),
                                         new XElement("SecretKey", string.IsNullOrWhiteSpace(serviceProviderViewModel.SecretKey) ? string.Empty : Cryptography.EncryptContent(serviceProviderViewModel.SecretKey)),
                                         new XElement("CreatedDate", serviceProviderViewModel.CreatedDate.ToString()),
                                         new XElement("UpdatedDate", serviceProviderViewModel.UpdatedDate.ToString()),
                                         new XElement("UpdatedUser", serviceProviderViewModel.UpdatedUser)
-                                        );
-            document.Root.Add(provider);
+             ));
+            // convert makes valid xml if xml is invalid
+            if (ServiceProviderManager.IsXmlInvalid(document))
+            {
+                document.Descendants("ServiceProvider").ToList().ForEach(a =>
+                  {
+                      a.Element("GenerateBearerToken").Value = a.Element("GenerateBearerToken").Value.ToLower();
+                      a.Element("IsActive").Value = a.Element("IsActive").Value.ToLower();
+                      a.Element("IsDeleted").Value = a.Element("IsDeleted").Value.ToLower();
+                  });
+            }
+
+            try
+            {
+                //uploads xml if xml valid
+                XElement newProvider = document.Descendants("ServiceProvider")
+                     .FirstOrDefault(p => Convert.ToInt32(p.Element("Id").Value) == id);
+                ServiceProviderManager.IsValidServiceProviderElement(newProvider);
+
             blob.UploadText(document.ToString());
+        }
+            catch (XmlSchemaValidationException ex)
+            {
+                throw new Exception("Service provider validation against schema failed. Could not add new service provider.", ex);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         /// <summary>
@@ -151,6 +180,17 @@ namespace Marketplace.Admin.Controllers
         {
             var blob = ServiceProviderManager.GetCloudBlockBlob();
             var document = ServiceProviderManager.GetServiceProviderXml(blob);
+
+            if (ServiceProviderManager.IsXmlInvalid(document))
+            {
+                document.Descendants("ServiceProvider").ToList().ForEach(a =>
+                {
+                    a.Element("GenerateBearerToken").Value = a.Element("GenerateBearerToken").Value.ToLower();
+                    a.Element("IsActive").Value = a.Element("IsActive").Value.ToLower();
+                    a.Element("IsDeleted").Value = a.Element("IsDeleted").Value.ToLower();
+                });
+            }
+
             XElement provider = document.Descendants("ServiceProvider")
                     .FirstOrDefault(p => Convert.ToInt32(p.Element("Id").Value) == serviceProviderVM.Id);
             if (provider == null)
@@ -161,19 +201,32 @@ namespace Marketplace.Admin.Controllers
             {
                 provider.Element("Name").Value = serviceProviderVM.Name;
                 provider.Element("SignUpUrl").Value = serviceProviderVM.SignUpUrl;
-                provider.Element("StatusUrl").Value = serviceProviderVM.StatusUrl??string.Empty;
-                provider.Element("UnEnrollUrl").Value = serviceProviderVM.UnEnrollUrl??string.Empty;
-                provider.Element("GenerateBearerToken").Value = serviceProviderVM.GenerateBearerToken.ToString();
-                provider.Element("IsActive").Value = serviceProviderVM.IsActive.ToString();
-                provider.Element("IsDeleted").Value = serviceProviderVM.IsDeleted.ToString();
-                provider.Element("TokenUrl").Value = serviceProviderVM.TokenUrl??string.Empty;
+                provider.Element("StatusUrl").Value = serviceProviderVM.StatusUrl ?? string.Empty;
+                provider.Element("UnEnrollUrl").Value = serviceProviderVM.UnEnrollUrl ?? string.Empty;
+                provider.Element("GenerateBearerToken").Value = serviceProviderVM.GenerateBearerToken.ToString().ToLower();
+                provider.Element("IsActive").Value = serviceProviderVM.IsActive.ToString().ToLower();
+                provider.Element("IsDeleted").Value = serviceProviderVM.IsDeleted.ToString().ToLower();
+                provider.Element("TokenUrl").Value = serviceProviderVM.TokenUrl ?? string.Empty;
                 provider.Element("AppId").Value = string.IsNullOrWhiteSpace(serviceProviderVM.AppId) ? string.Empty : Cryptography.EncryptContent(serviceProviderVM.AppId);
                 provider.Element("SecretKey").Value = string.IsNullOrWhiteSpace(serviceProviderVM.SecretKey) ? string.Empty : Cryptography.EncryptContent(serviceProviderVM.SecretKey);
                 provider.Element("UpdatedDate").Value = serviceProviderVM.UpdatedDate.ToString();
                 provider.Element("UpdatedUser").Value = serviceProviderVM.UpdatedUser.ToString();
 
             }
+            try
+            {
+                ServiceProviderManager.IsValidServiceProviderElement(provider);
             blob.UploadText(document.ToString());
+        }
+            catch (XmlSchemaValidationException ex)
+            {
+                throw new Exception("Service provider validation against schema failed. Could not add new service provider.", ex);
+            }
+            catch
+            {
+                throw;
+            }
+
         }
 
         /// <summary>
